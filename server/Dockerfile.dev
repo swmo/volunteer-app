@@ -1,0 +1,7 @@
+FROM composer:latest as composer
+WORKDIR "/app"
+COPY composer.json .
+RUN composer install
+
+FROM nginx:1.15.8-alpine
+COPY --from=builder /app /usr/share/nginx/html
