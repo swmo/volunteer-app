@@ -2,7 +2,11 @@ version: "3"
 services:
   postgres:
     image: 'postgres:11.2-alpin'
-  server:
+  symfony:
     build:
       dockerfile: Dockerfile.dev
-      context: ./server
+      context: ./symfony
+  router:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./router
