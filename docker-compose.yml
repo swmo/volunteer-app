@@ -1,9 +1,18 @@
 version: "3"
+volumes:
+  pg-db-data:
 services:
   postgres:
     image: 'postgres:11.2-alpine'
     environment:
       POSTGRES_PASSWORD: example
+    volumes:
+      - pg-db-data:/var/lib/postgresql/data
+  adminer:
+    image: 'adminer:4.7.1-standalone'
+    restart: always
+    ports:
+      - 9090:8080
   symfony:
     build:
       dockerfile: Dockerfile.dev
