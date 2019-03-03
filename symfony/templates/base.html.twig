@@ -3,10 +3,40 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/tailwind.min.css') }}" >
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}" >
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block body %}
+
+            <nav class="flex flex-wrap bg-grey-darkest p-3">
+                <div class="block" data-bind='click: toggleLocationList'>
+                    <button class="flex items-center px-3 py-2 border rounded
+								text-teal-lighter border-teal-light hover:text-white hover:border-white">
+                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <title>Menu</title>
+                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </nav>
+
+
+            <div class="container mx-auto mt-5">
+                {% block main %}
+                {% endblock %}
+            </div>
+
+
+
+
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/fontawesome.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
