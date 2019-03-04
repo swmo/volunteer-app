@@ -17,13 +17,16 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./symfony
-    ports:
-      - 8080:80
     volumes:
       - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
       - /var/www/docker #same for the docker directory (because theres ist the startup script) -> needs chmod a+x and be on the server
       - ./symfony:/var/www # mount the rest of the symfony files inside /var/www
-#  router:
-#    build:
-#      dockerfile: Dockerfile.dev
-#      context: ./router
+  router:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./router
+# only necessary if i would use upstream directive see nginx/nginx/default.conf -> then the order must be fix otherwise nginx wouldnt start anymore (if nginx is earlier than the upstreams)
+#    depends_on: 
+#      - symfony
+    ports:
+      - 8080:80
