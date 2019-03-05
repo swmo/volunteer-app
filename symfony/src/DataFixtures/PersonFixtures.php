@@ -2,43 +2,38 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Mission;
+
 use App\Entity\Person;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PersonFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $file = dirname(__FILE__).'/../../resources/data/personen.csv';
+        if (($handle = fopen($file, 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
 
-        $csv = fopen(dirname(__FILE__).'/resources/data/personen.csv', 'r');
+                $person = new Person();
+                $person->setFirstname($data[0]);
+                $person->setLastname($data[1]);
+                $person->setStreet($data[2]);
+                $person->setZip($data[3]);
+                $person->setMobile($data[5]);
+                $person->setEmail($data[6]);
+                $person->setCity($data[4]);
+                $person->setRemark($data[7]);
 
-        $i = 0;
+                $manager->persist($person);
 
-        while (!feof($csv)) {
-            $line = fgetcsv($csv);
-            /** var $coordinatesfrcity[$i] = Person **/
-            $person = new Person();
-            $person->setFirstname($line[0]);
-            $person->setLastname($line[1]);
+           //     $this->addReference('person-'.$person->getEmail(), $person);
 
-            $coordinatesfrcity[$i]->set(;
-            $coordinatesfrcity[$i]->setAreaPost2016($line[1]);
-            $coordinatesfrcity[$i]->setDeptNum($line[2]);
-            $coordinatesfrcity[$i]->setDeptName($line[3]);
-            $coordinatesfrcity[$i]->setdistrict($line[4]);
-            $coordinatesfrcity[$i]->setpostCode($line[5]);
-            $coordinatesfrcity[$i]->setCity($line[6]);
-
-            $manager->persist($coordinatesfrcity[$i]);
-
-            $this->addReference('coordinatesfrcity-'.$i, $coordinatesfrcity[$i]);
-
-
-            $i = $i + 1;
+            }
+            fclose($handle);
         }
 
-        fclose($csv);
+        $manager->flush();
     }
 }
