@@ -17,6 +17,5 @@ class MissionFixtures extends Fixture
         }
         $manager->flush();
 
-        $manager->flush();
     }
 }

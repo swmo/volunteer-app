@@ -5,9 +5,6 @@
 {% block main %}
     <h1>Dashboard</h1>
 
-
-
-
     <h2>Projekte</h2>
 
     <h3>Burgdorfer Stadtlauf</h3>
@@ -17,15 +14,16 @@
         </div>
         <div class="flex-1 px-4 py-2 m-2 text-right">
             <h2> Personen </h2>
-
             <div>
                 {% for person in persons %}
                  <div>
+                     <div class="flex rounded-full h-16 w-16 overflow-hidden items-center justify-center" style="border: 1px solid rgb(204, 204, 204);">
+                         <div class="p-2 "><i class="fas fa-user fa-4x " ></i></div>
+                     </div>
                      {{ person.firstname }} {{ person.lastname }}
                  </div>
                 {% endfor %}
             </div>
-
         </div>
     </div>
 

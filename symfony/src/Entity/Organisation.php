@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MissionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrganisationRepository")
  */
-class Mission
+class Organisation
 {
     /**
      * @ORM\Id()
@@ -20,9 +20,6 @@ class Mission
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-
-    //timeblocks
 
     public function getId(): ?int
     {
