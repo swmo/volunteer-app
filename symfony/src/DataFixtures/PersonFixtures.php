@@ -14,6 +14,9 @@ class PersonFixtures extends Fixture
     {
         $file = dirname(__FILE__).'/../../resources/data/personen.csv';
         if (($handle = fopen($file, 'r')) !== FALSE) {
+
+            $i = 0;
+
             while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
 
                 $person = new Person();
@@ -28,7 +31,8 @@ class PersonFixtures extends Fixture
 
                 $manager->persist($person);
 
-           //     $this->addReference('person-'.$person->getEmail(), $person);
+                $this->addReference('person-'.$i, $person);
+                $i++;
 
             }
             fclose($handle);
