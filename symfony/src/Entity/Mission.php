@@ -21,6 +21,11 @@ class Mission
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="missions")
+     */
+    private $Project;
+
 
     //timeblocks
 
@@ -37,6 +42,18 @@ class Mission
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->Project;
+    }
+
+    public function setProject(?Project $Project): self
+    {
+        $this->Project = $Project;
 
         return $this;
     }

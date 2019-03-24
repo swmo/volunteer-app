@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Person
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $remark;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Organisation", inversedBy="people")
+     */
+    private $organisations;
+
+    public function __construct()
+    {
+        $this->organisation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +167,32 @@ class Person
     public function setRemark(?string $remark): self
     {
         $this->remark = $remark;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Organisation[]
+     */
+    public function getOrganisations(): Collection
+    {
+        return $this->organisations;
+    }
+
+    public function addOrganisation(Organisation $organisation): self
+    {
+        if (!$this->organisations->contains($organisation)) {
+            $this->organisations[] = $organisation;
+        }
+
+        return $this;
+    }
+
+    public function removeOrganisation(Organisation $organisation): self
+    {
+        if ($this->organisations->contains($organisation)) {
+            $this->organisations->removeElement($organisation);
+        }
 
         return $this;
     }
