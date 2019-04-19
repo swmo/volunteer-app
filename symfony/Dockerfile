@@ -4,13 +4,13 @@ COPY composer.json composer.lock symfony.lock ./
 
 # composer install ausführen jedcoh ohne scripts und autloader
 # da noch nicht die ganze soure reinkopiert wurde. Grund: Caching
-# Wenn die Source bereits am Anfang reinkopiert würde, würde bei jeder Codeänderung
+# Wenn die Source bereits am Anfang reinkopiert würde, würde bei jeder Codeänderung 
 # bei Rebuild composer install erneute ausgeführt werden und könnte nicht vom Cache geladen werden.
 
 RUN composer install --no-scripts
 
 FROM nginx:1.15.8-alpine
-EXPOSE 3000
+EXPOSE 80
 
 ENV php7version 7.2.14-r0
 

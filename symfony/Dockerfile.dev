@@ -12,7 +12,8 @@ RUN composer install --no-scripts
 FROM nginx:1.15.8-alpine
 EXPOSE 80
 
-ENV php7version 7.2.14-r0
+# alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
+ENV php7version 7.2.17-r0
 
 RUN apk --update add --no-cache \
 	php7=$php7version \
@@ -25,9 +26,9 @@ RUN apk --update add --no-cache \
 	php7-session=$php7version \
 	php7-mbstring=$php7version \
 	php7-iconv=$php7version \
+	php7-xml=$php7version \
 	php7-pgsql=$php7version \
 	php7-pdo_pgsql=$php7version
-
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./nginx/php.ini /etc/php7/php.ini
