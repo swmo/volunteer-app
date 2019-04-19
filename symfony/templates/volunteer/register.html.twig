@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(enrollForm) }}
+        {{ form_widget(enrollForm) }}
+
+        <button type="submit" class="btn btn-primary">enroll</button>
+    {{ form_end(enrollForm) }}
+{% endblock %}
