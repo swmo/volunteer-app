@@ -1,0 +1,41 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block content %}
+<p>
+Hallo 
+</p>
+<p>
+Folgende Person hat sich soeben für den Burgdorfer Stadtlauf angemeldet:
+
+<table>
+    <tr>
+        <td>
+            Firstname
+        </td>
+        <td>
+            {{enrollment.firstname}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Lastname
+        </td>
+        <td>
+            {{enrollment.lastname}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Birthday 
+        </td>
+        <td>
+            {{enrollment.birthday|date("m/d/Y")}}
+        </td>
+    </tr>
+
+</table>
+
+Du kannst deine Anmeldungen unter ... verwalten
+</p>
+  {% endblock %}
+

@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./symfony
     volumes:
-      - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
+     # - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
       - /var/www/docker #same for the docker directory (because theres ist the startup script) -> needs chmod a+x and be on the server
       - ./symfony:/var/www # mount the rest of the symfony files inside /var/www
   router:
@@ -30,3 +30,7 @@ services:
 #      - symfony
     ports:
       - 8080:80
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025

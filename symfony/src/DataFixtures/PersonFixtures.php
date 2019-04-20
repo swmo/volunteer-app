@@ -28,6 +28,7 @@ class PersonFixtures extends Fixture
                 $person->setEmail($data[6]);
                 $person->setCity($data[4]);
                 $person->setRemark($data[7]);
+            
 
                 $manager->persist($person);
 

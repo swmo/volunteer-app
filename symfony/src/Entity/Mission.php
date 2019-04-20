@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,12 +24,20 @@ class Mission
     private $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $shortDescription;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="missions")
      */
     private $Project;
 
-
-    //timeblocks
+    public function __construct()
+    {
+        $this->enrollments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,5 +66,30 @@ class Mission
         $this->Project = $Project;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of shortDescription
+     *
+     * @return  self
+     */ 
+    public function setShortDescription($shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of shortDescription
+     */ 
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
     }
 }

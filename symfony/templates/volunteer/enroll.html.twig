@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Anmeldung{% endblock %}
+
+{% block main %}
+
+    <div class="flex flex-wrap">
+        <div class="w-full lg:w-1/2 xl:w-1/3 mb-4  p-2">
+          <aside>
+                <h1>Anmeldung</h1>
+                {{ form_start(enrollForm) }}
+                {{ form_widget(enrollForm) }}
+
+                <button type="submit" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mt-3">anmelden</button>
+                {{ form_end(enrollForm) }}   
+            </aside>
+            
+            <p class="mt-5">
+                Selbstverständlich darf sich jeder Helfer auf ein Helfergeschenk freuen.
+                Nach Abrsprache können gerne Kinder ab 9 Jahren mithelfen.
+            </p>
+            <p class="font-bold mt-2">
+                Ohne Helfer läuft nichts!<br />
+                Schon jetzt, besten Dank für deine tatkräftige Mithilfe und Unterstützung beim nächsten Stadtlauf 2019!
+            </p>
+            <p class="mt-2">
+                Sportliche Grüße und freue mich dich zu sehen.
+            </p>
+            <p class="mt-2">
+                Maria Rothenbühler,
+            </p>
+            <p >
+                Ressort Personal OK- Burgdorfer- Stadtlauf
+            </p>
+            
+        </div>
+        <div class="w-full  lg:w-1/2 xl:w-2/3 mb-4  p-2">
+            <aside>
+                <h1>Übersicht der Einsätze</h1>
+
+                {% for mission in missions %}
+                    <h2>{{ mission.name }}</h2>
+                    <div class="mt-2 mb-5">
+                        {{ mission.shortDescription|raw }} 
+                    </div>
+                {% endfor %}   
+            </aside>
+
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+

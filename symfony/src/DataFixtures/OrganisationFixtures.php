@@ -15,7 +15,7 @@ class OrganisationFixtures extends Fixture
 
         $organisation = new Organisation();
         $organisation->setName('Stadtlauf Burgdorf');
-
+        $this->addReference('Organisation_Stadtlauf_Burgdorf', $organisation);
         $manager->persist($organisation);
         $manager->flush();
 

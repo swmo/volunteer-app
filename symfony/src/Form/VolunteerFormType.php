@@ -4,6 +4,8 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use App\Entity\Enrollment;
 
 class VolunteerFormType extends AbstractType
 {
@@ -13,8 +15,26 @@ class VolunteerFormType extends AbstractType
         $builder
         ->add('firstname')
         ->add('lastname')
+        ->add('street')
+        ->add('zip')
+        ->add('city')
+        ->add('mobile')
+        ->add('email')
+        ->add('missionChoice01')
+        ->add('missionChoice02')
+        ->add('birthday',DateType::class, [
+            'widget' => 'choice',
+        ])
+        ->add('tshirtsize')
     ;
     }
 
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Enrollment::class
+        ]);
+    }
 
+ 
 }
