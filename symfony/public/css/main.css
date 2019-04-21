@@ -1,6 +1,42 @@
-a {
-    color: black;
-}
+  a {
+      color: black;
+  }
+
+  body {
+    color: #6d6e71;
+  }
+
+  h1,h2,h3,h4,h5{
+    color:#22292f;
+  }
+
+  h1{
+    margin-bottom: .25rem;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 2.25rem;
+  }
+
+  h2{
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.5rem;
+  } 
+
+
+  .bg-burgdorf{
+    background: #fff200;
+  }
+
+  .bg-burgdorf-light{
+    background: #fffcb0;
+  }
+
+  .bg-burgdorf-grey{
+    background: #6e6e70;
+  }
 
 
 
@@ -14,8 +50,7 @@ a {
     font: bold 12px Sans-Serif;
     letter-spacing: 2px;
     text-transform: uppercase;
-    background: #369;
-    color: #fff;
+    background: #fff200;
     padding: 5px 10px;
     margin: 0 0 10px 0;
     line-height: 24px;
@@ -23,7 +58,7 @@ a {
   
   /* Class name via Modernizr */
  aside {
-    border-left: 34px solid #369;
+    border-left: 34px solid #fff200;
     padding-left: 10px;
   }
   aside h1 {

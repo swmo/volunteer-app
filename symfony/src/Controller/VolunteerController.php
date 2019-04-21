@@ -18,7 +18,6 @@ class VolunteerController extends AbstractController
     public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(VolunteerFormType::class);
-
         $missions = $em->getRepository(Mission::class)->findAll();
 
         $form->handleRequest($request);

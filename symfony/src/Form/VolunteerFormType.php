@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use App\Entity\Enrollment;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Mission;
 
 class VolunteerFormType extends AbstractType
 {
@@ -20,12 +23,27 @@ class VolunteerFormType extends AbstractType
         ->add('city')
         ->add('mobile')
         ->add('email')
-        ->add('missionChoice01')
-        ->add('missionChoice02')
-        ->add('birthday',DateType::class, [
-            'widget' => 'choice',
+        ->add('missionChoice01', EntityType::class, [
+            'label' => 'gewünschten Einsatzort / Wahl 1:',
+            'class'  => Mission::class,
+            'choice_label' => 'name',
+            'placeholder' => 'Einsatzort spielt  mir keine Rolle',
+            'required' => false,
         ])
-        ->add('tshirtsize')
+        ->add('missionChoice02', EntityType::class, [
+            'label' => 'gewünschten Einsatzort / Wahl 2:',
+            'class'  => Mission::class,
+            'choice_label' => 'name',
+            'placeholder' => 'Einsatzort spielt  mir keine Rolle',
+            'required' => false,
+        ])
+        ->add('birthday', DateType::class, [
+            'widget' => 'choice',
+            'label' => 'Geburtstag',
+        ])
+        ->add('tshirtsize', TextType::class, [
+            'label' => 'T-Shirt Grösse'
+        ])
     ;
     }
 

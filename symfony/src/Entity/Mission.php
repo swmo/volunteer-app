@@ -28,6 +28,10 @@ class Mission
      */
     private $shortDescription;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="missions")
@@ -91,5 +95,25 @@ class Mission
     public function getShortDescription()
     {
         return $this->shortDescription;
+    }
+
+    /**
+     * Get the value of image
+     */ 
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of image
+     *
+     * @return  self
+     */ 
+    public function setImage($image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }
