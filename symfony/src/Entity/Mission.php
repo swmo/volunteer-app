@@ -34,9 +34,24 @@ class Mission
     private $image;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $start;
+
+    /**
+     * @ORM\Column(type="datetime", name="enddate", nullable=true)
+     */
+    private $end;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="missions")
      */
-    private $Project;
+    private $project;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $requiredVolunteers;
 
     public function __construct()
     {
@@ -62,12 +77,12 @@ class Mission
 
     public function getProject(): ?Project
     {
-        return $this->Project;
+        return $this->project;
     }
 
-    public function setProject(?Project $Project): self
+    public function setProject(?Project $project): self
     {
-        $this->Project = $Project;
+        $this->project = $project;
 
         return $this;
     }
@@ -116,4 +131,56 @@ class Mission
 
         return $this;
     }
+
+    /**
+     * Get the value of end
+     */ 
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /**
+     * Set the value of end
+     *
+     * @return  self
+     */ 
+    public function setEnd(?\DateTimeInterface $end): self
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of start
+     */ 
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set the value of start
+     *
+     * @return  self
+     */ 
+    public function setStart(?\DateTimeInterface $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getRequiredVolunteers(): ?int
+    {
+        return $this->requiredVolunteers;
+    }
+
+    public function setRequiredVolunteers(int $requiredVolunteers): self
+    {
+        $this->requiredVolunteers = $requiredVolunteers;
+
+        return $this;
+    }   
 }

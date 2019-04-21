@@ -7,10 +7,12 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+
 class MissionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+
         $mission = new Mission();
         $mission->setName('Chip- Entnahme');
         $mission->setShortDescription(' 
@@ -19,7 +21,11 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Du kannst schnell und ohne Berührungsängsten anpacken.
         ');
         $mission->setImage('chip_entnahme.jpg');
+        $mission->setStart(new \DateTime('2019-09-14 14:00'));
+        $mission->setEnd(new \DateTime('2019-09-14 19:30'));
+        $mission->setRequiredVolunteers(6);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
         $manager->persist($mission);
         $manager->flush();
 
@@ -32,7 +38,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Dieser Poste kann gut im Anschluss mit dem Streckenposten (17:00-19.:30) kombiniert werden.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('aufbau.jpg');
+        $mission->setRequiredVolunteers(13);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -46,7 +53,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Anforderung: Du behälst den Überblick und bist min. 25 Jahre alt.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('streckenposten.jpg');
+        $mission->setRequiredVolunteers(19);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -58,7 +66,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Anforderung: Du bringst ein schnelles Auffassungsvermögen und deine Freundlichkeit mit.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('anmeldung.jpg');
+        $mission->setRequiredVolunteers(9);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -71,7 +80,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Anforderung: Selbstständiges Arbeiten.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('verpflegung.jpg');
+        $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -84,7 +94,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Anforderung: Gib an welche Aufgabe dir liegt.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('festwirtschaft.jpg');
+        $mission->setRequiredVolunteers(12);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -96,7 +107,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Anforderung: Du fühlst dich körperlich fit und bist bei Regen wetterresistent.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('abbau.jpg');
+        $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -109,6 +121,7 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Spass am Spass haben und warme Temperaturen aushalten können.
         ');
         $mission->setImage('cooli.jpg');
+        $mission->setRequiredVolunteers(2);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();
@@ -121,7 +134,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />  
             Anforderung: Effizient anpacken können.
         ');
-        $mission->setImage('cooli.jpg');
+        $mission->setImage('geschenke.jpg');
+        $mission->setRequiredVolunteers(5);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
         $manager->flush();

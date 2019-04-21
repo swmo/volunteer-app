@@ -11,20 +11,12 @@
     </head>
     <body>
         {% block body %}
-            <nav class="flex flex-wrap bg-grey-darkest p-3">
-                <div class="block" data-bind='click: toggleLocationList'>
-                    <button class="flex items-center px-3 py-2 border rounded
-								text-teal-lighter border-teal-light hover:text-white hover:border-white">
-                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <title>Menu</title>
-                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-                        </svg>
-                    </button>
-                </div>
+            <nav class=" clearfix ">
+ 
+                <img class="h-32 m-8 float-right" src="{{ asset('images/logo.jpg')}}">
             </nav>
 
             <div class="container mx-auto mt-5">
-
                 {% for message in app.flashes('success') %}
                     <div class="bg-teal-lightest border-t border-b border-teal text-grey-darkest px-4 py-3 mb-3" role="alert">
                         <p class="text-sm">{{message}}</p>
@@ -36,7 +28,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script src="{{ asset('js/fontawesome.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-3.4.0.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>
