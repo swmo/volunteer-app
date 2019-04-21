@@ -53,6 +53,9 @@ class Mission
      */
     private $requiredVolunteers;
 
+    
+
+
     public function __construct()
     {
         $this->enrollments = new ArrayCollection();

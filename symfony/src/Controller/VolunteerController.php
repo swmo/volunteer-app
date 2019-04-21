@@ -12,6 +12,7 @@ use App\Entity\Mission;
 
 class VolunteerController extends AbstractController
 {
+
     /**
      * @Route("/volunteer/enroll", name="volunteer_enroll")
      */
