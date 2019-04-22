@@ -11,13 +11,11 @@
     </head>
     <body>
         {% block body %}
-            <nav class=" clearfix ">
- 
+            <nav class="clearfix container mx-auto mt-5  ">
                 <img class="h-32 m-8 float-right" src="{{ asset('images/logo.jpg')}}">
             </nav>
 
             <div class="container mx-auto mt-5">
-            
                 {% for message in app.flashes('success') %}
                     <div class="w-full">
                         <div class="flex max-w-sm mb-4">
@@ -29,7 +27,7 @@
                             </div>
                             <div class="items-center p-4">
                                 <p >
-                                  {{message}}<
+                                  {{message}}
                                 </p>
                             </div>
                         </div>
@@ -37,6 +35,7 @@
                 {% endfor %}
 
                 {% block main %}
+
                 {% endblock %}
             </div>
         {% endblock %}

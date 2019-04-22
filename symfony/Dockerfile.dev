@@ -29,6 +29,7 @@ RUN apk --update add --no-cache \
 	php7-xml=$php7version \
 	php7-simplexml=$php7version \
 	php7-pgsql=$php7version \
+	php7-openssl=$php7version \
 	php7-pdo_pgsql=$php7version
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf

@@ -34,12 +34,13 @@ class Mission
     private $image;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $start;
 
     /**
-     * @ORM\Column(type="datetime", name="enddate", nullable=true)
+     * @ORM\Column(type="datetime", name="enddate", nullable=false)
+     * end is a reserved word for postgres
      */
     private $end;
 
@@ -93,6 +94,10 @@ class Mission
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getNameForSelectbox(){
+        return $this->name . ', '.$this->getStart()->format('d.m.Y: H:i').'-' . $this->getEnd()->format('H:i');
     }
 
     /**

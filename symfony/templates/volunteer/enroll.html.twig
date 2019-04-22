@@ -2,12 +2,32 @@
 
 {% block title %}ANMELDUNG HELFER | Burgdorfer Stadtlauf {% endblock %}
 
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.min.css') }}" >
+{% endblock %}
+
 {% block main %}
 
+        
+
     <section class="font-sans antialiased w-full">
-        <div class="container mx-auto">
             <div class="w-full mx-auto">
                 <div class="my-8 flex flex-wrap md:items-center w-full">
+
+                    {# show errors: #}
+                    {% if not enrollForm.vars.valid %}    
+                        <div class="w-full mb-6 bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">                            
+                            {# Loop through every enrollForm item #}
+                            {% for child in enrollForm.children %}
+                                {# Display the errors of the enrollForm item #}
+                                {%for error in child.vars.errors%}
+                                <span class="font-bold">{{ child.vars.label}}</span> {{error.message}}
+                                {%endfor%}
+                            {%endfor%}
+                        </div>
+                    {%endif%}
                     <div class="bg-white shadow-lg rounded w-full md:w-1/2 z-10">
                         {{ form_start(enrollForm) }}
                             <div class="py-8 text-center text-grey-darkest font-semibold uppercase">Anmeldung als Helfer </div>
@@ -15,104 +35,193 @@
                             <div class="py-8 w-3/4 mx-auto">
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
-                                        Vorname
-                                    </label>
-                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="">
-                                    <p class="text-red text-xs italic">Please fill out this field.</p>
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.firstname) }}
+                                        </label>
+                                        {{ form_widget(enrollForm.firstname, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.firstname) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.firstname) }}
+                                        </p>
                                     </div>
                                     <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
-                                        Nachname
-                                    </label>
-                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-last-name" type="text" placeholder="">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.lastname) }}
+                                        </label>
+                                        {{ form_widget(enrollForm.lastname, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.lastname) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.lastname) }}
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                            Mobile
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.mobile) }}
                                         </label>
-                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-password" type="text" placeholder="">
+                                        {{ form_widget(enrollForm.mobile, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.mobile) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.mobile) }}
+                                        </p>
                                     </div>
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                            E-Mail
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.email) }}
                                         </label>
-                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-password" type="text" placeholder="">
+                                        {{ form_widget(enrollForm.email, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.email) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.email) }}
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="flex flex-wrap -mx-3 mb-6">
 
-                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                            Geburtsdatum
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 {% if not enrollForm.birthday.vars.valid %}form-group-error{% endif %}">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.birthday) }}
                                         </label>
-                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-password" type="text" placeholder="">
+                                        {{ form_widget(enrollForm.birthday, {'attr': {'class': '
+                                            js-datepicker appearance-none block w-full bg-grey-lighter text-grey-darker 
+                                            border border-grey-lighter" 
+                                            rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.birthday) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.birthday) }}
+                                        </p>
                                     </div>
                                     <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                            Adresse
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.street) }}
                                         </label>
-                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-password" type="text" placeholder="">
+                                        {{ form_widget(enrollForm.street, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.street) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.street) }}
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="flex flex-wrap -mx-3 mb-12">
                                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
-                                        PLZ
-                                    </label>
-                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-zip" type="text" placeholder="3400">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.zip) }}
+                                        </label>
+                                        {{ form_widget(enrollForm.zip, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.zip) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.zip) }}
+                                        </p>
                                     </div>
                                     <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-                                            Stadt
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.city) }}
                                         </label>
-                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-city" type="text" placeholder="Burgdorf">
+                                        {{ form_widget(enrollForm.city, {'attr': {'class': 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.city) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.city) }}
+                                        </p>
                                     </div>
                                 </div>
                         
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                                            gewünschter Einsatzort
+                                           {{ form_label(enrollForm.missionChoice01) }}
                                         </label>
-                                        <div class="flex">
-                                            <div class="relative md:w-1/2 mr-3">
-                                                <select 
-                                                    class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" 
-                                                    placeholder="1. Wahl"
-                                                    >
-                                                <option>New Mexico</option>
-                                                <option>Missouri</option>
-                                                <option>Texas</option>
-                                                </select>
+                                        <div class="flex flex-wrap">
+                                            <div class="relative md:w-full mb-2">
+                                                {{ form_widget(enrollForm.missionChoice01, {'attr': {'class': 'block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
+                                                <small>
+                                                    {{ form_help(enrollForm.missionChoice01) }}
+                                                </small>
+                                                <p class="text-red text-xs italic">
+                                                    {{ form_errors(enrollForm.missionChoice01) }}
+                                                </p>
                                                 <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
                                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                                 </div>
                                             </div>
-                                            <div class="relative md:w-1/2 ml-3">
-                                                <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-state">
-                                                <option>New Mexico</option>
-                                                <option>Missouri</option>
-                                                <option>Texas</option>
-                                                </select>
+                                            <div class="relative md:w-full">
+                                                {{ form_widget(enrollForm.missionChoice02, {'attr': {'class': 'block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
+                                                <small>
+                                                    {{ form_help(enrollForm.missionChoice02) }}
+                                                </small>
+                                                <p class="text-red text-xs italic">
+                                                    {{ form_errors(enrollForm.missionChoice02) }}
+                                                </p>
                                                 <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
                                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="flex block md:hidden mt-2 mb-2">
+                                            <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du unten in der Box!<br />
+                                        </div>
+
+                                        <div class="flex hidden sm:hidden md:block lg:block mt-2 mb-2">
+                                            <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du rechts in der Box!<br />
+                                        </div>
                                     </div>
                                 </div>  
+
+                                <div class="flex flex-wrap -mx-3 mb-4">
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
+                                           {{ form_label(enrollForm.tshirtsize) }}
+                                        </label>
+                                        <div class="relative md:w-full mb-2">
+                                                {{ form_widget(enrollForm.tshirtsize, {'attr': {'class': 'block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
+                                                <small>
+                                                    {{ form_help(enrollForm.tshirtsize) }}
+                                                </small>
+                                                <p class="text-red text-xs italic">
+                                                    {{ form_errors(enrollForm.tshirtsize) }}
+                                                </p>
+                                                <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full px-3 mb-6 md:mb-0">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                            Bemerkungen / Anregungen / Wünsche
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                                            {{ form_label(enrollForm.comment) }}
                                         </label>
-                                        <textarea class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"  rows="6"></textarea>   
+                                        {{ form_widget(enrollForm.comment, {'attr': {'rows': '6','class': 'block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
+                                        <small>
+                                            {{ form_help(enrollForm.comment) }}
+                                        </small>
+                                        <p class="text-red text-xs italic">
+                                            {{ form_errors(enrollForm.comment) }}
+                                        </p>
+                                    
+
+                                         
                                     </div>
                                 </div>
         
@@ -145,9 +254,15 @@
                             
                             <div class="py-8 text-indigo-darker rounded rounded-t-none text-center uppercase font-bold flex items-center justify-center">
                                 <button type="submit" 
-                                class=" uppercase bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-4 px-8 border border-grey-light rounded shadow"
-                                ">mich anmelden</button>
+                                class="
+                                    uppercase bg-white hover:bg-grey-lightest 
+                                    text-grey-darkest font-semibold py-4 px-8 border border-grey-light rounded shadow
+                                ">
+                                    mich anmelden
+                                </button>
                             </div>
+
+
                         
                         {{ form_end(enrollForm) }}   
                     </div>
@@ -220,16 +335,21 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 {% endblock %}
 
 
 {% block javascripts %}
     {{parent()}}
+
+    <script src="{{ asset('js/datepicker.min.js') }}"></script>
     <script>
         jQuery( document ).ready(function() {
-            console.log( "ready!" );
+            jQuery('.js-datepicker').datepicker({
+                autoHide: true,
+                zIndex: 2048,
+                format: "dd.mm.yyyy",
+            });
 
             const slideBoxes = jQuery('.js-slide-box');
             let currentSlideBoxIndex = 0;

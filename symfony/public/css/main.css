@@ -74,3 +74,9 @@
     transform-origin: 0 0;
     transform: rotate(90deg);
   }
+
+  .form-group-error input,
+  .form-group-error textarea,
+  .form-group-error select{
+    border-color:red !important;
+  }

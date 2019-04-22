@@ -1,41 +1,131 @@
 {% extends 'emails/base.html.twig' %}
 
 {% block content %}
-<p>
-Hallo 
-</p>
-<p>
-Folgende Person hat sich soeben für den Burgdorfer Stadtlauf angemeldet:
-
 <table>
     <tr>
-        <td>
-            Firstname
-        </td>
-        <td>
-            {{enrollment.firstname}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Lastname
-        </td>
-        <td>
-            {{enrollment.lastname}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Birthday 
-        </td>
-        <td>
-            {{enrollment.birthday|date("m/d/Y")}}
-        </td>
-    </tr>
 
+        <td valign="top" width="130">
+            <br>
+            <img border="0" src="{{image}}" alt="Maria">
+        </td>
+        <td>
+            <p>
+            Liebe/r  {{enrollment.firstname}}
+            </p>
+            <p>
+            Danke, dass du dich verbindlich angemeldet hast!
+            </p>
+            <p>
+            Anbei erhälst du die automatische Bestätigung.
+            </p>
+            <p>
+            Details zu deinem Helfer-Einsatz werden dir einen Monat vor deinem Einsatz per E-Mail zugesendet.
+            </p>
+            <p>
+            Solltest du noch Fragen haben, melde dich unter: personal@burgdorfer-stadtlauf.ch 
+            </p>
+            <p>
+            Mit folgenden Angaben hast du dich angemeldet:
+            </p>
+            <table>
+                <tr>
+                    <td>
+                        {{ 'firstname'|trans }}
+                    </td>
+                    <td>
+                        {{enrollment.firstname}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ 'lastname'|trans }}
+                    </td>
+                    <td>
+                        {{enrollment.lastname}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Mobile
+                    </td>
+                    <td>
+                        {{enrollment.mobile}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        {{enrollment.email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ 'birthday'|trans }} 
+                    </td>
+                    <td>
+                        {{enrollment.birthday|date("m/d/Y")}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ 'street'|trans }} 
+                    </td>
+                    <td>
+                        {{enrollment.street}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PLZ / Ort 
+                    </td>
+                    <td>
+                        {{enrollment.zip}}  {{enrollment.city}}
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        Gewünschter Einsatzort 
+                    </td>
+                    <td>
+                    01: {{enrollment.missionChoice01}} <br />
+                    02: {{enrollment.missionChoice02}} 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        T-Shirt Grösse
+                    </td>
+                    <td>
+                    {{enrollment.tshirtsize}} 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Kommentar
+                    </td>
+                    <td>
+                        {{enrollment.comment}} <br />
+                    </td>
+                </tr>
+            </table>
+
+
+            <p>
+            Liebe Grüsse
+            </p>
+            <p>
+            Maria Rothenbühler,<br />
+            Ressort Personal OK-Burgdorfer-Stadtlauf 
+            </p>
+
+        </td>
+    </tr>
 </table>
 
-Du kannst deine Anmeldungen unter ... verwalten
-</p>
+
+
+
   {% endblock %}
 

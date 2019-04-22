@@ -38,7 +38,10 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             <br />
             Dieser Poste kann gut im Anschluss mit dem Streckenposten (17:00-19.:30) kombiniert werden.
         ');
+        
         $mission->setImage('aufbau.jpg');
+        $mission->setStart(new \DateTime('2019-09-14 13:00'));
+        $mission->setEnd(new \DateTime('2019-09-14 17:00'));
         $mission->setRequiredVolunteers(13);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -54,6 +57,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Du behälst den Überblick und bist min. 25 Jahre alt.
         ');
         $mission->setImage('streckenposten.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(19);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -67,6 +72,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Du bringst ein schnelles Auffassungsvermögen und deine Freundlichkeit mit.
         ');
         $mission->setImage('anmeldung.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(9);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -81,6 +88,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Selbstständiges Arbeiten.
         ');
         $mission->setImage('verpflegung.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -95,6 +104,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Gib an welche Aufgabe dir liegt.
         ');
         $mission->setImage('festwirtschaft.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(12);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -108,6 +119,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Du fühlst dich körperlich fit und bist bei Regen wetterresistent.
         ');
         $mission->setImage('abbau.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -121,6 +134,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Spass am Spass haben und warme Temperaturen aushalten können.
         ');
         $mission->setImage('cooli.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(2);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);
@@ -135,6 +150,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             Anforderung: Effizient anpacken können.
         ');
         $mission->setImage('geschenke.jpg');
+        $mission->setStart(new \DateTime());
+        $mission->setEnd(new \DateTime());
         $mission->setRequiredVolunteers(5);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);

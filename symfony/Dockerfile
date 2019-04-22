@@ -26,6 +26,7 @@ RUN apk --update add --no-cache \
 	php7-mbstring=$php7version \
 	php7-iconv=$php7version \
 	php7-pgsql=$php7version \
+	php7-openssl=$php7version \
 	php7-pdo_pgsql=$php7version
 
 

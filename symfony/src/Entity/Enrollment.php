@@ -71,6 +71,11 @@ class Enrollment
      */
     private $tshirtsize;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
 
     public function getId(): ?int
     {
@@ -205,6 +210,18 @@ class Enrollment
     public function setTshirtsize(string $tshirtsize): self
     {
         $this->tshirtsize = $tshirtsize;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

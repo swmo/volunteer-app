@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Enrollment;
 use App\Entity\Mission;
+use Symfony\Component\Filesystem\Filesystem;
 
 class VolunteerController extends AbstractController
 {
@@ -26,15 +27,57 @@ class VolunteerController extends AbstractController
         
             $enrollment = $form->getData();
             $em->persist($enrollment);
-           
-            $message = (new \Swift_Message('Hello Email'))
-                ->setFrom('moses.tschanz@gmail.com')
-                ->setTo('moses.tschanz@gmail.com')
+
+            $fs = new Filesystem();
+
+            //temporary folder, it has to be writable
+            $tmpFolder = '/tmp/';
+
+            //the name of your file to attach
+            $fileName = 'stadtlauf_'.$enrollment->getId().'.ics';
+
+            $icsContent = "
+                BEGIN:VCALENDAR
+                VERSION:2.0
+                CALSCALE:GREGORIAN
+                METHOD:REQUEST
+                BEGIN:VEVENT
+                DTSTART:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
+                DTEND:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
+                DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
+                ORGANIZER;CN=XYZ:mailto:do-not-reply@example.com
+                UID:".$enrollment->getId()."
+                ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP= TRUE;CN=Sample:emailaddress@testemail.com
+                DESCRIPTION: Helfer Burgdorfer Stadtlauf. Details folgen noch
+                LOCATION: Burgdorf
+                SEQUENCE:0
+                STATUS:CONFIRMED
+                SUMMARY:Burgdorfer Statdlauf
+                TRANSP:OPAQUE
+                END:VEVENT
+                END:VCALENDAR"
+            ;
+
+            //creation of the file on the server
+            $icfFile = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
+
+            $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
+
+            $image = ($message->embed(\Swift_Image::fromPath('/var/www/public/images/maria2.jpg')));
+           // $image = "";
+
+            $message
+                ->setFrom('personal@burgdorfer-stadtlauf.ch')
+                ->setTo($enrollment->getEmail())
+                ->setBcc('personal@burgdorfer-stadtlauf.ch')
+                ->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName))
                 ->setBody(
                     $this->renderView(
                         // templates/emails/registration.html.twig
                         'emails/registration.html.twig',
-                        ['enrollment' => $enrollment]
+                        ['enrollment' => $enrollment,
+                        'image' => $image
+                        ]
                     ),
                     'text/html'
                 )
@@ -52,11 +95,11 @@ class VolunteerController extends AbstractController
     
             if($mailer->send($message)){
                 $em->flush();
-                $this->addFlash('success', 'Vielen Dank für deine Anmeldung!');
-                return $this->redirectToRoute('volunteer_enroll');
+                //$this->addFlash('success', 'Vielen Dank für deine Anmeldung!');
+                return $this->redirectToRoute('volunteer_enroll_thankyou');
             }
             else {
-                $this->addFlash('success', 'Anmeldung nicht erfolgreich. Das Mail konnte nicht versendet werden');  
+                $this->addFlash('error', 'Anmeldung nicht erfolgreich. Das Mail konnte nicht versendet werden');  
             }
         }
 
@@ -65,4 +108,13 @@ class VolunteerController extends AbstractController
             'missions' => $missions
         ]);
     }
+
+    /**
+     * @Route("/volunteer/enroll/thankyou", name="volunteer_enroll_thankyou")
+     */
+    public function enroll_thankyou()
+    {
+        return $this->render('volunteer/enroll.thankyou.html.twig');
+    }
+
 }
