@@ -56,7 +56,7 @@ class Mission
 
     
 
-
+    
     public function __construct()
     {
         $this->enrollments = new ArrayCollection();

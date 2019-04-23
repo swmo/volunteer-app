@@ -34,29 +34,21 @@ class VolunteerController extends AbstractController
             $tmpFolder = '/tmp/';
 
             //the name of your file to attach
-            $fileName = 'stadtlauf_'.$enrollment->getId().'.ics';
+            $fileName = 'Kalendereintrag_'.$enrollment->getId().'.ics';
 
-            $icsContent = "
-                BEGIN:VCALENDAR
-                VERSION:2.0
-                CALSCALE:GREGORIAN
-                METHOD:REQUEST
-                BEGIN:VEVENT
-                DTSTART:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
-                DTEND:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
-                DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
-                ORGANIZER;CN=XYZ:mailto:do-not-reply@example.com
-                UID:".$enrollment->getId()."
-                ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP= TRUE;CN=Sample:emailaddress@testemail.com
-                DESCRIPTION: Helfer Burgdorfer Stadtlauf. Details folgen noch
-                LOCATION: Burgdorf
-                SEQUENCE:0
-                STATUS:CONFIRMED
-                SUMMARY:Burgdorfer Statdlauf
-                TRANSP:OPAQUE
-                END:VEVENT
-                END:VCALENDAR"
-            ;
+        $icsContent = "BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:Helfereinsatz Stadtlauf Burgdorf
+DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
+DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
+LOCATION:Hohengasse 25, 3400 Burgdorf
+DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpunkt noch anders kommuniziert.
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR";          
 
             //creation of the file on the server
             $icfFile = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
@@ -70,7 +62,7 @@ class VolunteerController extends AbstractController
                 ->setFrom('personal@burgdorfer-stadtlauf.ch')
                 ->setTo($enrollment->getEmail())
                 ->setBcc('personal@burgdorfer-stadtlauf.ch')
-                ->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName))
+                ->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName)->setContentType('text/calendar;charset=UTF-8;name="'.$fileName.'";method=REQUEST'))
                 ->setBody(
                     $this->renderView(
                         // templates/emails/registration.html.twig

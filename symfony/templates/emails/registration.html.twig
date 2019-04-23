@@ -65,7 +65,7 @@
                         {{ 'birthday'|trans }} 
                     </td>
                     <td>
-                        {{enrollment.birthday|date("m/d/Y")}}
+                        {{enrollment.birthday|date("d.m.Y")}}
                     </td>
                 </tr>
                 <tr>
@@ -89,8 +89,16 @@
                         Gewünschter Einsatzort 
                     </td>
                     <td>
-                    01: {{enrollment.missionChoice01}} <br />
-                    02: {{enrollment.missionChoice02}} 
+                    01: {{enrollment.missionChoice01}} <br>
+                    {{enrollment.missionChoice01.getStart()|date('d.m.Y H:i')}} - {{enrollment.missionChoice01.getEnd()|date('H:i')}}<br />
+                    {% if enrollment.missionChoice02 %} 
+                        <br>
+                        02:  {{enrollment.missionChoice02}} <br> 
+                        {{enrollment.missionChoice02.getStart()|date('d.m.Y H:i')}} - {{enrollment.missionChoice02.getEnd()|date('H:i')}}<br />
+                    {% endif %}
+
+
+                    
                     </td>
                 </tr>
                 <tr>
