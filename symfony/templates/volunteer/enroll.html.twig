@@ -322,17 +322,17 @@
                                                      <h2
                                                      class="
                                                      {% if mission.countEnrolledVolunteers < mission.requiredVolunteers %}
-                                                        text-red
-                                                        {% else %}
                                                         text-green
+                                                        {% else %}
+                                                        text-red
                                                       {% endif %}
                                                      "
                                                      >{{mission.countEnrolledVolunteers}}</h2>
-                                                    <span>angemeldete Helfer</span>
+                                                    <span>Bereits angemeldete Helfer</span>
                                                 </div>
                                                 <div class="text-center w-1/2">
                                                     <h2>{{mission.requiredVolunteers}}</h2>
-                                                    <span>gesuchte Helfer</span>
+                                                    <span>Total gesuchte Helfer</span>
                                                 </div>
                                             </div>
                                         </div>
