@@ -54,7 +54,15 @@ class Mission
      */
     private $requiredVolunteers;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Enrollment", mappedBy="missionChoice01")
+     */
+    private $enrollment01;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Enrollment", mappedBy="missionChoice02")
+     */
+    private $enrollment02;
 
     
     public function __construct()
@@ -190,5 +198,10 @@ class Mission
         $this->requiredVolunteers = $requiredVolunteers;
 
         return $this;
-    }   
+    }  
+    
+    public function countEnrolledVolunteers(): ?int
+    {
+       return  $this->enrollment01->count() + $this->enrollment02->count();
+    }
 }

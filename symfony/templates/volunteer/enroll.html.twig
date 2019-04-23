@@ -319,7 +319,15 @@
                                             </div>
                                             <div class="flex justify-center pb-3 text-grey-dark">
                                                 <div class="text-center mr-3 border-r w-1/2 pr-3">
-                                                    <h2>3</h2>
+                                                     <h2
+                                                     class="
+                                                     {% if mission.countEnrolledVolunteers < mission.requiredVolunteers %}
+                                                        text-red
+                                                        {% else %}
+                                                        text-green
+                                                      {% endif %}
+                                                     "
+                                                     >{{mission.countEnrolledVolunteers}}</h2>
                                                     <span>angemeldete Helfer</span>
                                                 </div>
                                                 <div class="text-center w-1/2">
