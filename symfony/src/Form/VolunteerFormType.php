@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
+
 class VolunteerFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -63,6 +64,15 @@ class VolunteerFormType extends AbstractType
             // adds a class that can be selected in JavaScript
             'attr' => ['class' => 'js-datepicker'],
         ])
+        ->add('hasTshirt', ChoiceType::class, [
+            'label' => 'Helfer Tshirt von letztes Jahr vorhanden und kann mitgenommen werden?',
+            'choices'  => [
+                'Ja' => true,
+                'Nein' => false,
+            ],
+            'placeholder' => 'Bitte auswählen',
+            'required' => true,
+        ])
         ->add('tshirtsize', ChoiceType::class, [
             'label' => 'Deine T-Shirt Grösse',
             'choices'  => [
@@ -72,7 +82,7 @@ class VolunteerFormType extends AbstractType
                 'XL' => 'XL',
             ],
             'placeholder' => 'Bitte grösse wählen',
-            'required' => true,
+            'required' => false,
         ])
         ->add('comment', TextareaType::class, [
             'label' => 'Bemerkungen / Anregungen / Wünsche',

@@ -76,6 +76,11 @@ class Enrollment
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasTshirt;
+
 
     public function getId(): ?int
     {
@@ -222,6 +227,18 @@ class Enrollment
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getHasTshirt(): ?bool
+    {
+        return $this->hasTshirt;
+    }
+
+    public function setHasTshirt(bool $hasTshirt): self
+    {
+        $this->hasTshirt = $hasTshirt;
 
         return $this;
     }
