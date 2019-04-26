@@ -11,6 +11,7 @@ use App\Entity\Enrollment;
 use App\Entity\Mission;
 use Symfony\Component\Filesystem\Filesystem;
 use App\Utils\TokenGeneratorInterface;
+use Symfony\Component\Workflow\Registry;
 
 class VolunteerController extends AbstractController
 {
@@ -18,7 +19,7 @@ class VolunteerController extends AbstractController
     /**
      * @Route("/volunteer/enroll", name="volunteer_enroll")
      */
-    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator)
+    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows)
     {
         $form = $this->createForm(VolunteerFormType::class);
         $missions = $em->getRepository(Mission::class)->findAll();
@@ -29,7 +30,7 @@ class VolunteerController extends AbstractController
             $enrollment = $form->getData();
             /** @var Enrollment $enrollment */
             $enrollment->setConfirmToken($tokenGenerator->generateToken());
-            $em->persist($enrollment);
+           
 
             $fs = new Filesystem();
 
@@ -87,8 +88,12 @@ END:VCALENDAR";
                 )
                 */
             ;
-    
+
             if($mailer->send($message)){
+                /** @var Registry $workflows */
+                $workflows->get($enrollment)->apply($enrollment,'waiting for confirmations');
+
+                $em->persist($enrollment);
                 $em->flush();
                 //$this->addFlash('success', 'Vielen Dank für deine Anmeldung!');
                 return $this->redirectToRoute('volunteer_enroll_thankyou');

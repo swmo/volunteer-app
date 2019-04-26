@@ -388,11 +388,11 @@
               
                 let value = (jQuery('.js-hasTshirt').val());
                 console.log(value);
-                if(value == 1){
-                    jQuery('.js-tshirtsize').hide();
+                if(value === '0'){
+                    jQuery('.js-tshirtsize').show();
                 }
                 else {
-                    jQuery('.js-tshirtsize').show();
+                    jQuery('.js-tshirtsize').hide();
                 }
             }
 

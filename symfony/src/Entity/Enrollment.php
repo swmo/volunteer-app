@@ -67,7 +67,7 @@ class Enrollment
     private $birthday;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tshirtsize;
 
@@ -81,11 +81,16 @@ class Enrollment
      */
     private $hasTshirt;
 
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $confirmToken;
+
+
+    /** 
+     * @ORM\Column(type="json_array", nullable=true) 
+     * */
+    private $status;
 
 
     public function getId(): ?int
@@ -256,6 +261,17 @@ class Enrollment
     public function setConfirmToken(?string $confirmToken): self
     {
         $this->confirmToken = $confirmToken;
+        return $this;
+    }
+
+    public function getStatus(): ?array
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?array $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 

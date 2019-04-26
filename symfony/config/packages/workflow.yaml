@@ -1,2 +1,36 @@
 framework:
-    workflows: ~
+    workflows: 
+        enrollment:
+            type: "workflow"
+            marking_store:
+                type: 'multiple_state' # or 'single_state'
+                arguments: 
+                    - 'status'
+            supports:
+                - App\Entity\Enrollment
+            initial_place: enrolled
+            places:
+                - enrolled
+                - waiting for email confirmation
+                - waiting for mobile confirmation
+                - email confirmed
+                - mobile confirmed
+                - confirmed
+            transitions:
+                waiting for confirmations:
+                    from: enrolled
+                    to: 
+                        - waiting for email confirmation
+                        - waiting for mobile confirmation
+                confirm mobile:
+                    from: waiting for mobile confirmation
+                    to: mobile confirmed
+                confirm email:
+                    from:  waiting for email confirmation
+                    to: email confirmed
+                confirm enrollment:
+                    from:
+                        - mobile confirmed
+                        - email confirmed
+                    to:
+                        confirmed
