@@ -96,11 +96,21 @@
                         02:  {{enrollment.missionChoice02}} <br> 
                         {{enrollment.missionChoice02.getStart()|date('d.m.Y H:i')}} - {{enrollment.missionChoice02.getEnd()|date('H:i')}}<br />
                     {% endif %}
-
-
-                    
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        Tshirt von letzem Jahr vorhanden und wird mitgenommen?
+                    </td>
+                    <td>
+                        {% if enrollment.hasTshirt %} 
+                            Ja
+                        {% else %}
+                            Nein
+                        {% endif %}   
+                    </td>
+                </tr>
+                {% if not enrollment.hasTshirt %} 
                 <tr>
                     <td>
                         T-Shirt Grösse
@@ -109,6 +119,7 @@
                     {{enrollment.tshirtsize}} 
                     </td>
                 </tr>
+                {% endif %}  
                 <tr>
                     <td>
                         Kommentar
@@ -118,14 +129,12 @@
                     </td>
                 </tr>
             </table>
-
-
             <p>
-            Liebe Grüsse
+                Liebe Grüsse
             </p>
             <p>
-            Maria Rothenbühler,<br />
-            Ressort Personal OK-Burgdorfer-Stadtlauf 
+                Maria Rothenbühler,<br />
+                Ressort Personal OK-Burgdorfer-Stadtlauf 
             </p>
 
         </td>

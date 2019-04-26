@@ -82,6 +82,12 @@ class Enrollment
     private $hasTshirt;
 
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmToken;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -239,7 +245,17 @@ class Enrollment
     public function setHasTshirt(bool $hasTshirt): self
     {
         $this->hasTshirt = $hasTshirt;
+        return $this;
+    }
 
+    public function getConfirmToken(): ?string
+    {
+        return $this->confirmToken;
+    }
+
+    public function setConfirmToken(?string $confirmToken): self
+    {
+        $this->confirmToken = $confirmToken;
         return $this;
     }
 

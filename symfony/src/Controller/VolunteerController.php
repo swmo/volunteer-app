@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Enrollment;
 use App\Entity\Mission;
 use Symfony\Component\Filesystem\Filesystem;
+use App\Utils\TokenGeneratorInterface;
 
 class VolunteerController extends AbstractController
 {
@@ -17,7 +18,7 @@ class VolunteerController extends AbstractController
     /**
      * @Route("/volunteer/enroll", name="volunteer_enroll")
      */
-    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer)
+    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator)
     {
         $form = $this->createForm(VolunteerFormType::class);
         $missions = $em->getRepository(Mission::class)->findAll();
@@ -26,6 +27,8 @@ class VolunteerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         
             $enrollment = $form->getData();
+            /** @var Enrollment $enrollment */
+            $enrollment->setConfirmToken($tokenGenerator->generateToken());
             $em->persist($enrollment);
 
             $fs = new Filesystem();
@@ -108,5 +111,20 @@ END:VCALENDAR";
     {
         return $this->render('volunteer/enroll.thankyou.html.twig');
     }
+
+    /**
+     * @Route("/volunteer/enroll/confirm/{id}/{token}", name="volunteer_confirm_enrollment")
+     */
+    public function confirmEnrollment(Enrollment $enrollment, Request $request)
+    {
+        /** @var Request $request */
+        if ($enrollment->getConfirmToken() === $request->get('token')){
+            
+        }
+        exit;
+        return $this->render('volunteer/enroll.thankyou.html.twig');
+    }
+
+
 
 }
