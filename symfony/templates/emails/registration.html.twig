@@ -21,6 +21,14 @@
             <p>
             Details zu deinem Helfer-Einsatz werden dir einen Monat vor deinem Einsatz per E-Mail zugesendet.
             </p>
+             {% if not workflow_has_marked_place(enrollment,'confirmed') %}
+                <p>
+                Bitte bestätige unter folgendem Link doch bitte noch deine E-Mail Adresse und Telefon:
+                <a href="http://localhost:8080{{ path('volunteer_confirm_enrollment_email',{id: enrollment.id, token: enrollment.getConfirmToken()}) }}" >
+                    Bestätigen
+                </a>
+                </p>
+             {% endif %}
             <p>
             Solltest du noch Fragen haben, melde dich unter: personal@burgdorfer-stadtlauf.ch 
             </p>

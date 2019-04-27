@@ -12,12 +12,14 @@ use App\Entity\Mission;
 use Symfony\Component\Filesystem\Filesystem;
 use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
+use App\Entity\Person;
 
 class VolunteerController extends AbstractController
 {
 
     /**
      * @Route("/volunteer/enroll", name="volunteer_enroll")
+     * @Route("/", name="home")
      */
     public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows)
     {
@@ -30,7 +32,25 @@ class VolunteerController extends AbstractController
             $enrollment = $form->getData();
             /** @var Enrollment $enrollment */
             $enrollment->setConfirmToken($tokenGenerator->generateToken());
-           
+            /*
+            * Besteht die Person bereits unter den Stammdaten (Personen) so wird diese automatisch confirmed
+            */
+            /** @var Registry $workflows */
+            if($em->getRepository(Person::class)->findOneBy(['email' => $enrollment->getEmail()])){
+                $workflows->get($enrollment)->apply($enrollment,'confirm enrollment direct');
+            }
+            // todo: do a better compare (example: last character without spaces)
+            elseif($em->getRepository(Person::class)->findOneBy(['mobile' => $enrollment->getMobile()])){
+                $workflows->get($enrollment)->apply($enrollment,'confirm enrollment direct');
+            }
+            else{
+                $workflows->get($enrollment)->apply($enrollment,'waiting for confirmations');
+            }
+
+            $em->persist($enrollment);
+            $em->flush();           
+
+
 
             $fs = new Filesystem();
 
@@ -90,12 +110,7 @@ END:VCALENDAR";
             ;
 
             if($mailer->send($message)){
-                /** @var Registry $workflows */
-                $workflows->get($enrollment)->apply($enrollment,'waiting for confirmations');
-
-                $em->persist($enrollment);
-                $em->flush();
-                //$this->addFlash('success', 'Vielen Dank für deine Anmeldung!');
+                
                 return $this->redirectToRoute('volunteer_enroll_thankyou');
             }
             else {
@@ -118,16 +133,32 @@ END:VCALENDAR";
     }
 
     /**
-     * @Route("/volunteer/enroll/confirm/{id}/{token}", name="volunteer_confirm_enrollment")
+     * @Route("/volunteer/enroll/confirm/email/{id}/{token}", name="volunteer_confirm_enrollment_email")
      */
-    public function confirmEnrollment(Enrollment $enrollment, Request $request)
+    public function confirmEnrollmentEmail(Enrollment $enrollment, Request $request, Registry $workflows, EntityManagerInterface $em)
     {
         /** @var Request $request */
+        /** @var Registry $workflows */
         if ($enrollment->getConfirmToken() === $request->get('token')){
-            
+            if($workflows->get($enrollment)->can($enrollment,'confirm email'))
+            {
+                $workflows->get($enrollment)->apply($enrollment,'confirm email');
+                $em->persist($enrollment);
+                $em->flush();    
+                $this->addFlash('success', 'Super, danke wir konnten deine Mail Adresse bestätigen');      
+
+            }
+            else 
+            {
+                $this->addFlash('danger', 'E-Mail bereits bestätigt');  
+            }
         }
-        exit;
-        return $this->render('volunteer/enroll.thankyou.html.twig');
+        else 
+        {
+            $this->addFlash('danger', 'Ungültiges Token');  
+        }
+       
+        return $this->redirectToRoute('home');
     }
 
 

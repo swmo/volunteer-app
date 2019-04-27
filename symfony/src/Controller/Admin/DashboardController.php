@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,8 +12,7 @@ class DashboardController extends AbstractController
 
 
     /**
-     * @Route("/dashboard", name="dashboard")
-     * @Route("/", name="home")
+     * @Route("/admin/dashboard", name="dashboard")
      */
     public function dashboard()
     {

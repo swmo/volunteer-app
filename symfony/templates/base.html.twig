@@ -19,10 +19,26 @@
                 {% for message in app.flashes('success') %}
                     <div class="w-full">
                         <div class="flex max-w-sm mb-4">
-                            <div class="w-24 bg-burgdorf-light ">
-                                <div class="p-6">
+                            <div class="w-24 bg-green-light ">
+                                <div class="p-6 text-center text-white">
+                                    <i class="fas fa-check fa-3x"></i>
+                                </div>
+                            </div>
+                            <div class="items-center p-4">
+                                <p >
+                                  {{message}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>           
+                {% endfor %}
+                {% for message in app.flashes('danger') %}
+                    <div class="w-full">
+                        <div class="flex max-w-sm mb-4">
+                            <div class="w-24 bg-red-light">
+                                <div class="p-6 text-center text-white">
                                 
-                                <i class="fas fa-check fa-3x"></i>
+                                <i class="fas fa-exclamation fa-3x"></i>
                                 </div>
                             </div>
                             <div class="items-center p-4">
