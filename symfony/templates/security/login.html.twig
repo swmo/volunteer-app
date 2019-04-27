@@ -2,35 +2,43 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
-<form method="post">
+{% block main %}
+
+
+
+
+<div class="w-full max-w-md">
+  <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    <div class="mb-4">
+      <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+        E-Mail
+      </label>
+          <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="hadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" 
+          placeholder="Email" required autofocus>
+    </div>
+    <div class="mb-6">
+      <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+        Password
+      </label>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-    <input type="hidden" name="_csrf_token"
+       <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    </div>
+    <div class="flex items-center justify-between">
+        <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
+        >
+        
+ 
+        <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
         Sign in
     </button>
-</form>
+    </div>
+  </form>
+  <p class="text-center text-grey text-xs">
+    ©2019 Burgdorf Stadtlauf All rights reserved.
+  </p>
+</div>
 {% endblock %}

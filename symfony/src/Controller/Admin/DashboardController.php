@@ -12,13 +12,15 @@ class DashboardController extends AbstractController
 
 
     /**
-     * @Route("/admin/dashboard", name="dashboard")
+     * @Route("/admin", name="dashboard")
      */
     public function dashboard()
     {
         $persons = $this->getDoctrine()
             ->getRepository(Person::class)
             ->findAll();
+
+        //$enrollments = $this->
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'Test',

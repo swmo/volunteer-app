@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="appuser")
+ * need to set to appuse instead of user because of a reserved word of postgres
  */
 class User implements UserInterface
 {
