@@ -153,7 +153,7 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         ');
         $mission->setImage('geschenke.jpg');
         $mission->setStart(new \DateTime('2019-09-13 17:00'));
-        $mission->setEnd(new \DateTime('2019-09-14 21:30'));
+        $mission->setEnd(new \DateTime('2019-09-13 21:30'));
         $mission->setRequiredVolunteers(5);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
         $manager->persist($mission);

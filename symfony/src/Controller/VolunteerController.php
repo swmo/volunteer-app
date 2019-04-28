@@ -61,10 +61,21 @@ class VolunteerController extends AbstractController
             $fileName = 'Kalendereintrag_'.$enrollment->getId().'.ics';
 
         $icsContent = "BEGIN:VCALENDAR
+PRODID:Burgdorfer Stadtlauf
 VERSION:2.0
 CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Zurich
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+END:DAYLIGHT
+END:VTIMEZONE
 BEGIN:VEVENT
+UID:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
 SUMMARY:Helfereinsatz Stadtlauf Burgdorf
+DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
 LOCATION:Hohengasse 25, 3400 Burgdorf

@@ -8,9 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-
-
-
     /**
      * @Route("/admin", name="dashboard")
      */
