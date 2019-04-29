@@ -7,12 +7,13 @@ COPY composer.json composer.lock symfony.lock ./
 # Wenn die Source bereits am Anfang reinkopiert würde, würde bei jeder Codeänderung 
 # bei Rebuild composer install erneute ausgeführt werden und könnte nicht vom Cache geladen werden.
 
-RUN composer install --no-scripts
+RUN composer install --no-scripts --no-dev
 
 FROM nginx:1.15.8-alpine
 EXPOSE 80
 
-ENV php7version 7.2.14-r0
+# alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
+ENV php7version 7.2.17-r0
 
 RUN apk --update add --no-cache \
 	php7=$php7version \
@@ -25,16 +26,21 @@ RUN apk --update add --no-cache \
 	php7-session=$php7version \
 	php7-mbstring=$php7version \
 	php7-iconv=$php7version \
+	php7-xml=$php7version \
+	php7-simplexml=$php7version \
 	php7-pgsql=$php7version \
 	php7-openssl=$php7version \
 	php7-pdo_pgsql=$php7version
 
-
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ./nginx/php.ini /etc/php7/php.ini
+COPY ./resources/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./resources/php/php.ini /etc/php7/php.ini
 COPY --from=composer /app /var/www
 COPY . ./var/www
 
+RUN  ./var/www/bin/console cache:warmup --env=prod
+RUN  ./var/www/bin/console assets:install --env=prod
+
 RUN chmod a+x ./var/www/docker/run_nginx_php.sh
+
 #CMD ./var/www/docker/run_nginx_php.sh
 CMD ["./var/www/docker/run_nginx_php.sh"]

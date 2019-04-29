@@ -5,7 +5,7 @@ services:
   postgres:
     image: 'postgres:11.2-alpine'
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
     volumes:
       - pg-db-data:/var/lib/postgresql/data
   adminer:
@@ -15,7 +15,7 @@ services:
       - 9090:8080
   symfony:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./symfony
   router:
     build:
