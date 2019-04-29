@@ -24,7 +24,7 @@
              {% if not workflow_has_marked_place(enrollment,'confirmed') %}
                 <p>
                 Bitte bestätige unter folgendem Link doch bitte noch deine E-Mail Adresse und Telefon:
-                <a href="http://localhost:8080{{ path('volunteer_confirm_enrollment_email',{id: enrollment.id, token: enrollment.getConfirmToken()}) }}" >
+                <a href="{{ url('volunteer_confirm_enrollment_email',{id: enrollment.id, token: enrollment.getConfirmToken()}) }}" >
                     Bestätigen
                 </a>
                 </p>
