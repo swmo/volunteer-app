@@ -180,7 +180,7 @@
                                             <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du unten in der Box!<br />
                                         </div>
 
-                                        <div class="flex hidden sm:hidden md:block lg:block mt-2 mb-2">
+                                        <div class="hidden sm:hidden md:block lg:block mt-2 mb-2">
                                             <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du rechts in der Box!<br />
                                         </div>
                                     </div>
@@ -330,7 +330,13 @@
                                                     {{ mission.shortDescription|raw }}
                                                 </div>
                                                 <div>
-                                                    Wann: {{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis {{mission.end|date('H:i')}}
+                                                    Wann: {{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
+                                                    
+                                                    {% if mission.start|date('d.m.Y') != mission.end|date('d.m.Y') %}
+                                                        {{mission.end|date('d.m.Y')}} um
+                                                    {% endif %}
+                                                
+                                                    {{mission.end|date('H:i')}}
                                                 </div>
 
                                             </div>
