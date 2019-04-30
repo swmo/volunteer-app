@@ -30,6 +30,8 @@
           {% else %}
             {{mission.end|date('d.m.Y H:i')}}
           {% endif %}
+
+          
           </td>
           <td class="py-4 px-6 border-b text-right border-grey-light">
             <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>

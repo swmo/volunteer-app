@@ -275,4 +275,10 @@ class Enrollment
         return $this;
     }
 
+    public function getWorkingTime()
+    {
+        $datetime =  date_diff($this->getMissionChoice01()->getStart(),$this->getMissionChoice01()->getEnd());
+        return $datetime;
+    }
+
 }

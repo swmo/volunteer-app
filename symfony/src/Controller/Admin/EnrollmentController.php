@@ -25,4 +25,17 @@ class EnrollmentController extends AbstractController
             'enrollments' => $enrollments,
         ]);
     }
+
+    /**
+     * @Route("/enrollment/edit/{id}", name="admin_enrollment_edit")
+     */
+    public function edit(Enrollment $enrollment, EntityManagerInterface $em) 
+    {
+
+        $enrollments = $em->getRepository(Enrollment::class)->findAll();
+
+        return $this->render('admin/enrollment/list.html.twig', [
+            'enrollments' => $enrollments,
+        ]);
+    }
 }
