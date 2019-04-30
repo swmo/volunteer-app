@@ -14,21 +14,104 @@
 
     <section class="font-sans antialiased w-full">
             <div class="w-full mx-auto">
-                <div class="my-8 flex flex-wrap md:items-center w-full">
+                <div class="my-8 flex-row-reverse flex flex-wrap md:items-center w-full">
 
-                    {# show errors: #}
-                    {% if not enrollForm.vars.valid %}    
-                        <div class="w-full mb-6 bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">                            
-                            {# Loop through every enrollForm item #}
-                            {% for child in enrollForm.children %}
-                                {# Display the errors of the enrollForm item #}
-                                {%for error in child.vars.errors%}
-                                <span class="font-bold">{{ child.vars.label}}</span> {{error.message}}
-                                {%endfor%}
-                            {%endfor%}
+                    <div class="bg-burgdorf-light relative rounded shadow-lg w-full md:w-1/2 z-0 mx-auto -mt-1 md:-mt-0 md:-ml-1">
+                        
+                        <div class="
+                            js-prev-slide-box
+                            absolute flex items-center
+                            pin-y pin-l 
+                            pl-4
+                            hover:text-grey-darkest cursor-pointer
+                            ">
+                            <i class="fas fa-angle-double-left fa-2x"></i> 
                         </div>
-                    {%endif%}
+
+                        <div class="
+                            js-next-slide-box
+                            absolute flex items-center 
+                            pin-y pin-r 
+                            pr-4
+                            hover:text-grey-darkest cursor-pointer
+                            ">
+                            <i class="fas fa-angle-double-right fa-2x"></i>
+                        </div>
+                        
+                        <div class="py-8 text-center text-grey-darkest font-semibold uppercase">Mögliche Einsätze</div>
+                        
+                        <hr class=" my-0 border border-grey-darkest opacity-25">
+                    
+                        <div class="py-8">
+
+                            {% for mission in missions %}
+                                <div class="
+                                    js-slide-box
+                                    w-3/4 mx-auto 
+                                    bg-white  shadow-lg rounded-lg overflow-hidden 
+                                    hidden
+                                ">
+                                    <div class="sm:flex sm:items-center px-6 py-4">
+                                        <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/images/{{mission.image}}" alt="">
+                                    </div>
+                                    <div class="p-6">    
+                                        <div class="text-center sm:text-left sm:flex-grow">
+                                            <div class="mb-4">
+                                                <p class="text-xl leading-tight uppercase mb-6">{{mission.name}}</p>
+                                                
+                                                <div class="mb-4">
+                                                    {{ mission.shortDescription|raw }}
+                                                </div>
+                                                <div>
+                                                    Wann: {{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
+                                                    
+                                                    {% if mission.start|date('d.m.Y') != mission.end|date('d.m.Y') %}
+                                                        {{mission.end|date('d.m.Y')}} um
+                                                    {% endif %}
+                                                
+                                                    {{mission.end|date('H:i')}}
+                                                </div>
+
+                                            </div>
+                                            <div class="flex justify-center pb-3 text-grey-dark">
+                                                <div class="text-center mr-3 border-r w-1/2 pr-3">
+                                                     <h2
+                                                     class="
+                                                     {% if mission.countEnrolledVolunteers < mission.requiredVolunteers %}
+                                                        text-green
+                                                        {% else %}
+                                                        text-red
+                                                      {% endif %}
+                                                     "
+                                                     >{{mission.countEnrolledVolunteers}}</h2>
+                                                    <span>Bereits angemeldete Helfer</span>
+                                                </div>
+                                                <div class="text-center w-1/2">
+                                                    <h2>{{mission.requiredVolunteers}}</h2>
+                                                    <span>Total gesuchte Helfer</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}   
+                        </div>
+                    </div>
+
+
                     <div class="bg-white shadow-lg rounded w-full md:w-1/2 z-10">
+                        {# show errors: #}
+                        {% if not enrollForm.vars.valid %}    
+                            <div class="w-full mb-6 bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">                            
+                                {# Loop through every enrollForm item #}
+                                {% for child in enrollForm.children %}
+                                    {# Display the errors of the enrollForm item #}
+                                    {%for error in child.vars.errors%}
+                                    <span class="font-bold">{{ child.vars.label}}</span> {{error.message}}
+                                    {%endfor%}
+                                {%endfor%}
+                            </div>
+                        {%endif%}
                         {{ form_start(enrollForm) }}
                             <div class="py-8 text-center text-grey-darkest font-semibold uppercase">Anmeldung als Helfer </div>
                             <hr class="py-0 my-0 border border-grey-lighter">
@@ -176,13 +259,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex block md:hidden mt-2 mb-2">
-                                            <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du unten in der Box!<br />
-                                        </div>
-
-                                        <div class="hidden sm:hidden md:block lg:block mt-2 mb-2">
-                                            <i class="fas fa-info-circle mr-2"></i> Details zu den Einsätzen findest du rechts in der Box!<br />
-                                        </div>
                                     </div>
                                 </div>  
 
@@ -282,87 +358,6 @@
 
                         
                         {{ form_end(enrollForm) }}   
-                    </div>
-                    <div class="bg-burgdorf-light relative rounded shadow-lg w-5/6 md:w-1/2 z-0 mx-auto -mt-1 md:-mt-0 md:-ml-1">
-                        
-                        <div class="
-                            js-prev-slide-box
-                            absolute flex items-center
-                            pin-y pin-l 
-                            pl-4
-                            hover:text-grey-darkest cursor-pointer
-                            ">
-                            <i class="fas fa-angle-double-left fa-2x"></i> 
-                        </div>
-
-                        <div class="
-                            js-next-slide-box
-                            absolute flex items-center 
-                            pin-y pin-r 
-                            pr-4
-                            hover:text-grey-darkest cursor-pointer
-                            ">
-                            <i class="fas fa-angle-double-right fa-2x"></i>
-                        </div>
-                        
-                        <div class="py-8 text-center text-grey-darkest font-semibold uppercase">Mögliche Einsätze</div>
-                        
-                        <hr class=" my-0 border border-grey-darkest opacity-25">
-                    
-                        <div class="py-8">
-
-                            {% for mission in missions %}
-                                <div class="
-                                    js-slide-box
-                                    w-3/4 mx-auto 
-                                    bg-white  shadow-lg rounded-lg overflow-hidden 
-                                    hidden
-                                ">
-                                    <div class="sm:flex sm:items-center px-6 py-4">
-                                        <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/images/{{mission.image}}" alt="">
-                                    </div>
-                                    <div class="p-6">    
-                                        <div class="text-center sm:text-left sm:flex-grow">
-                                            <div class="mb-4">
-                                                <p class="text-xl leading-tight uppercase mb-6">{{mission.name}}</p>
-                                                
-                                                <div class="mb-4">
-                                                    {{ mission.shortDescription|raw }}
-                                                </div>
-                                                <div>
-                                                    Wann: {{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
-                                                    
-                                                    {% if mission.start|date('d.m.Y') != mission.end|date('d.m.Y') %}
-                                                        {{mission.end|date('d.m.Y')}} um
-                                                    {% endif %}
-                                                
-                                                    {{mission.end|date('H:i')}}
-                                                </div>
-
-                                            </div>
-                                            <div class="flex justify-center pb-3 text-grey-dark">
-                                                <div class="text-center mr-3 border-r w-1/2 pr-3">
-                                                     <h2
-                                                     class="
-                                                     {% if mission.countEnrolledVolunteers < mission.requiredVolunteers %}
-                                                        text-green
-                                                        {% else %}
-                                                        text-red
-                                                      {% endif %}
-                                                     "
-                                                     >{{mission.countEnrolledVolunteers}}</h2>
-                                                    <span>Bereits angemeldete Helfer</span>
-                                                </div>
-                                                <div class="text-center w-1/2">
-                                                    <h2>{{mission.requiredVolunteers}}</h2>
-                                                    <span>Total gesuchte Helfer</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}   
-                        </div>
                     </div>
                 </div>
             </div>

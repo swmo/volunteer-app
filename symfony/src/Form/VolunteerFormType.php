@@ -65,7 +65,7 @@ class VolunteerFormType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ])
         ->add('hasTshirt', ChoiceType::class, [
-            'label' => 'Helfer Tshirt von letztes Jahr vorhanden und kann mitgenommen werden?',
+            'label' => 'Helfer T-Shirt vom letzten Jahr vorhanden und kann mitgenommen werden',
             'choices'  => [
                 'Ja' => true,
                 'Nein' => false,
