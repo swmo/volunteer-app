@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/admin", name="dashboard")
+     * @Route("/admin", name="admin_dashboard")
      */
     public function dashboard()
     {
