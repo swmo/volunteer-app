@@ -378,16 +378,16 @@
             });
 
             const slideBoxes = jQuery('.js-slide-box');
-            let currentSlideBoxIndex = 0;
+            var currentSlideBoxIndex = 0;
 
-            let showCurrentSlideBox = function(){
+            var showCurrentSlideBox = function(){
                 slideBoxes.hide();
                 slideBoxes.slice(currentSlideBoxIndex,currentSlideBoxIndex+1).show();
             }
 
-            let renderTshirtForm = function(){
+            var renderTshirtForm = function(){
               
-                let value = (jQuery('.js-hasTshirt').val());
+                var value = (jQuery('.js-hasTshirt').val());
                 console.log(value);
                 if(value === '0'){
                     jQuery('.js-tshirtsize').show();
@@ -397,14 +397,14 @@
                 }
             }
 
-            let prevSlideBox = function(){
+            var prevSlideBox = function(){
                 currentSlideBoxIndex = currentSlideBoxIndex -1;
                 if(currentSlideBoxIndex < 0){
                     currentSlideBoxIndex = slideBoxes.length -1;
                 }
             }
 
-            let nextSlideBox = function(){
+            var nextSlideBox = function(){
                 currentSlideBoxIndex = currentSlideBoxIndex +1;
                 if(currentSlideBoxIndex > (slideBoxes.length -1)){
                     currentSlideBoxIndex = 0;
@@ -438,7 +438,7 @@
 
 
             jQuery('.js-mission-choice').change(function(){
-                let index = 0;
+                var index = 0;
                 index = (jQuery(this).prop('selectedIndex'));
                 if(index > 0){
                     currentSlideBoxIndex = index - 1;
