@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/tailwind.min.css') }}" >
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}" >
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+
+            
+            <div class="flex md:flex-row-reverse flex-wrap">
+
+
+                <div class="w-full md:w-4/5 bg-grey-lightest">
+                    <nav class="clearfix container mx-auto mt-5 mr-5 ">
+                        <img class="h-32 float-right" src="{{ asset('images/logo.jpg')}}">
+                    </nav>
+                    <div class="container bg-grey-lightest pt-8 px-6">
+                        {% for message in app.flashes('success') %}
+                            <div class="w-full">
+                                <div class="flex max-w-sm mb-4">
+                                    <div class="w-24 bg-green-light ">
+                                        <div class="p-6 text-center text-white">
+                                            <i class="fas fa-check fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="items-center p-4">
+                                        <p >
+                                        {{message}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>           
+                        {% endfor %}
+                        {% for message in app.flashes('danger') %}
+                            <div class="w-full">
+                                <div class="flex max-w-sm mb-4">
+                                    <div class="w-24 bg-red-light">
+                                        <div class="p-6 text-center text-white">
+                                        
+                                        <i class="fas fa-exclamation fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="items-center p-4">
+                                        <p >
+                                        {{message}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>           
+                        {% endfor %}
+
+                        {% block main %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+
+
+                {% block sidebar %}
+                    <div class="w-full md:w-1/5 bg-black md:bg-black px-2 text-center fixed pin-b md:pt-8 md:pin-t md:pin-l h-16 md:h-screen md:border-r-4 md:border-grey-dark">
+                        <div class="md:relative w-full lg:float-right lg:px-6">
+                        <ul class="list-reset flex flex-row md:flex-col text-center md:text-left">
+                            <li class="mr-3 flex-1">
+                                    <a href="{{path('admin_mission_list')}}" 
+                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
+                                    >
+                                        <i class="fas fa-link pr-0 md:pr-3"></i>
+                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
+                                            Einsätze
+                                        </span>
+                                </a>
+                            </li>
+                            <li class="mr-3 flex-1">
+                                    <a href="{{path('admin_enrollment_list')}}" 
+                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
+                                    >
+                                        <i class="fas fa-link pr-0 md:pr-3"></i>
+                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
+                                            Anmeldungen
+                                        </span>
+                                </a>
+                            </li>
+                            <li class="mr-3 flex-1">
+                                    <a href="{{path('app_logout')}}" 
+                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
+                                    >
+                                        <i class="fas fa-sign-out-alt pr-0 md:pr-3"></i>
+                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
+                                            Logout
+                                        </span>
+                                </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                {% endblock %}  
+            </div>
+
+        {% endblock %}
+
+        {% block javascripts %}
+
+        {% endblock %}
+    </body>
+</html>
+
+
+
+
+
+
+
+  

@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Einsätze {% endblock %}
+
+{% block main %}
+
+<div class="w-full md:w-2/3 mx-auto">
+  <div class="bg-white shadow-md rounded my-6">
+    <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
+      <thead>
+        <tr>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Einsatz</th>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">von</th>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">bis</th>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light"></th>
+        </tr>
+      </thead>
+      <tbody>
+
+          {% for mission in missions %}
+        <tr class="hover:bg-grey-lighter">
+          <td class="py-4 px-6 border-b border-grey-light">{{ mission.name }}</td>
+          <td class="py-4 px-6 border-b border-grey-light">
+            {{mission.start|date('d.m.Y H:i')}}
+          </td>
+          <td class="py-4 px-6 border-b border-grey-light">
+
+          {% if (mission.start|date('d.m.Y') == mission.end|date('d.m.Y')) %}
+            {{mission.end|date('H:i')}}
+          {% else %}
+            {{mission.end|date('d.m.Y H:i')}}
+          {% endif %}
+          </td>
+          <td class="py-4 px-6 border-b text-right border-grey-light">
+            <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
+   
+          </td>
+          
+          </tr>
+    {% endfor %}
+
+          </tbody>
+          </table>
+          </div>
+          </div>
+
+{% endblock %}

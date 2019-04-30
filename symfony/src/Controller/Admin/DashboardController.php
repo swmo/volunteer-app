@@ -17,9 +17,9 @@ class DashboardController extends AbstractController
             ->getRepository(Person::class)
             ->findAll();
 
-        //$enrollments = $this->
+        //Bu$enrollments = $this->
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('admin/dashboard/index.html.twig', [
             'controller_name' => 'Test',
             'persons' => $persons
         ]);
