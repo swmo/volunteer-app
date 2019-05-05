@@ -32,3 +32,49 @@
         {%- endif -%}
     {%- endif -%}
 {%- endblock form_label %}
+
+{% block form_widget_simple -%}
+    {% if type is not defined or type != 'hidden' %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ (type|default('') == 'file' ? ' custom-file-input' : ' appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey'))|trim}) -%}
+    {% endif %}
+    {%- if type is defined and (type == 'range' or type == 'color') %}
+        {# Attribute "required" is not supported #}
+        {%- set required = false -%}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+
+{% block textarea_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey')|trim}) %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+
+{% block choice_widget_collapsed -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ '  bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey')|trim}) -%}
+    {{- parent() -}}
+{%- endblock choice_widget_collapsed %}
+
+{% block submit_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('
+                                    uppercase bg-white hover:bg-grey-lightest 
+                                    text-grey-darkest font-semibold py-4 px-8 border border-grey-light rounded shadow
+                               '))|trim}) -%}
+    {{- parent() -}}
+{%- endblock submit_widget %}
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <{{ element|default('div') }} class="flex flex-wrap -mx-3 mb-6">
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
