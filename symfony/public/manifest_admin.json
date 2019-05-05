@@ -1,0 +1,50 @@
+{
+    "name": "Burgdorfer Stadtlauf Helfer Web App",
+    "short_name": "Burgdorfer Stadtlauf",
+    "icons": [
+        {
+            "src": "/images/icons/app-icon-48x48.png",
+            "type": "img/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/images/icons/app-icon-96x96.png",
+            "type": "img/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/images/icons/app-icon-144x144.png",
+            "type": "img/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/images/icons/app-icon-192x192.png",
+            "type": "img/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/images/icons/app-icon-256x256.png",
+            "type": "img/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/images/icons/app-icon-384x384.png",
+            "type": "img/png",
+            "sizes": "384x384"
+        },
+        {
+            "src": "/images/icons/app-icon-512x512.png",
+            "type": "img/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/admin/index.php",
+    "scope": "/admin/",
+    "display": "standalone",
+    "orientation": "any",
+    "background-color": "#000",
+    "theme-color": "#000",
+    "description": "Adminverwaltung Helfer",
+    "dir": "ltr",
+    "lang": "de-CH"
+}
