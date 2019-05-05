@@ -86,6 +86,14 @@ class MissionController extends AbstractController
      */
     public function view(EntityManagerInterface $em, Request $request)
     {
+
+    }
+
+    /**
+     * @Route("/mission/delete", name="admin_mission_delete")
+     */
+    public function delete(EntityManagerInterface $em, Request $request)
+    {
         
     }
 

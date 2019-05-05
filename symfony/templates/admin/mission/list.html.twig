@@ -37,9 +37,10 @@
           
           </td>
           <td class="py-4 px-6 border-b text-right border-grey-light">
-            <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
-            <a href="{{ path('admin_mission_view',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Detail</a>
-   
+             <a href="{{ path('admin_mission_delete',{id: mission.id})}}" class="mb-1 block lg:inline text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-red hover:bg-red-dark">Delete</a>
+            <a href="{{ path('admin_mission_view',{id: mission.id})}}" class="mb-1 block lg:inline text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Detail</a>
+   <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="mb-1 block lg:inline text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
+           
           </td>
           
           </tr>
@@ -48,9 +49,9 @@
           </tbody>
           </table>
 
-               <a class="block p-6 text-grey-lighter font-bold rounded bg-green hover:bg-green-dark" href="{{ path("admin_mission_create") }}">
+               <a class="block p-6 text-grey-lighter text-center font-bold rounded bg-green hover:bg-green-dark" href="{{ path("admin_mission_create") }}">
       
-      Neuer Einsatz
+      Neuer Einsatz hinzufügen
       
       </a> 
           </div>
