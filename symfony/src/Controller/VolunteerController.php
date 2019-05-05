@@ -102,8 +102,9 @@ END:VCALENDAR";
                     $this->renderView(
                         // templates/emails/registration.html.twig
                         'emails/registration.html.twig',
-                        ['enrollment' => $enrollment,
-                        'image' => $image
+                        [
+                            'enrollment' => $enrollment,
+                            'image' => $image
                         ]
                     ),
                     'text/html'
