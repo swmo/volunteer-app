@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Enrollment;
 
 class DashboardController extends AbstractController
 {
@@ -17,10 +18,14 @@ class DashboardController extends AbstractController
             ->getRepository(Person::class)
             ->findAll();
 
+        $enrollments = $this->getDoctrine()
+            ->getRepository(Enrollment::class)
+            ->findAll();
+
         //Bu$enrollments = $this->
 
         return $this->render('admin/dashboard/index.html.twig', [
-            'controller_name' => 'Test',
+            'enrollments' => $enrollments,
             'persons' => $persons
         ]);
     }

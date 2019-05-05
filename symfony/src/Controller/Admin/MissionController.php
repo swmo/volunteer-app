@@ -81,4 +81,12 @@ class MissionController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/mission/view", name="admin_mission_view")
+     */
+    public function view(EntityManagerInterface $em, Request $request)
+    {
+        
+    }
+
 }

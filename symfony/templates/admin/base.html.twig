@@ -14,18 +14,17 @@
 
         <link rel="manifest" href="/manifest_admin.json">
     </head>
-    <body>
+    <body class="bg-grey-lightest">
         {% block body %}
 
             
             <div class="flex md:flex-row-reverse flex-wrap">
 
-
-                <div class="w-full md:w-4/5 bg-grey-lightest">
-                    <nav class="clearfix container mx-auto mt-5 mr-5 ">
+                <div class="w-full md:w-4/5">
+                    <nav class="clearfix hidden md:block container mx-auto mt-5 mr-5 ">
                         <img class="h-32 float-right" src="{{ asset('images/logo.jpg')}}">
                     </nav>
-                    <div class=" bg-grey-lightest pt-8 px-6">
+                    <div class=" pt-8 px-6">
                         {% for message in app.flashes('success') %}
                             <div class="w-full">
                                 <div class="flex max-w-sm mb-4">

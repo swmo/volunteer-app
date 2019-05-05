@@ -4,9 +4,11 @@
 
 {% block main %}
 
-<div class="w-full md:w-2/3 mx-auto">
+<div class="w-full mx-auto">
   <div class="bg-white shadow-md rounded my-6">
-      <a class="block text-center p-6" href="{{ path("admin_mission_create") }}"><i class="fas fa-2x fa-plus-circle"></i></a> 
+ 
+      
+      
       <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
       <thead>
         <tr>
@@ -36,6 +38,7 @@
           </td>
           <td class="py-4 px-6 border-b text-right border-grey-light">
             <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
+            <a href="{{ path('admin_mission_view',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Detail</a>
    
           </td>
           
@@ -44,6 +47,12 @@
 
           </tbody>
           </table>
+
+               <a class="block p-6 text-grey-lighter font-bold rounded bg-green hover:bg-green-dark" href="{{ path("admin_mission_create") }}">
+      
+      Neuer Einsatz
+      
+      </a> 
           </div>
           </div>
 
