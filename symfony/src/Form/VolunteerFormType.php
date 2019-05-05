@@ -12,7 +12,7 @@ use App\Entity\Mission;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
+use App\Repository\MissionRepository;
 
 class VolunteerFormType extends AbstractType
 {
@@ -46,14 +46,22 @@ class VolunteerFormType extends AbstractType
             'class'  => Mission::class,
             'choice_label' => 'getNameForSelectbox',
             'required' => true,
-            'placeholder' => 'Bitte Einsatz wählen',
+            'placeholder' => 'Bitte Einsatz wählen', 
+            'query_builder' => function(MissionRepository $repo) {
+                return $repo->createQueryBuilder('m')
+                ->orderBy('m.name', 'ASC');
+            }
         ])
         ->add('missionChoice02', EntityType::class, [
             'label' => '',
             'class'  => Mission::class,
             'choice_label' => 'getNameForSelectbox',
             'placeholder' => 'kein zweiter Einsatz gewünscht',
-            'required' => false,
+            'required' => false,   
+            'query_builder' => function(MissionRepository $repo) {
+                return $repo->createQueryBuilder('m')
+                ->orderBy('m.name', 'ASC');
+            }
         ])
         ->add('birthday', DateType::class, [
             'widget' => 'single_text',
