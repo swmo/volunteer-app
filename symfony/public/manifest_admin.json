@@ -38,7 +38,7 @@
             "sizes": "512x512"
         }
     ],
-    "start_url": "/admin/index.php",
+    "start_url": "/admin/",
     "scope": "/admin/",
     "display": "standalone",
     "orientation": "any",
