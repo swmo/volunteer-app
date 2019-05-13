@@ -78,7 +78,7 @@ SUMMARY:Helfereinsatz Stadtlauf Burgdorf
 DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
-LOCATION:Hohengasse 25, 3400 Burgdorf
+LOCATION:".$enrollment->getMissionChoice01()->getMeetingPoint()."
 DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpunkt noch anders kommuniziert.
 STATUS:CONFIRMED
 SEQUENCE:0

@@ -64,6 +64,11 @@ class Mission
      */
     private $enrollment02;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $meetingPoint;
+
     
     public function __construct()
     {
@@ -203,5 +208,17 @@ class Mission
     public function countEnrolledVolunteers(): ?int
     {
        return  $this->enrollment01->count() + $this->enrollment02->count();
+    }
+
+    public function getMeetingPoint(): ?string
+    {
+        return $this->meetingPoint;
+    }
+
+    public function setMeetingPoint(?string $meetingPoint): self
+    {
+        $this->meetingPoint = $meetingPoint;
+
+        return $this;
     }
 }

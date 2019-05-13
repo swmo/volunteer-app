@@ -20,6 +20,7 @@ class MissionFormType extends AbstractType
             ->add('end')
             ->add('requiredVolunteers')
             ->add('project')
+            ->add('meetingPoint')
             ->add('save', SubmitType::class)
         ;
     }
