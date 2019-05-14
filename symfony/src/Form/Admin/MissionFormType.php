@@ -21,6 +21,7 @@ class MissionFormType extends AbstractType
             ->add('requiredVolunteers')
             ->add('project')
             ->add('meetingPoint')
+            ->add('calendarEventDescription')
             ->add('save', SubmitType::class)
         ;
     }

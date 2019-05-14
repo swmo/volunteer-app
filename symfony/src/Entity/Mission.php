@@ -69,6 +69,11 @@ class Mission
      */
     private $meetingPoint;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $calendarEventDescription;
+
     
     public function __construct()
     {
@@ -218,6 +223,18 @@ class Mission
     public function setMeetingPoint(?string $meetingPoint): self
     {
         $this->meetingPoint = $meetingPoint;
+
+        return $this;
+    }
+
+    public function getCalendarEventDescription(): ?string
+    {
+        return $this->calendarEventDescription;
+    }
+
+    public function setCalendarEventDescription(?string $calendarEventDescription): self
+    {
+        $this->calendarEventDescription = $calendarEventDescription;
 
         return $this;
     }

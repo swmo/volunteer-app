@@ -81,7 +81,7 @@ DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
 LOCATION:".$enrollment->getMissionChoice01()->getMeetingPoint()."
-DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpunkt noch anders kommuniziert.
+DESCRIPTION:".$enrollment->getMissionChoice01()->getCalendarEventDescription()."
 STATUS:CONFIRMED
 SEQUENCE:0
 END:VEVENT
@@ -95,7 +95,7 @@ if($enrollment->getMissionChoice02()){
     DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
     DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getEnd()->format('Ymd\THis')."
     LOCATION:".$enrollment->getMissionChoice02()->getMeetingPoint()."
-    DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpunkt noch anders kommuniziert.
+    DESCRIPTION:".$enrollment->getMissionChoice02()->getCalendarEventDescription()."
     STATUS:CONFIRMED
     SEQUENCE:0
     END:VEVENT
