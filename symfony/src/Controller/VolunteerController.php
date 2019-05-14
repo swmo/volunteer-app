@@ -72,8 +72,10 @@ TZOFFSETTO:+0200
 TZNAME:CEST
 END:DAYLIGHT
 END:VTIMEZONE
-BEGIN:VEVENT
-UID:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
+";
+
+$icsContent = $icsContent . "BEGIN:VEVENT
+UID:".$enrollment->getMissionChoice01()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
 SUMMARY:Helfereinsatz Stadtlauf Burgdorf
 DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
 DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
@@ -83,7 +85,24 @@ DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpu
 STATUS:CONFIRMED
 SEQUENCE:0
 END:VEVENT
-END:VCALENDAR";          
+";
+
+if($enrollment->getMissionChoice02()){
+    $icsContent = $icsContent . "BEGIN:VEVENT
+    UID:".$enrollment->getMissionChoice02()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
+    SUMMARY:Helfereinsatz Stadtlauf Burgdorf
+    DTSTAMP:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
+    DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
+    DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getEnd()->format('Ymd\THis')."
+    LOCATION:".$enrollment->getMissionChoice02()->getMeetingPoint()."
+    DESCRIPTION:Treffpunkt vor dem Kino Krone sofern nicht zu einem späteren Zeitpunkt noch anders kommuniziert.
+    STATUS:CONFIRMED
+    SEQUENCE:0
+    END:VEVENT
+    ";      
+}
+
+$icsContent = $icsContent . "END:VCALENDAR";          
 
             //creation of the file on the server
             $icfFile = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
