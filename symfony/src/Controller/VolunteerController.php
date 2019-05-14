@@ -59,7 +59,7 @@ class VolunteerController extends AbstractController
 
             //the name of your file to attach
             $fileName = 'Kalendereintrag_'.$enrollment->getId().'.ics';
-
+//todo: trim??
         $icsContent = "BEGIN:VCALENDAR
 PRODID:Burgdorfer Stadtlauf
 VERSION:2.0
@@ -89,17 +89,17 @@ END:VEVENT
 
 if($enrollment->getMissionChoice02()){
     $icsContent = $icsContent . "BEGIN:VEVENT
-    UID:".$enrollment->getMissionChoice02()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
-    SUMMARY:Helfereinsatz Stadtlauf Burgdorf
-    DTSTAMP:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
-    DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
-    DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getEnd()->format('Ymd\THis')."
-    LOCATION:".$enrollment->getMissionChoice02()->getMeetingPoint()."
-    DESCRIPTION:".$enrollment->getMissionChoice02()->getCalendarEventDescription()."
-    STATUS:CONFIRMED
-    SEQUENCE:0
-    END:VEVENT
-    ";      
+UID:".$enrollment->getMissionChoice02()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
+SUMMARY:Helfereinsatz Stadtlauf Burgdorf
+DTSTAMP:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
+DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
+DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getEnd()->format('Ymd\THis')."
+LOCATION:".$enrollment->getMissionChoice02()->getMeetingPoint()."
+DESCRIPTION:".$enrollment->getMissionChoice02()->getCalendarEventDescription()."
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+";      
 }
 
 $icsContent = $icsContent . "END:VCALENDAR";          
