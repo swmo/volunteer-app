@@ -277,8 +277,33 @@ class Enrollment
 
     public function getWorkingTime()
     {
-        $datetime =  date_diff($this->getMissionChoice01()->getStart(),$this->getMissionChoice01()->getEnd());
-        return $datetime;
+        
+       
+
+        if($this->getMissionChoice01()){
+            $interval1 = $this->getMissionChoice01()->getStart();
+            $interval1 = $interval1->diff($this->getMissionChoice01()->getEnd());
+        }
+        else{
+            $interval1 = new \DateTime('00:00');
+            $interval1 = $interval1->diff(new \DateTime('00:00'));
+        }
+
+        if($this->getMissionChoice02()){
+            $interval2 = $this->getMissionChoice02()->getStart();
+            $interval2 = $interval2->diff($this->getMissionChoice02()->getEnd());
+        }
+        else {
+            $interval2 = new \DateTime('00:00');
+            $interval2 = $interval2->diff(new \DateTime('00:00'));
+        }
+
+        $e = new \DateTime('00:00');
+        $f = clone $e;
+        $e->add($interval1);
+        $e->add($interval2);
+
+        return $f->diff($e);
     }
 
 }
