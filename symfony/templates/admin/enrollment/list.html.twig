@@ -36,8 +36,14 @@
             {{ enrollment.mobile }}
           </td>
           <td class="py-4 px-6 border-b border-grey-light">
-            {{ enrollment.missionChoice01.name }}
 
+            {% if enrollment.missionChoice01 %}
+              {{ enrollment.missionChoice01.name }} <br>
+            {% endif %}
+            {% if enrollment.missionChoice02 %}
+              {{ enrollment.missionChoice02.name }} <br>
+            {% endif %}
+            
             {{enrollment.getWorkingTime|date('%h:%i')}}
           </td>
           <td class="py-4 px-6 border-b text-right border-grey-light">

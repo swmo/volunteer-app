@@ -6,6 +6,7 @@ use App\Entity\Enrollment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EnrollmentFormType extends AbstractType
 {
@@ -24,7 +25,7 @@ class EnrollmentFormType extends AbstractType
             ->add('comment')
             ->add('hasTshirt')
             ->add('confirmToken')
-            ->add('status')
+       //     ->add('status', TextType::class)
             ->add('missionChoice01')
             ->add('missionChoice02')
         ;
