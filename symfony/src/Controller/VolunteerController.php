@@ -102,10 +102,11 @@ END:VEVENT
 ";      
 }
 
-$icsContent = $icsContent . "END:VCALENDAR";          
+$icsContent =  str_replace("\n","\r\n",$icsContent . "END:VCALENDAR");
+
 
             //creation of the file on the server
-            $icfFile = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
+            $icfFile01 = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
 
             $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
 
@@ -116,7 +117,6 @@ $icsContent = $icsContent . "END:VCALENDAR";
                 ->setFrom('personal@burgdorfer-stadtlauf.ch')
                 ->setTo($enrollment->getEmail())
                 ->setBcc('personal@burgdorfer-stadtlauf.ch')
-                ->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName)->setContentType('text/calendar;charset=UTF-8;name="'.$fileName.'";method=REQUEST'))
                 ->setBody(
                     $this->renderView(
                         // templates/emails/registration.html.twig
@@ -138,6 +138,10 @@ $icsContent = $icsContent . "END:VCALENDAR";
                 )
                 */
             ;
+
+            if($icfFile01){
+                $message->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName)->setContentType('text/calendar;charset=UTF-8;name="'.$fileName.'";method=REQUEST'));
+            }
 
             if($mailer->send($message)){
                 
