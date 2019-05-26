@@ -19,9 +19,7 @@ class EnrollmentController extends AbstractController
      */
     public function index(EntityManagerInterface $em) 
     {
-
-        $enrollments = $em->getRepository(Enrollment::class)->findAll();
-
+        $enrollments = $em->getRepository(Enrollment::class)->findBy(array(), array('firstname' => 'ASC'));;
 
         return $this->render('admin/enrollment/list.html.twig', [
             'enrollments' => $enrollments,
@@ -53,5 +51,14 @@ class EnrollmentController extends AbstractController
         return $this->render('admin/enrollment/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/enrollment/export/{type}", name="admin_enrollment_export")
+     */
+    public function export(Request $request)
+    {
+        // liste mit vorname, nachname, von, bis, h, Einsatztort -> sortiert nach Einsatzort
+        
     }
 }
