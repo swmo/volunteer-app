@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class EnrollmentFormType extends AbstractType
 {
@@ -20,7 +21,15 @@ class EnrollmentFormType extends AbstractType
             ->add('city')
             ->add('mobile')
             ->add('email')
-            ->add('birthday')
+            ->add('birthday', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'birthday',
+                'format' => 'dd.MM.yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                // adds a class that can be selected in JavaScript
+                'attr' => ['class' => 'js-datepicker'],
+            ])
             ->add('tshirtsize')
             ->add('comment')
             ->add('hasTshirt')
