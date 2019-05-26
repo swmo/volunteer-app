@@ -13,6 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
+use App\Utils\IcsGenerator;
 
 class VolunteerController extends AbstractController
 {
@@ -21,7 +22,7 @@ class VolunteerController extends AbstractController
      * @Route("/volunteer/enroll", name="volunteer_enroll")
      * @Route("/", name="home")
      */
-    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows)
+    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
         $form = $this->createForm(VolunteerFormType::class);
         $missions = $em->getRepository(Mission::class)->findBy(array(), array('name' => 'ASC'));;
@@ -49,65 +50,7 @@ class VolunteerController extends AbstractController
 
             $em->persist($enrollment);
             $em->flush();           
-
-
-
-            $fs = new Filesystem();
-
-            //temporary folder, it has to be writable
-            $tmpFolder = '/tmp/';
-
-            //the name of your file to attach
-            $fileName = 'Kalendereintrag_'.$enrollment->getId().'.ics';
-//todo: trim??
-        $icsContent = "BEGIN:VCALENDAR
-PRODID:Burgdorfer Stadtlauf
-VERSION:2.0
-CALSCALE:GREGORIAN
-BEGIN:VTIMEZONE
-TZID:Europe/Zurich
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+0100
-TZOFFSETTO:+0200
-TZNAME:CEST
-END:DAYLIGHT
-END:VTIMEZONE
-";
-
-$icsContent = $icsContent . "BEGIN:VEVENT
-UID:".$enrollment->getMissionChoice01()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
-SUMMARY:Helfereinsatz Stadtlauf Burgdorf
-DTSTAMP:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
-DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getStart()->format('Ymd\THis')."
-DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice01()->getEnd()->format('Ymd\THis')."
-LOCATION:".$enrollment->getMissionChoice01()->getMeetingPoint()."
-DESCRIPTION:".$enrollment->getMissionChoice01()->getCalendarEventDescription()."
-STATUS:CONFIRMED
-SEQUENCE:0
-END:VEVENT
-";
-
-if($enrollment->getMissionChoice02()){
-    $icsContent = $icsContent . "BEGIN:VEVENT
-UID:".$enrollment->getMissionChoice02()->getId()."-".$enrollment->getId()."@helfer.burgdorfer-stadtlauf.ch
-SUMMARY:Helfereinsatz Stadtlauf Burgdorf
-DTSTAMP:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
-DTSTART;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getStart()->format('Ymd\THis')."
-DTEND;TZID=Europe/Zurich:".$enrollment->getMissionChoice02()->getEnd()->format('Ymd\THis')."
-LOCATION:".$enrollment->getMissionChoice02()->getMeetingPoint()."
-DESCRIPTION:".$enrollment->getMissionChoice02()->getCalendarEventDescription()."
-STATUS:CONFIRMED
-SEQUENCE:0
-END:VEVENT
-";      
-}
-
-$icsContent =  str_replace("\n","\r\n",$icsContent . "END:VCALENDAR");
-
-
-            //creation of the file on the server
-            $icfFile01 = $fs->dumpFile($tmpFolder.$fileName, $icsContent);
-
+            
             $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
 
             $image = ($message->embed(\Swift_Image::fromPath('/var/www/public/images/maria2.jpg')));
@@ -139,8 +82,24 @@ $icsContent =  str_replace("\n","\r\n",$icsContent . "END:VCALENDAR");
                 */
             ;
 
-            if($icfFile01){
-                $message->attach(\Swift_Attachment::fromPath($tmpFolder.$fileName)->setContentType('text/calendar;charset=UTF-8;name="'.$fileName.'";method=REQUEST'));
+            if($enrollment->getMissionChoice01()){
+                $message
+                ->attach(
+                    \Swift_Attachment::fromPath(
+                        $icsGenerator->generateMissionIcs($enrollment->getMissionChoice01())
+                    )
+                    ->setContentType('text/calendar;charset=UTF-8;name="'.$enrollment->getMissionChoice01()->getName().'.ics";method=REQUEST')
+                );
+            }
+
+            if($enrollment->getMissionChoice02()){
+                $message
+                ->attach(
+                    \Swift_Attachment::fromPath(
+                        $icsGenerator->generateMissionIcs($enrollment->getMissionChoice02())
+                    )
+                    ->setContentType('text/calendar;charset=UTF-8;name="'.$enrollment->getMissionChoice02()->getName().'.ics";method=REQUEST')
+                );
             }
 
             if($mailer->send($message)){
