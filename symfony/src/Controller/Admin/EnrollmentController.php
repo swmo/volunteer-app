@@ -80,8 +80,6 @@ class EnrollmentController extends AbstractController
                 $sheet->setCellValue('C'.$i, $mission->getName());
                 $i++;
             }
-
-          
             
         }
 
