@@ -51,8 +51,25 @@
                                     bg-white  shadow-lg rounded-lg overflow-hidden 
                                     hidden
                                 ">
-                                    <div class="sm:flex sm:items-center px-6 py-4">
+                                    <div class="sm:flex sm:items-center px-6 py-4 js-mission-image">
+                                    <div style="position:relative">
                                         <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/images/{{mission.image}}" alt="">
+
+                                        <div class="invisible cursor-pointer js-mission-video-preview opacity-50" style="
+                                            position: absolute;
+                                            top: 0px;
+                                            width: 100%;
+                                            height: 100%;
+                                            background-color:white;
+                                            z-index: 100;
+                                        ">
+                                        </div>
+                                        <div class="opacity-100 text-center text-black js-mission-video-preview invisible" style="position:absolute; left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%); z-index:1000;">
+                                        <i class="fas fa-fw fa-3x  fa-play-circle"  style="color: black;"></i>
+                                        </div>
+                                        </div>
                                     </div>
                                     <div class="p-6">    
                                         <div class="text-center sm:text-left sm:flex-grow">
@@ -457,6 +474,21 @@
                     currentSlideBoxIndex = index - 1;
                     showCurrentSlideBox();
                 }
+            });
+
+            jQuery('.js-mission-image').hover(function(){
+              //var before = jQuery(this).html();
+
+            console.log("here");
+              if(jQuery(this).find(".js-mission-video-preview").hasClass("invisible")){
+                jQuery(this).find(".js-mission-video-preview").removeClass("invisible");
+              }
+              else{
+                  jQuery(this).find(".js-mission-video-preview").addClass("invisible");
+              };
+              
+
+
             });
 
             jQuery('.js-hasTshirt').change(function(){ 
