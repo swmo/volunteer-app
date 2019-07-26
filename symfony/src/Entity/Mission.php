@@ -74,6 +74,11 @@ class Mission
      */
     private $calendarEventDescription;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default" : true})
+     */
+    private $isActiv = true;
+
     
     public function __construct()
     {
@@ -235,6 +240,18 @@ class Mission
     public function setCalendarEventDescription(?string $calendarEventDescription): self
     {
         $this->calendarEventDescription = $calendarEventDescription;
+
+        return $this;
+    }
+
+    public function getIsActiv(): ?bool
+    {
+        return $this->isActiv;
+    }
+
+    public function setIsActiv(bool $isActiv): self
+    {
+        $this->isActiv = $isActiv;
 
         return $this;
     }

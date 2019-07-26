@@ -13,6 +13,7 @@ class MissionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('isActiv')
             ->add('name')
             ->add('shortDescription')
             ->add('image')
