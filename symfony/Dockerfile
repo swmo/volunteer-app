@@ -7,13 +7,13 @@ COPY composer.json composer.lock symfony.lock ./
 # Wenn die Source bereits am Anfang reinkopiert würde, würde bei jeder Codeänderung 
 # bei Rebuild composer install erneute ausgeführt werden und könnte nicht vom Cache geladen werden.
 
-RUN composer install --no-scripts --no-dev
+RUN composer install --no-scripts --no-dev --ignore-platform-reqs
 
 FROM nginx:1.15.8-alpine
 EXPOSE 80
 
 # alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
-ENV php7version 7.2.17-r0
+ENV php7version 7.2.18-r0
 
 RUN apk --update add --no-cache \
 	php7=$php7version \
@@ -30,6 +30,10 @@ RUN apk --update add --no-cache \
 	php7-simplexml=$php7version \
 	php7-pgsql=$php7version \
 	php7-openssl=$php7version \
+	php7-zip=$php7version \
+	php7-gd=$php7version \
+	php7-xmlwriter=$php7version \
+	php7-fileinfo=$php7version \
 	php7-pdo_pgsql=$php7version
 
 COPY ./resources/nginx/default.conf /etc/nginx/conf.d/default.conf

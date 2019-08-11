@@ -243,7 +243,7 @@ class Mission
 
         return $this;
     }
-
+    
     public function getIsActiv(): ?bool
     {
         return $this->isActiv;
@@ -255,4 +255,12 @@ class Mission
 
         return $this;
     }
+
+    public function getEnrollments()
+    {
+        return new ArrayCollection(
+            array_merge($this->enrollment01->toArray(), $this->enrollment02->toArray())
+        );
+    }
+
 }
