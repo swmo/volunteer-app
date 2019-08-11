@@ -89,7 +89,13 @@ class EnrollmentController extends AbstractController
                 $sheet->setCellValue('A'.$i, $mission->getName());
                 $sheet->setCellValue('B'.$i, $enrollment->getFirstname());
                 $sheet->setCellValue('C'.$i, $enrollment->getLastname());
-                $sheet->setCellValue('D'.$i, $mission->getStart()->format('H:i'));
+                if($enrollment->getStartdate()){
+                    
+                }
+                else {
+
+                }
+                
                 $sheet->setCellValue('E'.$i, $mission->getEnd()->format('H:i'));
                 $sheet->setCellValue('F'.$i, $enrollment->getEmail());
                 $sheet->setCellValue('G'.$i, $enrollment->getMobile());

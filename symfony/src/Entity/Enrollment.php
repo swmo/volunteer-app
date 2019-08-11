@@ -92,6 +92,16 @@ class Enrollment
      * */
     private $status;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $differentStartTime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $differentEndTime;
+
 
     public function getId(): ?int
     {
@@ -304,6 +314,38 @@ class Enrollment
         $e->add($interval2);
 
         return $f->diff($e);
+    }
+
+    public function getDifferentStartTime(): ?\DateTimeInterface
+    {
+        return $this->differentStartTime;
+    }
+
+    public function setDifferentStartTime(?\DateTimeInterface $differentStartTime): self
+    {
+        $this->differentStartTime = $differentStartTime;
+
+        return $this;
+    }
+
+    public function getDifferentEndTime(): ?\DateTimeInterface
+    {
+        return $this->differentEndTime;
+    }
+
+    public function setDifferentEndTime(?\DateTimeInterface $differentEndTime): self
+    {
+        $this->differentEndTime = $differentEndTime;
+
+        return $this;
+    }
+
+    public function getStart(){
+
+    }
+
+    public function getEnd(){
+        
     }
 
 }
