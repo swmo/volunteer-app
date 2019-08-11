@@ -8,6 +8,7 @@ use App\Entity\Mission;
 use App\Form\Admin\MissionFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Enrollment;
 
 /**
  * @Route("/admin")
@@ -78,6 +79,20 @@ class MissionController extends AbstractController
         }
         return $this->render('admin/mission/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/mission/emailgroup/{id}", name="admin_mission_emailgroup")
+     */
+    public function emailgroup(Mission $mission,EntityManagerInterface $em) 
+    {
+        $enrollments = $em->getRepository(Enrollment::class)->findByMission(
+           $mission
+        );
+
+        return $this->render('admin/mission/emailgroup.html.twig', [
+            'enrollments' => $enrollments,
         ]);
     }
 

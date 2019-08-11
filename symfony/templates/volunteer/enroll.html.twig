@@ -51,8 +51,25 @@
                                     bg-white  shadow-lg rounded-lg overflow-hidden 
                                     hidden
                                 ">
-                                    <div class="sm:flex sm:items-center px-6 py-4">
+                                    <div class="sm:flex sm:items-center px-6 py-4 js-mission-image">
+                                    <div style="position:relative">
                                         <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/images/{{mission.image}}" alt="">
+
+                                        <div class="invisible cursor-pointer js-mission-video-preview opacity-50" style="
+                                            position: absolute;
+                                            top: 0px;
+                                            width: 100%;
+                                            height: 100%;
+                                            background-color:white;
+                                            z-index: 100;
+                                        ">
+                                        </div>
+                                        <div class="opacity-100 text-center text-black js-mission-video-preview invisible" style="position:absolute; left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%); z-index:1000;">
+                                        <i class="fas fa-fw fa-3x  fa-play-circle"  style="color: black;"></i>
+                                        </div>
+                                        </div>
                                     </div>
                                     <div class="p-6">    
                                         <div class="text-center sm:text-left sm:flex-grow">
@@ -319,13 +336,22 @@
                                 </div>
         
                                 <p class="mt-5">
-                                    <div class="flex mb-2">
+                                    Wir bieten:
+                                    <div class="flex mt-2 mb-2">
                                         <i class="fas fa-check-circle mr-2 mb-2"></i>  
-                                        Selbstverständlich darf sich jeder Helfer auf ein Helfergeschenk freuen.
+                                        Verpflegung am Einsatztag.
                                     </div>
                                     <div class="flex mb-2">
-                                        <i class="fas fa-check-circle mr-2 "></i>  
-                                        Nach Abrsprache können gerne Kinder ab 9 Jahren mithelfen.
+                                        <i class="fas fa-check-circle mr-2 mb-2"></i>  
+                                        Jeder Helfer darf sich auf ein Helfergeschenk freuen.
+                                    </div>
+                                    <div class="flex mb-2">
+                                        <i class="fas fa-check-circle mr-2 mb-2"></i>  
+                                       Für Vereine die 10 Helfer stellen, einen grosszügigen Beitrag in die Vereinskasse.
+                                    </div>
+                                    <div class="flex mt-6 mb-2">
+                                        <i class="fas fa-info-circle mr-2"></i>  
+                                        Nach Absprache können gerne Kinder ab 8 Jahren mithelfen.
                                     </div>
                                 </p>
                                 <p class="font-bold mt-2">
@@ -335,13 +361,17 @@
                                     </div>
                                 </p>
                                 <p class="mt-6">
-                                    Sportliche Grüße und freue mich dich zu sehen.
+                                    Sportliche Grüße und freue mich, dich zu sehen.
                                 </p>
                                 <p class="mt-4">
                                     Maria Rothenbühler,
                                 </p>
                                 <p >
                                     Ressort Personal OK-Burgdorfer-Stadtlauf
+                                    </p>
+                                    <p class="mt-4">
+                                    Fragen bitte an:
+                                    <a href="mailto:info@burgdorfer-stadtlauf.ch?subject=Stadtlauf">info@burgdorfer-stadtlauf.ch</a>
                                 </p>
                             </div>
                             
@@ -444,6 +474,21 @@
                     currentSlideBoxIndex = index - 1;
                     showCurrentSlideBox();
                 }
+            });
+
+            jQuery('.js-mission-image').hover(function(){
+              //var before = jQuery(this).html();
+
+              return null;
+              if(jQuery(this).find(".js-mission-video-preview").hasClass("invisible")){
+                jQuery(this).find(".js-mission-video-preview").removeClass("invisible");
+              }
+              else{
+                  jQuery(this).find(".js-mission-video-preview").addClass("invisible");
+              };
+              
+
+
             });
 
             jQuery('.js-hasTshirt').change(function(){ 

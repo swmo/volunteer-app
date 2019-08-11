@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Enrollment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\Mission;
 
 /**
  * @method Enrollment|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,19 @@ class EnrollmentRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Enrollment::class);
+    }
+
+
+    public function findByMission(Mission $mission)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.missionChoice01 = :mission or e.missionChoice02 = :mission ')
+            ->setParameter('mission', $mission->getId())
+            ->orderBy('e.email', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**
