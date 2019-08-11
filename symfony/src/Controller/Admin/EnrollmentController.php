@@ -67,17 +67,35 @@ class EnrollmentController extends AbstractController
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $missions = $em->getRepository(Mission::class)->findAll();
+        $missions = $em->getRepository(Mission::class)->findBy(array(), array('name' => 'ASC'));;
 
 
-        $i = 1;
+        $i = 2;
+        $sheet->setCellValue('A1', 'Einsatz');
+        $sheet->setCellValue('B1', 'Vorname');
+        $sheet->setCellValue('C1', 'Nachname');
+        $sheet->setCellValue('D1', 'Von');
+        $sheet->setCellValue('E1', 'Bis');
+        $sheet->setCellValue('F1', 'EMail');
+        $sheet->setCellValue('G1', 'Mobile');
+        $sheet->setCellValue('H1', 'T-Shirt von letzem Jahr dabei?');
+        $sheet->setCellValue('I1', 'T-Shirt Grösse');
+
         foreach($missions as $mission){
             /** @var Mission $mission **/
             foreach($mission->getEnrollments() as $enrollment){
                 /** @var Enrollment $enrollment **/
-                $sheet->setCellValue('A'.$i, $enrollment->getFirstname());
-                $sheet->setCellValue('B'.$i, $enrollment->getLastname());
-                $sheet->setCellValue('C'.$i, $mission->getName());
+
+                $sheet->setCellValue('A'.$i, $mission->getName());
+                $sheet->setCellValue('B'.$i, $enrollment->getFirstname());
+                $sheet->setCellValue('C'.$i, $enrollment->getLastname());
+                $sheet->setCellValue('D'.$i, $mission->getStart()->format('H:i'));
+                $sheet->setCellValue('E'.$i, $mission->getEnd()->format('H:i'));
+                $sheet->setCellValue('F'.$i, $enrollment->getEmail());
+                $sheet->setCellValue('G'.$i, $enrollment->getMobile());
+                $sheet->setCellValue('H'.$i, $enrollment->getHasTshirt() ? 'JA' : 'NEIN');
+                $sheet->setCellValue('I'.$i, $enrollment->getTshirtsize());
+            
                 $i++;
             }
             
@@ -91,7 +109,9 @@ class EnrollmentController extends AbstractController
         $writer = new Xlsx($spreadsheet);
                 
         // Create a Temporary file in the system
-        $fileName = 'my_first_excel_symfony4.xlsx';
+        $now = new \DateTime();
+
+        $fileName = $now->format('Ymd').'_burgdorfer_stadtlauf_missions_export.xlsx';
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
         // Create the excel file in the tmp directory of the system

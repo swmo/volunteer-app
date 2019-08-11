@@ -13,28 +13,29 @@ FROM nginx:1.15.8-alpine
 EXPOSE 80
 
 # alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
-ENV php7version 7.2.18-r0
+ENV php7version 7.3.8-r0
+RUN apk --update add --no-cache \
+	php7  \
+	php7-dom  \
+	php7-fpm  \
+	php7-ctype  \
+	php7-json  \
+	php7-pdo  \
+	php7-tokenizer  \
+	php7-session  \
+	php7-mbstring  \
+	php7-iconv  \
+	php7-xml  \
+	php7-simplexml  \
+	php7-pgsql  \
+	php7-openssl  \
+	php7-pdo_pgsql  \
+	php7-zip  \
+	php7-gd 
 
 RUN apk --update add --no-cache \
-	php7=$php7version \
-	php7-dom=$php7version \
-	php7-fpm=$php7version \
-	php7-ctype=$php7version \
-	php7-json=$php7version \
-	php7-pdo=$php7version \
-	php7-tokenizer=$php7version \
-	php7-session=$php7version \
-	php7-mbstring=$php7version \
-	php7-iconv=$php7version \
-	php7-xml=$php7version \
-	php7-simplexml=$php7version \
-	php7-pgsql=$php7version \
-	php7-openssl=$php7version \
-	php7-zip=$php7version \
-	php7-gd=$php7version \
-	php7-xmlwriter=$php7version \
-	php7-fileinfo=$php7version \
-	php7-pdo_pgsql=$php7version
+	php7-xmlwriter \
+	php7-fileinfo
 
 COPY ./resources/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./resources/php/php.ini /etc/php7/php.ini
