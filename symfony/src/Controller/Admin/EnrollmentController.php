@@ -76,7 +76,7 @@ class EnrollmentController extends AbstractController
         $sheet->setCellValue('C1', 'Nachname');
         $sheet->setCellValue('D1', 'Von');
         $sheet->setCellValue('E1', 'Bis');
-        $sheet->setCellValue('F1', 'Arbeitsstunden');
+        $sheet->setCellValue('F1', 'Arbeitsstunden (dezimal)');
 
         $sheet->setCellValue('G1', 'EMail');
         $sheet->setCellValue('H1', 'Mobile');
@@ -129,10 +129,15 @@ class EnrollmentController extends AbstractController
 
                 $sheet->setCellValue('E'.$i, $bis->format('H:i'));      
                 
-          
-             
+        
+                $minutes = $workhours->format('%I');
+                if($minutes > 0){
+                    $minutes = $minutes / 60;
+                }
+
+                $workhoursDecimal = $workhours->format('%H') + $minutes;
               
-                $sheet->setCellValue('F'.$i, $workhours->format('%H:%I'));
+                $sheet->setCellValue('F'.$i, $workhoursDecimal);
    
                 $sheet->setCellValue('G'.$i, $enrollment->getEmail());
                 $sheet->setCellValue('H'.$i, $enrollment->getMobile());
