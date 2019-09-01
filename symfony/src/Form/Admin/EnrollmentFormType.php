@@ -44,8 +44,33 @@ class EnrollmentFormType extends AbstractType
             ->add('confirmToken')
        //     ->add('status', TextType::class)
             ->add('missionChoice01')
+    
+
+
+
+            ->add('organizedStartTimeMissionChoice01', 
+                TimeType::class, 
+                [
+                    'input'  => 'datetime',
+                    'widget' => 'single_text',
+                    'required' => false
+                ]
+            )
+            ->add('organizedEndTimeMissionChoice01', 
+                TimeType::class, 
+                [
+                    'input'  => 'datetime',
+                    'widget' => 'single_text',
+                    'required' => false
+                ]
+            )
+            ->add('organizedDescriptionMissionChoice01')
+
+
+
+
             ->add('missionChoice02')
-            ->add('differentStartTime', 
+            ->add('organizedStartTimeMissionChoice02', 
                 TimeType::class, 
                 [
                     'input'  => 'datetime',
@@ -53,7 +78,7 @@ class EnrollmentFormType extends AbstractType
                     'required' => false
                 ]
             )
-            ->add('differentEndTime', 
+            ->add('organizedEndTimeMissionChoice02', 
                 TimeType::class, 
                 [
                     'input'  => 'datetime',
@@ -61,6 +86,8 @@ class EnrollmentFormType extends AbstractType
                     'required' => false
                 ]
             )
+            ->add('organizedDescriptionMissionChoice02')
+
         ;
     }
 

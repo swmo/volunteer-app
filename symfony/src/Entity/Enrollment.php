@@ -95,32 +95,32 @@ class Enrollment
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $organizedStartTimeMissonChoice01;
+    private $organizedStartTimeMissionChoice01;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $organizedEndTimeMissonChoice01;
+    private $organizedEndTimeMissionChoice01;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $organizedDescriptionMissionChoice01;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $organizedDescriptionMissonChoice01;
+    private $organizedStartTimeMissionChoice02;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $organizedStartTimeMissonChoice02;
+    private $organizedEndTimeMissionChoice02;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $organizedEndTimeMissonChoice02;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $organizedDescriptionMissonChoice02;
+    private $organizedDescriptionMissionChoice02;
 
     public function getId(): ?int
     {
@@ -313,25 +313,34 @@ class Enrollment
         $e->add($this->getWorkingTimeMissionChoice02());
         return $f->diff($e);
     }
+
+    public function getStartTimeMissionChoice01(){
+        if($this->getOrganizedStartTimeMissionChoice01())
+        {
+            return $this->getOrganizedStartTimeMissionChoice01();
+        }
+        else {
+            return $this->getMissionChoice01()->getStart();
+        }
+    }
+
+    public function getEndTimeMissionChoice01(){
+        if($this->getOrganizedEndTimeMissionChoice01())
+        {
+            return $this->getOrganizedEndTimeMissionChoice01();
+        }
+        else {
+            return $this->getMissionChoice01()->getEnd();
+        }
+    }
+
     public function getWorkingTimeMissionChoice01()
     {
         
         if($this->getMissionChoice01()){
 
-            if($this->getOrganizedStartTimeMissionChoice01())
-            {
-                $interval1 = $this->getOrganizedStartTimeMissionChoice01();
-            }
-            else {
-                $interval1 = $this->getMissionChoice01()->getStart();
-            }
-           
-            if($this->getOrganizedEndTimeMissionChoice01()){
-                $interval1 = $interval1->diff($this->getOrganizedEndTimeMissionChoice01());
-            }
-            else {
-                $interval1 = $interval1->diff($this->getMissionChoice01()->getEnd());
-            }
+            $interval1 = $this->getStartTimeMissionChoice01()
+                    ->diff($this->getEndTimeMissionChoice01());
         
         }
         else{
@@ -346,25 +355,37 @@ class Enrollment
         return $f->diff($e);
     }
 
+
+
+    public function getStartTimeMissionChoice02(){
+        if($this->getOrganizedStartTimeMissionChoice02())
+        {
+            return $this->getOrganizedStartTimeMissionChoice02();
+        }
+        else {
+            return $this->getMissionChoice02()->getStart();
+        }
+    }
+
+    public function getEndTimeMissionChoice02(){
+        if($this->getOrganizedEndTimeMissionChoice02())
+        {
+            return $this->getOrganizedEndTimeMissionChoice02();
+        }
+        else {
+            return $this->getMissionChoice02()->getEnd();
+        }
+    }
+
+
     public function getWorkingTimeMissionChoice02()
     {        
+
         if($this->getMissionChoice02()){
 
-            if($this->getOrganizedStartTimeMissionChoice02())
-            {
-                $interval1 = $this->getOrganizedStartTimeMissionChoice02();
-            }
-            else {
-                $interval1 = $this->getMissionChoice02()->getStart();
-            }
+            $interval1 = $this->getStartTimeMissionChoice02()
+                    ->diff($this->getEndTimeMissionChoice02());
         
-            if($this->getOrganizedEndTimeMissionChoice02()){
-                $interval1 = $interval1->diff($this->getOrganizedEndTimeMissionChoice02());
-            }
-            else {
-                $interval1 = $interval1->diff($this->getMissionChoice02()->getEnd());
-            }
-            
         }
         else{
             $interval1 = new \DateTime('00:00');
@@ -382,19 +403,19 @@ class Enrollment
     //MISSON 01
     public function getOrganizedStartTimeMissionChoice01(): ?\DateTimeInterface
     {
-        return $this->organizedStartTimeMissonChoice01;
+        return $this->organizedStartTimeMissionChoice01;
     }
 
-    public function setOrganizedStartTimeMissionChoice01(?\DateTimeInterface $organizedStartTimeMissonChoice01): self
+    public function setOrganizedStartTimeMissionChoice01(?\DateTimeInterface $organizedStartTimeMissionChoice01): self
     {
-        $this->organizedStartTimeMissonChoice01 = $organizedStartTimeMissonChoice01;
+        $this->organizedStartTimeMissionChoice01 = $organizedStartTimeMissionChoice01;
 
         return $this;
     }
 
     public function getOrganizedEndTimeMissionChoice01(): ?\DateTimeInterface
     {
-        return $this->organizedEndTimeMissonChoice01;
+        return $this->organizedEndTimeMissionChoice01;
     }
 
     public function setOrganizedEndTimeMissionChoice01(?\DateTimeInterface $organizedEndTimeMissionChoice01): self
@@ -409,9 +430,9 @@ class Enrollment
         return $this->organizedDescriptionMissionChoice01;
     }
 
-    public function setOrganizedDescriptionMissionChoice01(?string $organizedDescriptionMissonChoice01): self
+    public function setOrganizedDescriptionMissionChoice01(?string $organizedDescriptionMissionChoice01): self
     {
-        $this->organizedDescriptionMissonChoice01 = $organizedDescriptionMissonChoice01;
+        $this->organizedDescriptionMissionChoice01 = $organizedDescriptionMissionChoice01;
         return $this;
     }
 
@@ -419,19 +440,19 @@ class Enrollment
     //MISSON 02
     public function getOrganizedStartTimeMissionChoice02(): ?\DateTimeInterface
     {
-        return $this->organizedStartTimeMissonChoice02;
+        return $this->organizedStartTimeMissionChoice02;
     }
 
-    public function setOrganizedStartTimeMissionChoice02(?\DateTimeInterface $organizedStartTimeMissonChoice02): self
+    public function setOrganizedStartTimeMissionChoice02(?\DateTimeInterface $organizedStartTimeMissionChoice02): self
     {
-        $this->organizedStartTimeMissonChoice02 = $organizedStartTimeMissonChoice02;
+        $this->organizedStartTimeMissionChoice02 = $organizedStartTimeMissionChoice02;
 
         return $this;
     }
 
     public function getOrganizedEndTimeMissionChoice02(): ?\DateTimeInterface
     {
-        return $this->organizedEndTimeMissonChoice02;
+        return $this->organizedEndTimeMissionChoice02;
     }
 
     public function setOrganizedEndTimeMissionChoice02(?\DateTimeInterface $organizedEndTimeMissionChoice02): self
@@ -446,9 +467,9 @@ class Enrollment
         return $this->organizedDescriptionMissionChoice02;
     }
 
-    public function setOrganizedDescriptionMissionChoice02(?string $organizedDescriptionMissonChoice02): self
+    public function setOrganizedDescriptionMissionChoice02(?string $organizedDescriptionMissionChoice02): self
     {
-        $this->organizedDescriptionMissonChoice02 = $organizedDescriptionMissonChoice02;
+        $this->organizedDescriptionMissionChoice02 = $organizedDescriptionMissionChoice02;
         return $this;
     }
 }

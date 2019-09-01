@@ -76,10 +76,12 @@ class EnrollmentController extends AbstractController
         $sheet->setCellValue('C1', 'Nachname');
         $sheet->setCellValue('D1', 'Von');
         $sheet->setCellValue('E1', 'Bis');
-        $sheet->setCellValue('F1', 'EMail');
-        $sheet->setCellValue('G1', 'Mobile');
-        $sheet->setCellValue('H1', 'T-Shirt von letzem Jahr dabei?');
-        $sheet->setCellValue('I1', 'T-Shirt Grösse');
+        $sheet->setCellValue('F1', 'Arbeitsstunden');
+
+        $sheet->setCellValue('G1', 'EMail');
+        $sheet->setCellValue('H1', 'Mobile');
+        $sheet->setCellValue('I1', 'T-Shirt von letzem Jahr dabei?');
+        $sheet->setCellValue('J1', 'T-Shirt Grösse');
 
         foreach($missions as $mission){
             /** @var Mission $mission **/
@@ -89,19 +91,39 @@ class EnrollmentController extends AbstractController
                 $sheet->setCellValue('A'.$i, $mission->getName());
                 $sheet->setCellValue('B'.$i, $enrollment->getFirstname());
                 $sheet->setCellValue('C'.$i, $enrollment->getLastname());
+
+                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                    $von = $enrollment->getStartTimeMissionChoice01();
+                }
              
-             /*   if($enrollment->getStartdate()){
-                    
+                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                    $von = $enrollment->getStartTimeMissionChoice02();
                 }
-                else {
-                    
+
+                $sheet->setCellValue('D'.$i, $von->format('H:i'));
+
+                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                    $bis = $enrollment->getEndTimeMissionChoice01();
                 }
-                */
-                $sheet->setCellValue('E'.$i, $mission->getEnd()->format('H:i'));
-                $sheet->setCellValue('F'.$i, $enrollment->getEmail());
-                $sheet->setCellValue('G'.$i, $enrollment->getMobile());
-                $sheet->setCellValue('H'.$i, $enrollment->getHasTshirt() ? 'JA' : 'NEIN');
-                $sheet->setCellValue('I'.$i, $enrollment->getTshirtsize());
+             
+                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                    $bis = $enrollment->getEndTimeMissionChoice02();
+                }
+                $sheet->setCellValue('E'.$i, $bis->format('H:i'));      
+                
+                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                    $workhours = $enrollment->getWorkingTimeMissionChoice01();
+                }
+             
+                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                    $workhours = $enrollment->getWorkingTimeMissionChoice02();
+                }
+                $sheet->setCellValue('F'.$i, $workhours->format('%H:%I'));
+   
+                $sheet->setCellValue('G'.$i, $enrollment->getEmail());
+                $sheet->setCellValue('H'.$i, $enrollment->getMobile());
+                $sheet->setCellValue('I'.$i, $enrollment->getHasTshirt() ? 'JA' : 'NEIN');
+                $sheet->setCellValue('J'.$i, $enrollment->getTshirtsize());
             
                 $i++;
             }
