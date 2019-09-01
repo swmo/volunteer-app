@@ -92,32 +92,46 @@ class EnrollmentController extends AbstractController
                 $sheet->setCellValue('B'.$i, $enrollment->getFirstname());
                 $sheet->setCellValue('C'.$i, $enrollment->getLastname());
 
-                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
-                    $von = $enrollment->getStartTimeMissionChoice01();
+                if($enrollment->getMissionChoice01()){
+
+                    if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                        $von = $enrollment->getStartTimeMissionChoice01();
+                    }
+    
+                    if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                        $bis = $enrollment->getEndTimeMissionChoice01();
+                    }
+                    if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
+                        $workhours = $enrollment->getWorkingTimeMissionChoice01();
+                    }
+
                 }
-             
-                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
-                    $von = $enrollment->getStartTimeMissionChoice02();
+
+                if($enrollment->getMissionChoice02()){
+                 
+                    if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                        $von = $enrollment->getStartTimeMissionChoice02();
+                    }  
+                    
+                    if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                        $bis = $enrollment->getEndTimeMissionChoice02();
+                    }
+                    if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
+                        $workhours = $enrollment->getWorkingTimeMissionChoice02();
+                    }
                 }
+
 
                 $sheet->setCellValue('D'.$i, $von->format('H:i'));
 
-                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
-                    $bis = $enrollment->getEndTimeMissionChoice01();
-                }
+               
              
-                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
-                    $bis = $enrollment->getEndTimeMissionChoice02();
-                }
+
                 $sheet->setCellValue('E'.$i, $bis->format('H:i'));      
                 
-                if($mission->getId() == $enrollment->getMissionChoice01()->getId()){
-                    $workhours = $enrollment->getWorkingTimeMissionChoice01();
-                }
+          
              
-                if($mission->getId() == $enrollment->getMissionChoice02()->getId()){
-                    $workhours = $enrollment->getWorkingTimeMissionChoice02();
-                }
+              
                 $sheet->setCellValue('F'.$i, $workhours->format('%H:%I'));
    
                 $sheet->setCellValue('G'.$i, $enrollment->getEmail());
