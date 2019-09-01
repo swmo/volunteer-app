@@ -95,13 +95,32 @@ class Enrollment
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $differentStartTime;
+    private $organizedStartTimeMissonChoice01;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $differentEndTime;
+    private $organizedEndTimeMissonChoice01;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $organizedDescriptionMissonChoice01;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $organizedStartTimeMissonChoice02;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $organizedEndTimeMissonChoice02;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $organizedDescriptionMissonChoice02;
 
     public function getId(): ?int
     {
@@ -285,67 +304,151 @@ class Enrollment
         return $this;
     }
 
-    public function getWorkingTime()
+
+    public function getWorkingTime(){
+
+        $e = new \DateTime('00:00');
+        $f = clone $e;
+        $e->add($this->getWorkingTimeMissionChoice01());
+        $e->add($this->getWorkingTimeMissionChoice02());
+        return $f->diff($e);
+    }
+    public function getWorkingTimeMissionChoice01()
     {
         
-       
-
         if($this->getMissionChoice01()){
-            $interval1 = $this->getMissionChoice01()->getStart();
-            $interval1 = $interval1->diff($this->getMissionChoice01()->getEnd());
+
+            if($this->getOrganizedStartTimeMissionChoice01())
+            {
+                $interval1 = $this->getOrganizedStartTimeMissionChoice01();
+            }
+            else {
+                $interval1 = $this->getMissionChoice01()->getStart();
+            }
+           
+            if($this->getOrganizedEndTimeMissionChoice01()){
+                $interval1 = $interval1->diff($this->getOrganizedEndTimeMissionChoice01());
+            }
+            else {
+                $interval1 = $interval1->diff($this->getMissionChoice01()->getEnd());
+            }
+        
         }
         else{
             $interval1 = new \DateTime('00:00');
             $interval1 = $interval1->diff(new \DateTime('00:00'));
         }
 
+
+        $e = new \DateTime('00:00');
+        $f = clone $e;
+        $e->add($interval1);
+        return $f->diff($e);
+    }
+
+    public function getWorkingTimeMissionChoice02()
+    {        
         if($this->getMissionChoice02()){
-            $interval2 = $this->getMissionChoice02()->getStart();
-            $interval2 = $interval2->diff($this->getMissionChoice02()->getEnd());
+
+            if($this->getOrganizedStartTimeMissionChoice02())
+            {
+                $interval1 = $this->getOrganizedStartTimeMissionChoice02();
+            }
+            else {
+                $interval1 = $this->getMissionChoice02()->getStart();
+            }
+        
+            if($this->getOrganizedEndTimeMissionChoice02()){
+                $interval1 = $interval1->diff($this->getOrganizedEndTimeMissionChoice02());
+            }
+            else {
+                $interval1 = $interval1->diff($this->getMissionChoice02()->getEnd());
+            }
+            
         }
-        else {
-            $interval2 = new \DateTime('00:00');
-            $interval2 = $interval2->diff(new \DateTime('00:00'));
+        else{
+            $interval1 = new \DateTime('00:00');
+            $interval1 = $interval1->diff(new \DateTime('00:00'));
         }
 
         $e = new \DateTime('00:00');
         $f = clone $e;
         $e->add($interval1);
-        $e->add($interval2);
-
         return $f->diff($e);
-    }
-
-    public function getDifferentStartTime(): ?\DateTimeInterface
-    {
-        return $this->differentStartTime;
-    }
-
-    public function setDifferentStartTime(?\DateTimeInterface $differentStartTime): self
-    {
-        $this->differentStartTime = $differentStartTime;
-
-        return $this;
-    }
-
-    public function getDifferentEndTime(): ?\DateTimeInterface
-    {
-        return $this->differentEndTime;
-    }
-
-    public function setDifferentEndTime(?\DateTimeInterface $differentEndTime): self
-    {
-        $this->differentEndTime = $differentEndTime;
-
-        return $this;
-    }
-
-    public function getStart(){
-
-    }
-
-    public function getEnd(){
         
     }
 
+
+    //MISSON 01
+    public function getOrganizedStartTimeMissionChoice01(): ?\DateTimeInterface
+    {
+        return $this->organizedStartTimeMissonChoice01;
+    }
+
+    public function setOrganizedStartTimeMissionChoice01(?\DateTimeInterface $organizedStartTimeMissonChoice01): self
+    {
+        $this->organizedStartTimeMissonChoice01 = $organizedStartTimeMissonChoice01;
+
+        return $this;
+    }
+
+    public function getOrganizedEndTimeMissionChoice01(): ?\DateTimeInterface
+    {
+        return $this->organizedEndTimeMissonChoice01;
+    }
+
+    public function setOrganizedEndTimeMissionChoice01(?\DateTimeInterface $organizedEndTimeMissionChoice01): self
+    {
+        $this->organizedEndTimeMissionChoice01 = $organizedEndTimeMissionChoice01;
+
+        return $this;
+    }
+
+    public function getOrganizedDescriptionMissionChoice01(): ?string
+    {
+        return $this->organizedDescriptionMissionChoice01;
+    }
+
+    public function setOrganizedDescriptionMissionChoice01(?string $organizedDescriptionMissonChoice01): self
+    {
+        $this->organizedDescriptionMissonChoice01 = $organizedDescriptionMissonChoice01;
+        return $this;
+    }
+
+
+    //MISSON 02
+    public function getOrganizedStartTimeMissionChoice02(): ?\DateTimeInterface
+    {
+        return $this->organizedStartTimeMissonChoice02;
+    }
+
+    public function setOrganizedStartTimeMissionChoice02(?\DateTimeInterface $organizedStartTimeMissonChoice02): self
+    {
+        $this->organizedStartTimeMissonChoice02 = $organizedStartTimeMissonChoice02;
+
+        return $this;
+    }
+
+    public function getOrganizedEndTimeMissionChoice02(): ?\DateTimeInterface
+    {
+        return $this->organizedEndTimeMissonChoice02;
+    }
+
+    public function setOrganizedEndTimeMissionChoice02(?\DateTimeInterface $organizedEndTimeMissionChoice02): self
+    {
+        $this->organizedEndTimeMissionChoice02 = $organizedEndTimeMissionChoice02;
+
+        return $this;
+    }
+
+    public function getOrganizedDescriptionMissionChoice02(): ?string
+    {
+        return $this->organizedDescriptionMissionChoice02;
+    }
+
+    public function setOrganizedDescriptionMissionChoice02(?string $organizedDescriptionMissonChoice02): self
+    {
+        $this->organizedDescriptionMissonChoice02 = $organizedDescriptionMissonChoice02;
+        return $this;
+    }
 }

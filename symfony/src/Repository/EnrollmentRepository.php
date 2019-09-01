@@ -27,7 +27,6 @@ class EnrollmentRepository extends ServiceEntityRepository
             ->andWhere('e.missionChoice01 = :mission or e.missionChoice02 = :mission ')
             ->setParameter('mission', $mission->getId())
             ->orderBy('e.email', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
