@@ -5,7 +5,7 @@ services:
   postgres:
     image: 'postgres:11.2-alpine'
     environment:
-      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: postgres
     volumes:
       - pg-db-data:/var/lib/postgresql/data
   adminer:
@@ -16,16 +16,9 @@ services:
   symfony:
     build:
       dockerfile: Dockerfile
-      context: ./symfony
-  router:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./router
-# only necessary if i would use upstream directive see nginx/nginx/default.conf -> then the order must be fix otherwise nginx wouldnt start anymore (if nginx is earlier than the upstreams)
-#    depends_on: 
-#      - symfony
+      context: ./symfony    
     ports:
-      - 8080:80
+        - 8080:80
   mailhog:
     image: mailhog/mailhog
     ports:
