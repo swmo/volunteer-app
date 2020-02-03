@@ -96,4 +96,8 @@ class MissionController extends AbstractController
         ]);
     }
 
+
+    //todo: copyMissionToProject
+    
+
 }
