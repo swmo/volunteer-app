@@ -13,6 +13,11 @@ class PersonFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $file = dirname(__FILE__).'/../../resources/data/personen.csv';
+
+        if(!file_exists($file)){
+                echo $file . ' not found! skip!';
+                return;
+        }
         if (($handle = fopen($file, 'r')) !== FALSE) {
 
             $i = 0;
