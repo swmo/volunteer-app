@@ -9,6 +9,7 @@
     <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
       <thead>
         <tr>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Aktiv</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Einsatz</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">von</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">bis</th>
@@ -19,6 +20,14 @@
 
           {% for mission in missions %}
         <tr class="hover:bg-grey-lighter">
+
+          <td class="py-4 px-6 border-b border-grey-light">
+              {% if (mission.isActiv) %}
+              <i class="fas fa-toggle-on"></i>
+              {% else %}
+              <i class="fas fa-toggle-off"></i>
+              {% endif %}
+          </td>
           <td class="py-4 px-6 border-b border-grey-light">{{ mission.name }}</td>
           <td class="py-4 px-6 border-b border-grey-light">
             {{mission.start|date('d.m.Y H:i')}}

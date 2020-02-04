@@ -19,10 +19,10 @@ class ProjectController extends AbstractController
      */
     public function list(EntityManagerInterface $em)
     {
-        $missions = $em->getRepository(Project::class)->findAll();
+        $projects = $em->getRepository(Project::class)->findAll();
         
         return $this->render('admin/project/list.html.twig', [
-            'missions' => $missions,
+            'projects' => $projects,
         ]);
     }
 

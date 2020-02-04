@@ -33,6 +33,11 @@ class Project
      */
     private $missions;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default" : false})
+     */
+    private $isActiv;
+
     public function __construct()
     {
         $this->missions = new ArrayCollection();
@@ -94,6 +99,18 @@ class Project
                 $mission->setProject(null);
             }
         }
+
+        return $this;
+    }
+    
+    public function isActiv(): ?bool
+    {
+        return $this->isActiv;
+    }
+
+    public function setIsActiv(bool $isActiv): self
+    {
+        $this->isActiv = $isActiv;
 
         return $this;
     }
