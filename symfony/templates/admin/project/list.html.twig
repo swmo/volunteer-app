@@ -12,6 +12,9 @@
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Aktiv</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Projekt</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Organisation</th>
+         <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Einsätze</th>
+         <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Anmeldungen</th>
+        
         </tr>
       </thead>
       <tbody>
@@ -26,8 +29,10 @@
           <i class="fas fa-toggle-off"></i>
            {% endif %}
           </td>
-          <td class="py-4 px-6 border-b border-grey-light">{{ project.name }}</td>
+          <td class="py-4 px-6 border-b border-grey-light">{{ project.id }} {{ project.name }}</td>
           <td class="py-4 px-6 border-b border-grey-light">{{ project.organisation.name }}</td>
+          <td class="py-4 px-6 border-b border-grey-light">Einsätze</td>
+          <td class="py-4 px-6 border-b border-grey-light">Anmeldungen</td>
     
           
           </tr>

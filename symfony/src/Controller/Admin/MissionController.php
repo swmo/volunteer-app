@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Mission;
+use App\Entity\Project;
 use App\Form\Admin\MissionFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,18 @@ class MissionController extends AbstractController
 
     /**
      * @Route("/mission/list", name="admin_mission_list")
+     * @Route ("/mission/list/project/{id}")
      */
-    public function list(EntityManagerInterface $em)
+    public function list(EntityManagerInterface $em, Project $project = null )
     {
         $missions = $em->getRepository(Mission::class)->findAll();
+
+        if($project){
+            echo $project->getName();
+            exit;
+        }
+
+        
         
         return $this->render('admin/mission/list.html.twig', [
             'missions' => $missions,
@@ -96,7 +105,19 @@ class MissionController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/mission/toggle/activ/{id}", name="admin_mission_toggle_activ")
+     */
+    public function toggleActiv(Mission $mission,EntityManagerInterface $em) 
+    {
+    
+        $mission->setIsActiv(!$mission->getIsActiv());
 
+        $em->persist($mission);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_mission_list');
+    }
     //todo: copyMissionToProject
     
 

@@ -19,6 +19,10 @@ class MissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Mission::class);
     }
 
+    public function findAll(){
+        return $this->findBy(array(), array('isActiv' => 'DESC','name' => 'ASC'));
+    }
+
     // /**
     //  * @return Mission[] Returns an array of Mission objects
     //  */

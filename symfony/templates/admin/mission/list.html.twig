@@ -22,11 +22,13 @@
         <tr class="hover:bg-grey-lighter">
 
           <td class="py-4 px-6 border-b border-grey-light">
+          <a href="{{ path('admin_mission_toggle_activ', {id: mission.id}) }}">
               {% if (mission.isActiv) %}
               <i class="fas fa-toggle-on"></i>
               {% else %}
               <i class="fas fa-toggle-off"></i>
               {% endif %}
+              </a>
           </td>
           <td class="py-4 px-6 border-b border-grey-light">{{ mission.name }}</td>
           <td class="py-4 px-6 border-b border-grey-light">
