@@ -25,7 +25,7 @@ class VolunteerController extends AbstractController
     public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
         $form = $this->createForm(VolunteerFormType::class);
-        $missions = $em->getRepository(Mission::class)->findBy(array('isActiv' => true), array('name' => 'ASC'));;
+        $missions = $em->getRepository(Mission::class)->findBy(array('isEnabled' => true), array('name' => 'ASC'));;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -49,7 +49,7 @@ class VolunteerFormType extends AbstractType
             'placeholder' => 'Bitte Einsatz wählen', 
             'query_builder' => function(MissionRepository $repo) {
                 return $repo->createQueryBuilder('m')
-                ->andWhere('m.isActiv = true')
+                ->andWhere('m.isEnabled = true')
                 ->orderBy('m.name', 'ASC');
             }
         ])
@@ -61,7 +61,7 @@ class VolunteerFormType extends AbstractType
             'required' => false,   
             'query_builder' => function(MissionRepository $repo) {
                 return $repo->createQueryBuilder('m')
-                ->andWhere('m.isActiv = true')
+                ->andWhere('m.isEnabled = true')
                 ->orderBy('m.name', 'ASC');
             }
         ])
