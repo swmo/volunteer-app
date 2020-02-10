@@ -19,7 +19,7 @@ class MissionController extends AbstractController
 
     /**
      * @Route("/mission/list", name="admin_mission_list")
-     * @Route ("/mission/list/project/{id}")
+     * @Route ("/mission/list/project/{id}", name="admin_mission_list_by_project")
      */
     public function list(EntityManagerInterface $em, Project $project = null )
     {

@@ -31,7 +31,7 @@
           </td>
           <td class="py-4 px-6 border-b border-grey-light">{{ project.id }} {{ project.name }}</td>
           <td class="py-4 px-6 border-b border-grey-light">{{ project.organisation.name }}</td>
-          <td class="py-4 px-6 border-b border-grey-light">Einsätze</td>
+          <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_mission_list_by_project',{'id':project.id})}}"> Einsätze</a></td>
           <td class="py-4 px-6 border-b border-grey-light">Anmeldungen</td>
     
           
