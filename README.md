@@ -3,7 +3,7 @@
 ## General
 
 Simple App to find volunteers. Not production ready.
-Work in progress, Needs heavely improvments firs.
+Work in progress, needs heavely improvments first.
 
 ## Notes
 
