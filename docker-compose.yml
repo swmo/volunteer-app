@@ -16,7 +16,6 @@ services:
   symfony:
     build:
       dockerfile: Dockerfile
-      context: ./symfony    
     ports:
         - 8080:80
   mailhog:
