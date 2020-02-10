@@ -77,7 +77,7 @@ class Mission
     /**
      * @ORM\Column(type="boolean",options={"default" : true})
      */
-    private $isActiv = true;
+    private $isEnabled = true;
 
     
     public function __construct()
@@ -244,14 +244,14 @@ class Mission
         return $this;
     }
     
-    public function getIsActiv(): ?bool
+    public function getIsEnabled(): ?bool
     {
-        return $this->isActiv;
+        return $this->isEnabled;
     }
 
-    public function setIsActiv(bool $isActiv): self
+    public function setIsEnabled(bool $isEnabled): self
     {
-        $this->isActiv = $isActiv;
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

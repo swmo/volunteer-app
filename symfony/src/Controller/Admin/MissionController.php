@@ -118,8 +118,7 @@ class MissionController extends AbstractController
     public function toggleActiv(Mission $mission,EntityManagerInterface $em) 
     {
     
-        $mission->setIsActiv(!$mission->getIsActiv());
-
+        $mission->setIsEnabled(!$mission->getIsEnabled());
         $em->persist($mission);
         $em->flush();
 
