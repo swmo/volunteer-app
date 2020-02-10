@@ -27,16 +27,20 @@ class MissionController extends AbstractController
 
         // if no project is given search the first and use this:
         if($project == null){
-            //$em->getRepository(Mission::class)->findOneEnabledProject();
-
-            //create empty array for 
-            
+            if(($project = $em->getRepository(Project::class)->findOneProject()) == null){
+                $this->addFlash(
+                    'danger',
+                    'No Project found please create a Project first!'
+                );
+                
+                return $this->redirectToRoute('admin_project_list');
+            }
         }
-        // if the project is set find the missions for this particular project:
-        else{
-            $missions = $em->getRepository(Mission::class)->findAllByProject($project);
-        }
-
+        
+        
+        
+        $missions = $em->getRepository(Mission::class)->findAllByProject($project);
+        
         
 
         return $this->render('admin/mission/list.html.twig', [

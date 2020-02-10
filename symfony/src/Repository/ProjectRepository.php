@@ -19,6 +19,10 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function findOneProject(){
+        return $this->findOneBy(array());
+    }
+
     // /**
     //  * @return Project[] Returns an array of Project objects
     //  */
