@@ -35,6 +35,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organisation")
+     */
+    private $selectedOrganisation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,5 +116,17 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getSelectedOrganisation(): ?Organisation
+    {
+        return $this->selectedOrganisation;
+    }
+
+    public function setSelectedOrganisation(?Organisation $selectedOrganisation): self
+    {
+        $this->selectedOrganisation = $selectedOrganisation;
+
+        return $this;
     }
 }
