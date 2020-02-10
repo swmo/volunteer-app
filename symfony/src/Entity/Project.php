@@ -48,7 +48,7 @@ class Project
     /**
      * @ORM\Column(type="boolean",options={"default" : false})
      */
-    private $isActiv;
+    private $isEnabled;
 
     public function __construct()
     {
@@ -139,14 +139,14 @@ class Project
         return $this;
     }
     
-    public function isActiv(): ?bool
+    public function isEnabled(): ?bool
     {
-        return $this->isActiv;
+        return $this->isEnabled;
     }
 
-    public function setIsActiv(bool $isActiv): self
+    public function setIsEnabled(bool $isEnabled): self
     {
-        $this->isActiv = $isActiv;
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }
