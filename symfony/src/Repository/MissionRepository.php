@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Mission;
+use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -21,6 +22,17 @@ class MissionRepository extends ServiceEntityRepository
 
     public function findAll(){
         return $this->findBy(array(), array('isActiv' => 'DESC','name' => 'ASC'));
+    }
+
+    
+    public function findEnabledProject(){
+
+    }
+
+
+    public function findAllByProject(Project $project){
+        return $this->findBy(array('project' => $project->getId()), array('isActiv' => 'DESC','name' => 'ASC'));
+
     }
 
     // /**

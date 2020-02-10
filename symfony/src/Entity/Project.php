@@ -34,6 +34,18 @@ class Project
     private $missions;
 
     /**
+     * @ORM\Column(type="string", length=255, options={"default" : null},nullable=true)
+     * Domain auf welche das Projekt geladen werden soll
+     */
+    private $domain;
+
+    /**
+     * @ORM\Column(type="string", length=255, options={"default" : null},nullable=true)
+     * Schlüssel welcher im DNS hinterlegt werden muss damit die zuordnung gemacht werden kann.
+     */
+    private $domainProofKey;
+
+    /**
      * @ORM\Column(type="boolean",options={"default" : false})
      */
     private $isActiv;
@@ -59,6 +71,30 @@ class Project
 
         return $this;
     }
+
+    public function getDomain(): ?string
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(string $name): self
+    {
+        $this->domain = $name;
+
+        return $this;
+    }
+
+    public function getDomainProofKey(): ?string
+    {
+        return $this->domainProofKey;
+    }
+
+    public function setDomainProofKey(string $key): self
+    {
+        $this->domainProofKey = $key;
+        return $this;
+    }
+
 
     public function getOrganisation(): ?Organisation
     {
