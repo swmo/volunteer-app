@@ -1,4 +1,11 @@
-# docker-sample
+# Volunteer App
+
+## General
+
+Simple App to find volunteers. Not production ready.
+Work in progress, Needs heavely improvments firs.
+
+## Notes
 
 
 sudo apt install docker.io
