@@ -17,6 +17,12 @@ class OrganisationFixtures extends Fixture
         $organisation->setName('Stadtlauf Burgdorf');
         $this->addReference('Organisation_Stadtlauf_Burgdorf', $organisation);
         $manager->persist($organisation);
+
+        $organisation = new Organisation();
+        $organisation->setName('Tennisverein Burgdorf');
+        $this->addReference('Tennisverein_Burgdorf', $organisation);
+        $manager->persist($organisation);
+        
         $manager->flush();
 
     }

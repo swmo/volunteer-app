@@ -48,7 +48,7 @@ class Project
     /**
      * @ORM\Column(type="boolean",options={"default" : false})
      */
-    private $isEnabled;
+    private $isEnabled = false;
 
     public function __construct()
     {

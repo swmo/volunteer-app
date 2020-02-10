@@ -23,7 +23,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $project = new Project();
         $project->setName("Stadtlauf 2020");
         $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf'));
-        
+        $project->setIsEnabled(true);
         $manager->persist($project);
         $manager->flush();
 
