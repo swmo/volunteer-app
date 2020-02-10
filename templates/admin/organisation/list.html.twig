@@ -1,0 +1,10 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Organisationen {% endblock %}
+
+{% block main %}
+    {% for organisation in organisations %}
+      {{organisation.id}}  {{organisation.name}} </br>
+    {% endfor %}
+{% endblock %}
+
