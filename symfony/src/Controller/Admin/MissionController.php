@@ -45,6 +45,7 @@ class MissionController extends AbstractController
 
         return $this->render('admin/mission/list.html.twig', [
             'missions' => $missions,
+            'project' => $project
         ]);
     }
 

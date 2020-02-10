@@ -20,7 +20,7 @@ class ProjectRepository extends ServiceEntityRepository
     }
 
     public function findOneProject(){
-        return $this->findOneBy(array());
+        return $this->findOneBy(array(),array('isEnabled' => 'DESC'));
     }
 
     // /**
