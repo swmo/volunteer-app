@@ -33,10 +33,16 @@ class Organisation
      */
     private $projects;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserOrganisation", mappedBy="organisation", orphanRemoval=true)
+     */
+    private $userOrganisations;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->userOrganisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,37 @@ class Organisation
             // set the owning side to null (unless already changed)
             if ($project->getOrganisation() === $this) {
                 $project->setOrganisation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrganisation[]
+     */
+    public function getUserOrganisations(): Collection
+    {
+        return $this->userOrganisations;
+    }
+
+    public function addUserOrganisation(UserOrganisation $userOrganisation): self
+    {
+        if (!$this->userOrganisations->contains($userOrganisation)) {
+            $this->userOrganisations[] = $userOrganisation;
+            $userOrganisation->setOrganisation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrganisation(UserOrganisation $userOrganisation): self
+    {
+        if ($this->userOrganisations->contains($userOrganisation)) {
+            $this->userOrganisations->removeElement($userOrganisation);
+            // set the owning side to null (unless already changed)
+            if ($userOrganisation->getOrganisation() === $this) {
+                $userOrganisation->setOrganisation(null);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,6 +41,16 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation")
      */
     private $selectedOrganisation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserOrganisation", mappedBy="appuser", orphanRemoval=true)
+     */
+    private $userOrganisations;
+
+    public function __construct()
+    {
+        $this->userOrganisations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +138,37 @@ class User implements UserInterface
     public function setSelectedOrganisation(?Organisation $selectedOrganisation): self
     {
         $this->selectedOrganisation = $selectedOrganisation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrganisation[]
+     */
+    public function getUserOrganisations(): Collection
+    {
+        return $this->userOrganisations;
+    }
+
+    public function addUserOrganisation(UserOrganisation $userOrganisation): self
+    {
+        if (!$this->userOrganisations->contains($userOrganisation)) {
+            $this->userOrganisations[] = $userOrganisation;
+            $userOrganisation->setAppuser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrganisation(UserOrganisation $userOrganisation): self
+    {
+        if ($this->userOrganisations->contains($userOrganisation)) {
+            $this->userOrganisations->removeElement($userOrganisation);
+            // set the owning side to null (unless already changed)
+            if ($userOrganisation->getAppuser() === $this) {
+                $userOrganisation->setAppuser(null);
+            }
+        }
 
         return $this;
     }
