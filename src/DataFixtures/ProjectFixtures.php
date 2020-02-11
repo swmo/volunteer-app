@@ -28,6 +28,23 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         $this->addReference('Project_Stadtlauf_2020', $project);
+
+        $project = new Project();
+        $project->setName("Tennisturnier Grindelwald 2020");
+        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf'));
+        $project->setIsEnabled(true);
+        $manager->persist($project);
+        $manager->flush();
+        $this->addReference('Project_Tennisturnier_Grindelwald_2020', $project);
+
+        $project = new Project();
+        $project->setName("Berner Tennis 2020");
+        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf'));
+        $project->setIsEnabled(true);
+        $manager->persist($project);
+        $manager->flush();
+
+        $this->addReference('Project_Berner_Tennis_2020', $project);
     }
 
     public function getDependencies()

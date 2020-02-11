@@ -20,7 +20,7 @@ class OrganisationFixtures extends Fixture
 
         $organisation = new Organisation();
         $organisation->setName('Tennisverein Burgdorf');
-        $this->addReference('Tennisverein_Burgdorf', $organisation);
+        $this->addReference('Organisation_Tennisverein_Burgdorf', $organisation);
         $manager->persist($organisation);
         
         $manager->flush();
