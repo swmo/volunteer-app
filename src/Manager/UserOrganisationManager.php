@@ -1,25 +1,35 @@
 <?php
 
-namespace App\Utils;
+namespace App\Manager;
 
+use App\Entity\Organisation;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
 class UserOrganisationManager 
 {
-
     protected $security = null;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, EntityManagerInterface $em)
     {
         $this->security = $security;
+        $this->em = $em;
 
-        echo 'UserOrganisationManager: ' . $this->security->getUser();
+        if($this->security->getUser()->getSelectedOrganisation() === null){
+           $organisation =  $em->getRepository(Organisation::class)->findOneBy(array());
 
-        exit;
+           if($organisation){
+               $this->selectOrgansiation($organisation);
+           }
+
+        }
     }
 
-    public function selectOrgansiation($organisation){
-
+    public function selectOrgansiation(Organisation $organisation){
+        $user = $this->security->getUser()->setSelectedOrganisation($organisation);
+        $this->em->persist($user);
+        $this->em->flush();
     }
+
 
 }

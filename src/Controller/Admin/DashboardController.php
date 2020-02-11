@@ -24,4 +24,5 @@ class DashboardController extends AbstractController
             'persons' => $persons
         ]);
     }
+
 }
