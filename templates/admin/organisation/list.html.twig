@@ -4,7 +4,7 @@
 
 {% block main %}
     {% for organisation in organisations %}
-      {{organisation.id}}  {{organisation.name}} </br>
+      {{organisation.id}}  {{organisation.name}}  <a href="{{path('admin_organisation_select',{id:organisation.id})}}">select</a></br>
     {% endfor %}
 {% endblock %}
 
