@@ -20,28 +20,18 @@ class OrganisationController extends AbstractController
      */
     public function list(EntityManagerInterface $em, UserOrganisationManager $userOrganisationManager)
     {
-
         $organisations = $em->getRepository(Organisation::class)->findAll();
-        
         return $this->render('admin/organisation/list.html.twig', [
             'organisations' => $organisations,
         ]);
     }
 
-
     /**
      * @Route("/organisation/select/{id}", name="admin_organisation_select")
      */
-    public function select(Organisation $organisation, EntityManagerInterface $em, Security $security){
-
-        $user = $security->getUser();
-       
-        $user->setSelectedOrganisation($organisation);
-        $em->persist($user);
-        $em->flush();
-        
+    public function select(Organisation $organisation, UserOrganisationManager $userOrganisationManager){
+        $userOrganisationManager->selectOrgansiation($organisation);
         return $this->redirectToRoute('admin_project_list');
-
     }
 
 }

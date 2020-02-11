@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Manager\UserOrganisationManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,13 +15,21 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ProjectRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+
+    protected $userOrganisationManager = null;
+
+    public function __construct(RegistryInterface $registry, UserOrganisationManager $userOrganisationManager)
     {
+        $this->userOrganisationManager = $userOrganisationManager;
         parent::__construct($registry, Project::class);
     }
 
     public function findOneProject(){
         return $this->findOneBy(array(),array('isEnabled' => 'DESC'));
+    }
+
+    public function findAll(){
+        return $this->findBy(array('organisation' => $this->userOrganisationManager->getSelectedOrganisation()));
     }
 
     // /**
