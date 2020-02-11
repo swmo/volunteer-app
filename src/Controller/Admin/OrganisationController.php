@@ -39,8 +39,7 @@ class OrganisationController extends AbstractController
         $em->persist($user);
         $em->flush();
         
-        echo "select organisation" . $organisation->getName() . ' - ' . $user->getUsername();
-        exit;
+        return $this->redirectToRoute('admin_project_list');
 
     }
 }
