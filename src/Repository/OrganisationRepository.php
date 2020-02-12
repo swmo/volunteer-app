@@ -19,6 +19,12 @@ class OrganisationRepository extends ServiceEntityRepository
         parent::__construct($registry, Organisation::class);
     }
 
+
+    public function findAll(){
+        //todo: filter only allowed organisations:
+        return $this->findBy(array());
+    }
+
     // /**
     //  * @return Organisation[] Returns an array of Organisation objects
     //  */

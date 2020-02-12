@@ -25,8 +25,30 @@ class UserFixtures extends Fixture
             $user,
             'demo'
         ));
-
+        $this->addReference('User_Stadtlauf_Burgdorf', $user);
         $manager->persist($user);
+
+
+        $user = new User();
+        $user->setEmail('admin@local');
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            'demo'
+        ));
+        $this->addReference('User_Admin', $user);
+        $manager->persist($user);
+
+
+        $user = new User();
+        $user->setEmail('personal@tennisverein-burgdorf.ch');
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            'demo'
+        ));
+        $manager->persist($user);
+        $this->addReference('User_Tennisverein_Burgdorf', $user);
 
        $manager->flush();
     }
