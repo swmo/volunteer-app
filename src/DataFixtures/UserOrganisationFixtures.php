@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\UserOrganisation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class UserOrganisationFixtures extends Fixture
+class UserOrganisationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
