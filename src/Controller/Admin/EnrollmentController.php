@@ -20,10 +20,11 @@ class EnrollmentController extends AbstractController
 {
     /**
      * @Route("/enrollment/list", name="admin_enrollment_list")
-     * @Route("/enrollment/list/mission/{id}", name="admin_enrollment_list_by_mission")
+     * @Route("/enrollment/list/project/{id}", name="admin_enrollment_list_by_project")
      */
     public function index(EntityManagerInterface $em, Mission $mission = null) 
     {
+        
         $enrollments = $em->getRepository(Enrollment::class)->findBy(array(), array('firstname' => 'ASC'));;
 
         return $this->render('admin/enrollment/list.html.twig', [
