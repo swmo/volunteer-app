@@ -8,17 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/admin")
  */
-class PersonController extends AbstractController
+class UserController extends AbstractController
 {
     /**
-     * @Route("/person/list", name="admin_person_list")
+     * @Route("/admin/user/list", name="admin_user_list")
      */
     public function index()
     {
-        return $this->render('admin/person/list.html.twig', [
-            'controller_name' => 'PersonController',
+        return $this->render('admin/user/list.html.twig', [
+            'controller_name' => 'UserController',
         ]);
     }
-
-    
 }
