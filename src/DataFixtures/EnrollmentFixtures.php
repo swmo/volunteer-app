@@ -14,4 +14,11 @@ class EnrollmentFixtures extends Fixture
 
         $manager->flush();
     }
+
+    public function getDependencies()
+    {
+        return array(
+            MissionFixtures::class,
+        );
+    }
 }

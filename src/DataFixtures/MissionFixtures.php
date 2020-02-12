@@ -26,6 +26,7 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setRequiredVolunteers(6);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
 
+        $this->addReference('Mission_Chip-Entnahme', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -44,6 +45,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 17:00'));
         $mission->setRequiredVolunteers(13);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Aufbau', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -61,6 +64,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 19:30'));
         $mission->setRequiredVolunteers(19);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Streckenposten', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -76,6 +81,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 17:45'));
         $mission->setRequiredVolunteers(9);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Anmeldung', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -92,6 +99,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 19:00'));
         $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Verpflegung', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -108,6 +117,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 20:00'));
         $mission->setRequiredVolunteers(12);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Festwirtschaft', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -123,6 +134,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 21:30'));
         $mission->setRequiredVolunteers(10);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Abbau', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -140,6 +153,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setEnd(new \DateTime('2019-09-14 19:00'));
         $mission->setRequiredVolunteers(2);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Mission_Maskottchen', $mission);
         $manager->persist($mission);
         $manager->flush();
 
@@ -157,9 +172,28 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
         $mission->setMeetingPoint("testing");
         $mission->setRequiredVolunteers(5);
         $mission->setProject($this->getReference('Project_Stadtlauf_2019'));
+
+        $this->addReference('Misson_Verpacken_Laeufergeschenke', $mission);
         $manager->persist($mission);
         $manager->flush();
 
+        $mission = new Mission();
+        $mission->setName('Tennisschläger sortieren');
+        $mission->setShortDescription('
+            Aufgabe: Du sortierst die Schläger nach Grösse und Gewicht
+            <br />  
+            Anforderung: Effizient anpacken können.
+        ');
+        $mission->setImage('geschenke.jpg');
+        $mission->setStart(new \DateTime('2019-09-13 17:00'));
+        $mission->setEnd(new \DateTime('2019-09-13 21:30'));
+        $mission->setMeetingPoint("testing");
+        $mission->setRequiredVolunteers(5);
+        $mission->setProject($this->getReference('Project_Tennisturnier_Grindelwald_2020'));
+
+        $this->addReference('Misson_Tennisschlaeger_sortieren', $mission);
+        $manager->persist($mission);
+        $manager->flush();
     }
 
     public function getDependencies()

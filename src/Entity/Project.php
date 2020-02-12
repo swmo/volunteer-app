@@ -42,6 +42,7 @@ class Project
     /**
      * @ORM\Column(type="string", length=255, options={"default" : null},nullable=true)
      * Schlüssel welcher im DNS hinterlegt werden muss damit die zuordnung gemacht werden kann.
+     * todo: Evt besser auf Ebene Organisation verschieben??
      */
     private $domainProofKey;
 
