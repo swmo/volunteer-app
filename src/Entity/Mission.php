@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Knp\DoctrineBehaviors\Model\Loggable\LoggableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\LoggableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MissionRepository")
  */
-class Mission
+class Mission implements LoggableInterface
 {
+    use LoggableTrait;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
