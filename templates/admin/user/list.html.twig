@@ -3,7 +3,25 @@
 {% block title %} Benutzer {% endblock %}
 
 {% block main %}
-
-    Benutzerliste
+<div class="w-full md:w-2/3 mx-auto">
+  <div class="bg-white shadow-md rounded my-6">
+    <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
+      <thead>
+        <tr>
+          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Username</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for user in users %}
+        <tr>
+            <td>
+                {{user.getAppuser().username}}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    </div>
     
 {% endblock %}

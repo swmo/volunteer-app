@@ -40,5 +40,8 @@ class UserOrganisationManager
         return $this->organisation;
     }
 
+    public function getUsers(){
+        return $this->getSelectedOrganisation()->getUserOrganisations();
+    }
 
 }
