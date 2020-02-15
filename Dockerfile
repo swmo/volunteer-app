@@ -9,11 +9,11 @@ COPY composer.json composer.lock symfony.lock ./
 
 RUN composer install --no-scripts --no-dev --ignore-platform-reqs
 
-FROM nginx:1.15.8-alpine
+FROM nginx:1.17.8-alpine-perl
 EXPOSE 80
 
 # alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
-ENV php7version 7.3.8-r0
+#ENV php7version 7.3.8-r0
 RUN apk --update add --no-cache \
 	php7  \
 	php7-dom  \
