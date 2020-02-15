@@ -9,7 +9,7 @@ COPY composer.json composer.lock symfony.lock ./
 
 RUN composer install --no-scripts --ignore-platform-reqs
 
-FROM nginx:1.17.8-alpine
+FROM nginx:1.17.8-alpine-perl
 EXPOSE 80
 
 # alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
