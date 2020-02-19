@@ -5,7 +5,6 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "knplabs/doctrine-behaviors": "~v2.0.0",
         "phpoffice/phpspreadsheet": "^1.7",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "^4.4",

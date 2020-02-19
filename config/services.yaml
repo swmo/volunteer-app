@@ -6,14 +6,6 @@
 parameters:
     locale: 'de'
     router.request_context.host: example.org
-
-monolog:
-    channels: ['db']
-    handlers:
-        db:
-            type: service
-            channels: ['db']
-            id: ownmonolog.db    
            
 services:
     # default configuration for services in *this* file
@@ -36,13 +28,5 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    ownmonolog.db:
-        class: App\Utils\MonologDbHandler
-        calls:
-            - ['setEntityManager', ['@doctrine.dbal.default_connection']]
     
-    Knp\DoctrineBehaviors\EventSubscriber\LoggableSubscriber:
-        arguments:
-            $logger: '@monolog.logger.db'
 
