@@ -10,8 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo; // gedmo annotations
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MissionRepository")
+ * @Gedmo\Loggable
  */
-class Mission
+class Mission 
 {
 
     
@@ -23,32 +24,49 @@ class Mission
     private $id;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @gedmo\Locale
+     * to mark the field as locale used to override global
+     * locale settings from TranslatableListener
+     * 
+     * Load Translation:
+     * $entity->setTranslatableLocale($locale);
+     * $em->refresh($entity);
+     */
+    private $locale;
+
+    /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     private $shortDescription;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $start;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", name="enddate", nullable=false)
      * end is a reserved word for postgres
      */
     private $end;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="missions")
      */
     private $project;
@@ -69,16 +87,19 @@ class Mission
     private $enrollment02;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $meetingPoint;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $calendarEventDescription;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="boolean",options={"default" : true})
      */
     private $isEnabled = true;
