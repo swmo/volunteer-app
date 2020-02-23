@@ -30,3 +30,19 @@ services:
     # please note that last definitions always *replace* previous ones
     
 
+
+
+    # Doctrine Extension listeners to handle behaviors
+    Gedmo\Translatable\TranslatableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, ["%locale%"] ]
+            - [ setTranslationFallback, [ false ] ]
+
+    Gedmo\Loggable\LoggableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
