@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,12 +14,11 @@ class PersonController extends AbstractController
     /**
      * @Route("/person/list", name="admin_person_list")
      */
-    public function list()
+    public function list(PersonRepository $personRepository)
     {
         return $this->render('admin/person/list.html.twig', [
-            'controller_name' => 'PersonController',
+            'persons' =>  $personRepository->findAll(),
         ]);
     }
-
 
 }

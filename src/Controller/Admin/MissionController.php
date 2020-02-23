@@ -10,12 +10,23 @@ use App\Form\Admin\MissionFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Enrollment;
+use Gedmo\Loggable\Entity\LogEntry;
+use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 
 /**
  * @Route("/admin")
  */
 class MissionController extends AbstractController
 {
+
+    /*
+    private $logEntryRepository;
+
+    public function __construct(LogEntryRepository $logEntryRepository)
+    {
+        $this->logEntryRepository = $logEntryRepository;
+    }
+    */
 
     /**
      * @Route("/mission/list", name="admin_mission_list")
@@ -57,6 +68,9 @@ class MissionController extends AbstractController
         $form = $this->createForm(MissionFormType::class,$mission);
         $form->handleRequest($request);
 
+        
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $mission = $form->getData();
 
@@ -73,6 +87,7 @@ class MissionController extends AbstractController
 
         return $this->render('admin/mission/edit.html.twig', [
             'form' => $form->createView(),
+            'logEntries' => $em->getRepository(LogEntry::class)->getLogEntries($mission)
         ]);
     }
 

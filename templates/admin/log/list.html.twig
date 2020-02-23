@@ -7,38 +7,51 @@
 
 
     <h2>
-        Entity Log
+        Log
     </h2>
 
-    <table class="text-left w-full border-collapse">
-      <thead>
-        <tr>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">ID</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Message</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Organisation ID</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Object Class</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Object ID</th>
-            <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Version</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Action</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Old Data</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">New Data</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Logged at</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Username</th>
-        </tr>
-      </thead>
-      <tbody>
-    {% for log in logs %}
-        <tr>
-            <td>
-                {{ log.id }}
-            </td>
-            <td>
-                {{log.message}}
-            </td>
-        </tr>
-    {% endfor %}
+ 
 
-    </tbody>
-    </table>
+<table class="table-auto">
+  <thead>
+    <tr>
+        <th class="px-4 py-2">Datum</th>
+      <th class="px-4 py-2">Benutzer</th>
+      <th class="px-4 py-2">ObjektClas</th>
+        <th class="px-4 py-2">ObjektId</th>
+      <th class="px-4 py-2">Action</th>
+      <th class="px-4 py-2">Version</th>
+      <th class="px-4 py-2">Daten</th>
+    </tr>
+  </thead>
+   <tbody>
+      {% for logEntry in logEntries %}
+         <tr>
+            <td class="border px-4 py-2">
+               {{logEntry.loggedAt|date('Y-m-d H:i')}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.username}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.objectClass}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.objectId}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.action}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.version}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.data|json_encode(constant('JSON_PRETTY_PRINT'))}}
+            </td>
+         </tr>
+      {% endfor %}
+   </tbody>
+</table>
+
     
 {% endblock %}

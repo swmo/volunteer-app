@@ -4,6 +4,50 @@
 
 {% block main %}
 
-    Personlist
+<h2>Stammdaten </h2>
+
+<table class="table-auto">
+  <thead>
+    <tr>
+        <th class="px-4 py-2">Lastname</th>
+      <th class="px-4 py-2">Firstname</th>
+      <th class="px-4 py-2">Street</th>
+        <th class="px-4 py-2">City</th>
+      <th class="px-4 py-2">Mobile</th>
+      <th class="px-4 py-2">Email</th>
+      <th class="px-4 py-2">Remark</th>
+    </tr>
+  </thead>
+   <tbody>
+      {% for person in persons %}
+         <tr>
+            <td class="border px-4 py-2">
+               {{person.lastname}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.firstname}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.street}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.city}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.zip}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.mobile}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.email}}
+            </td>
+            <td class="border px-4 py-2">
+               {{person.remark}}
+            </td>
+         </tr>
+      {% endfor %}
+   </tbody>
+</table>
     
 {% endblock %}
