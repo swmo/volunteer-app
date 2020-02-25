@@ -20,6 +20,7 @@ class UserOrganisationManager
         /*
         Prüft ob der User bereits eine Organisation ausgewählt hat, falls nicht so wird ihm eine zugeteilt
         */
+        /*
         if(($this->organisation = $this->security->getUser()->getSelectedOrganisation()) === null){
         
            if($this->organisation =  $em->getRepository(Organisation::class)->findOneBy(array())){
@@ -27,6 +28,7 @@ class UserOrganisationManager
            }
 
         }
+        */
     }
 
     public function selectOrgansiation(Organisation $organisation){
@@ -37,7 +39,7 @@ class UserOrganisationManager
     }
 
     public function getSelectedOrganisation(){
-        return $this->organisation;
+        return $this->security->getUser()->getSelectedOrganisation();
     }
 
     public function getUsers(){

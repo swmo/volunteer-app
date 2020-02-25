@@ -20,6 +20,7 @@ class VolunteerController extends AbstractController
 
     /**
      * @Route("/volunteer/enroll", name="volunteer_enroll")
+     * @Route("/volunteer/enroll/{project}", name="volunteer_enroll_by_project")
      * @Route("/", name="home")
      */
     public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)

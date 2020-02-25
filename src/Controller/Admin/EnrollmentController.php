@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Entity\Mission;
+use App\Entity\Project;
 
 /**
  * @Route("/admin")
@@ -22,7 +23,7 @@ class EnrollmentController extends AbstractController
      * @Route("/enrollment/list", name="admin_enrollment_list")
      * @Route("/enrollment/list/project/{id}", name="admin_enrollment_list_by_project")
      */
-    public function index(EntityManagerInterface $em, Mission $mission = null) 
+    public function index(EntityManagerInterface $em, Project $project = null) 
     {
         
         $enrollments = $em->getRepository(Enrollment::class)->findBy(array(), array('firstname' => 'ASC'));;
@@ -171,4 +172,14 @@ class EnrollmentController extends AbstractController
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
         
     }
+
+    /**
+     * @Route("/enrollment/mergetoperson/project/{id}", name="admin_enrollment_mergetoperson")
+     */
+    public function mergetoperson(Project $project, Request $request, EntityManagerInterface $em)
+    {
+
+    }
+
+    
 }

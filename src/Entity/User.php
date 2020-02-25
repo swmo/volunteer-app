@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
+ * @Gedmo\Loggable
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="appuser")
  * need to set to appuse instead of user because of a reserved word of postgres
@@ -22,11 +25,13 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -38,6 +43,7 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="App\Entity\Organisation")
      */
     private $selectedOrganisation;
@@ -46,6 +52,13 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\UserOrganisation", mappedBy="appuser", orphanRemoval=true)
      */
     private $userOrganisations;
+
+    /*
+    * Notwendig um das Klartext Password temporär zu speichern -> ist kein Feld in der DB
+    */
+    private $plainPassword;
+
+
 
     public function __construct()
     {
@@ -106,6 +119,10 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
+    /*
+    * To set a new Password use setPlainPassword Method.
+    * in setPassword you have to use the already encryptet password.
+    */ 
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -113,6 +130,23 @@ class User implements UserInterface
         return $this;
     }
 
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        /*
+         * Die nullung des plainPassword wird benötit damit garantiert
+         * werden kann das der Listener für das Hashing des Passwortes
+         * aufgerufen wird auch wenn nur das Password zurückgesetzt wird.
+         */
+        $this->password = null;
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string 
+    {
+        return $this->plainPassword;
+    }
     /**
      * @see UserInterface
      */

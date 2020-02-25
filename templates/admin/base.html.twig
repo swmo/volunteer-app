@@ -67,14 +67,30 @@
                 {% block sidebar %}
                     <div class="w-full md:w-1/5 bg-black md:bg-black px-2 text-center fixed pin-b md:pt-8 md:pin-t md:pin-l h-16 md:h-screen md:border-r-4 md:border-grey-dark">
                         <div class="md:relative w-full lg:float-right lg:px-6">
-                        <ul class="list-reset flex flex-row md:flex-col text-center md:text-left">
-                            <li class="mr-3 flex-1">
+                        
+                        <ul class="list-reset flex flex-row md:flex-col text-center md:text-left"> 
+                            <li class="mr-3  flex-1">
                                     <a href="{{path('admin_organisation_list')}}" 
                                         class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
                                     >
                                         <i class="fas fa-link pr-0 md:pr-3"></i>
                                         <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
                                             Organisationen
+                                        </span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        {% include 'admin/organisation_sidebar.html.twig' %}
+
+                        <ul class="mt-3 list-reset flex flex-row md:flex-col text-center md:text-left"> 
+                            <li class="mr-3 flex-1">
+                                    <a href="{{path('admin_userprofil')}}" 
+                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
+                                    >
+                                        <i class="fas fa-link pr-0 md:pr-3"></i>
+                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
+                                            Mein Profil
                                         </span>
                                 </a>
                             </li>
@@ -89,7 +105,6 @@
                                 </a>
                             </li>
                         </ul>
-                        {% include 'admin/organisation_sidebar.html.twig' %}
                         </div>
                     </div>
                 {% endblock %}  

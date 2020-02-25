@@ -14,36 +14,50 @@ class PersonFixtures extends Fixture
     {
         $file = dirname(__FILE__).'/../../resources/data/personen.csv';
 
-        if(!file_exists($file)){
-                echo $file . ' not found! skip!';
-                return;
-        }
-        if (($handle = fopen($file, 'r')) !== FALSE) {
+        // falls ein Personen CSV vorliegt wird dieses verwendet für den Import
+        if(file_exists($file)){
 
-            $i = 0;
+            if (($handle = fopen($file, 'r')) !== FALSE) {
 
-            while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
-
-                $person = new Person();
-                $person->setFirstname($data[0]);
-                $person->setLastname($data[1]);
-                $person->setStreet($data[2]);
-                $person->setZip($data[3]);
-                $person->setMobile($data[5]);
-                $person->setEmail($data[6]);
-                $person->setCity($data[4]);
-                $person->setRemark($data[7]);
-            
-
-                $manager->persist($person);
-
-                $this->addReference('person-'.$i, $person);
-                $i++;
-
+                $i = 0;
+    
+                while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
+    
+                    $person = new Person();
+                    $person->setFirstname($data[0]);
+                    $person->setLastname($data[1]);
+                    $person->setStreet($data[2]);
+                    $person->setZip($data[3]);
+                    $person->setMobile($data[5]);
+                    $person->setEmail($data[6]);
+                    $person->setCity($data[4]);
+                    $person->setRemark($data[7]);
+                
+    
+                    $manager->persist($person);
+    
+                    $this->addReference('person-'.$i, $person);
+                    $i++;
+    
+                }
+                fclose($handle);
             }
-            fclose($handle);
+    
+            $manager->flush();
         }
-
-        $manager->flush();
+        // falls keine CSV Datei vorliegt werden ein paar Personen generiert:
+        else {
+            $person = new Person();
+            $person->setFirstname('Hans');
+            $person->setLastname('Muster');
+            $person->setStreet('Strasse 32');
+            $person->setZip(3400);
+            $person->setMobile('079 898 76 76');
+            $person->setEmail('test@test.com');
+            $person->setCity('Burgdorf');
+            $person->setRemark('netter Mensch');
+            $manager->persist($person);
+            $manager->flush();
+        }
     }
 }

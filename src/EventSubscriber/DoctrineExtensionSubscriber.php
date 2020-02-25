@@ -31,10 +31,6 @@ class DoctrineExtensionSubscriber implements EventSubscriberInterface
     
     private $authorizationChecker;
 
-
-
-
-
     public function __construct(
         TranslatableListener $translatableListener,
         LoggableListener $loggableListener,

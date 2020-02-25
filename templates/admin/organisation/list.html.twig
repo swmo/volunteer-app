@@ -3,8 +3,11 @@
 {% block title %} Organisationen {% endblock %}
 
 {% block main %}
+    <h2> Meine Organisationen </h2>
     {% for organisation in organisations %}
-      {{organisation.id}}  {{organisation.name}}  <a href="{{path('admin_organisation_select',{id:organisation.id})}}">select</a></br>
+        {{organisation.id}}  {{organisation.name}}  <a href="{{path('admin_organisation_select',{id:organisation.id})}}">select</a></br>
     {% endfor %}
+    <h2> Neue Organisationen erstellen </h2>
+    Deine Organisation ist noch 
 {% endblock %}
 
