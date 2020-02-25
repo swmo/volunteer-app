@@ -13,6 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
+use App\Entity\Project;
 use App\Utils\IcsGenerator;
 
 class VolunteerController extends AbstractController
@@ -34,6 +35,9 @@ class VolunteerController extends AbstractController
             $enrollment = $form->getData();
             /** @var Enrollment $enrollment */
             $enrollment->setConfirmToken($tokenGenerator->generateToken());
+            //temp fix:
+            $enrollment->setProject($em->getRepository(Project::class)->findOneBy(array('id' => 1)));
+
             /*
             * Besteht die Person bereits unter den Stammdaten (Personen) so wird diese automatisch confirmed
             */
