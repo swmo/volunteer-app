@@ -18,25 +18,23 @@
         </tr>
       </thead>
       <tbody>
-
           {% for project in projects %}
-        <tr class="hover:bg-grey-lighter">
-          <td class="py-4 px-6 border-b border-grey-light">
-          
-          {% if (project.isEnabled) %}
-          <i class="fas fa-toggle-on"></i>
-          {% else %}
-          <i class="fas fa-toggle-off"></i>
-           {% endif %}
-          </td>
-          <td class="py-4 px-6 border-b border-grey-light">{{ project.id }} {{ project.name }}</td>
-          <td class="py-4 px-6 border-b border-grey-light">{{ project.organisation.name }}</td>
-          <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_mission_list_by_project',{'id':project.id})}}"> Einsätze</a></td>
-          <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_enrollment_list_by_project',{'id':project.id})}}"> Anmeldungen</a></td>
-    
-          
+          <tr class="hover:bg-grey-lighter">
+            <td class="py-4 px-6 border-b border-grey-light">
+            
+            {% if (project.isEnabled) %}
+            <i class="fas fa-toggle-on"></i>
+            {% else %}
+            <i class="fas fa-toggle-off"></i>
+            {% endif %}
+            </td>
+            <td class="py-4 px-6 border-b border-grey-light">{{ project.id }} {{ project.name }}</td>
+            <td class="py-4 px-6 border-b border-grey-light">{{ project.organisation.name }}</td>
+            <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_mission_list_by_project',{'id':project.id})}}"> Einsätze</a></td>
+            <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_enrollment_list_by_project',{'id':project.id})}}"> Anmeldungen</a></td>
+            <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_project_mergetoperson',{'id':project.id})}}"> Merge to Person</a></td>
           </tr>
-    {% endfor %}
+          {% endfor %}
 
           </tbody>
           </table>

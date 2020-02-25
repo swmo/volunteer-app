@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Person;
 use App\Repository\PersonRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,8 +19,24 @@ class PersonController extends AbstractController
     public function list(PersonRepository $personRepository)
     {
         return $this->render('admin/person/list.html.twig', [
-            'persons' =>  $personRepository->findAll(),
+            'persons' =>  $personRepository->findBy([],['lastname'=>'ASC','firstname' => 'ASC']),
         ]);
     }
 
+    /**
+     * @Route("/person/delete/{id}", name="admin_person_delete")
+     */
+    public function delete(Person $person, EntityManagerInterface $em)
+    {
+        $msg = 'Person wurde gelöscht ' . $person->getId() . ': ' . $person->getLastname() . ' ' . $person->getFirstname(); 
+        $em->remove($person);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            $msg
+        );
+
+        return $this->redirectToRoute('admin_person_list');
+    }
 }

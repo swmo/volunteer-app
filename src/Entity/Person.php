@@ -5,8 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
+ * @Gedmo\Loggable
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  */
 class Person
@@ -19,41 +22,49 @@ class Person
     private $id;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      */
     private $lastname;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $street;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $zip;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $mobile;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $remark;
@@ -62,6 +73,7 @@ class Person
      * @ORM\ManyToMany(targetEntity="App\Entity\Organisation", inversedBy="people")
      */
     private $organisations;
+    
 
     public function __construct()
     {

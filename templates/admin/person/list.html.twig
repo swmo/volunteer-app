@@ -9,18 +9,26 @@
 <table class="table-auto">
   <thead>
     <tr>
+      <th>OU</th>
         <th class="px-4 py-2">Lastname</th>
       <th class="px-4 py-2">Firstname</th>
       <th class="px-4 py-2">Street</th>
         <th class="px-4 py-2">City</th>
+        <th class="px-4 py-2">PLZ</th>
       <th class="px-4 py-2">Mobile</th>
       <th class="px-4 py-2">Email</th>
       <th class="px-4 py-2">Remark</th>
+      <th class="px-4 py-2">Action</th>
     </tr>
   </thead>
    <tbody>
       {% for person in persons %}
          <tr>
+            <td>
+               {% for organisation in person.getOrganisations() %}
+                     {{organisation.name}}
+               {% endfor %}
+            </td>
             <td class="border px-4 py-2">
                {{person.lastname}}
             </td>
@@ -44,6 +52,9 @@
             </td>
             <td class="border px-4 py-2">
                {{person.remark}}
+            </td>
+            <td>
+            <a href="{{path('admin_person_delete',{'id':person.id})}}">delete</a>
             </td>
          </tr>
       {% endfor %}

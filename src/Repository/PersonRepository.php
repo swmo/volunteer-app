@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\Organisation;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,6 +19,18 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
+    public function findByOrganisationFirstnameEmail(Organisation $organisation, string $firstname, string $email){
+        
+        return $this->createQueryBuilder('p')
+            ->andWhere('LOWER(p.firstname) = :firstname')
+            ->andWhere('LOWER(p.email) = :email')
+            ->setParameter('firstname', strtolower($firstname))
+            ->setParameter('email', strtolower($email))
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     // /**
     //  * @return Person[] Returns an array of Person objects
