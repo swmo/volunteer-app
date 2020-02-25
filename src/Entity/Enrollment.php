@@ -122,6 +122,12 @@ class Enrollment
      */
     private $organizedDescriptionMissionChoice02;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="enrollments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -470,6 +476,18 @@ class Enrollment
     public function setOrganizedDescriptionMissionChoice02(?string $organizedDescriptionMissionChoice02): self
     {
         $this->organizedDescriptionMissionChoice02 = $organizedDescriptionMissionChoice02;
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
         return $this;
     }
 }

@@ -51,9 +51,15 @@ class Project
      */
     private $isEnabled = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Enrollment", mappedBy="project")
+     */
+    private $enrollments;
+
     public function __construct()
     {
         $this->missions = new ArrayCollection();
+        $this->enrollments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,5 +161,36 @@ class Project
     public function __toString()
     {
         return $this->getOrganisation()->getName() . ' ' . $this->getName();
+    }
+
+    /**
+     * @return Collection|Enrollment[]
+     */
+    public function getEnrollments(): Collection
+    {
+        return $this->enrollments;
+    }
+
+    public function addEnrollment(Enrollment $enrollment): self
+    {
+        if (!$this->enrollments->contains($enrollment)) {
+            $this->enrollments[] = $enrollment;
+            $enrollment->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnrollment(Enrollment $enrollment): self
+    {
+        if ($this->enrollments->contains($enrollment)) {
+            $this->enrollments->removeElement($enrollment);
+            // set the owning side to null (unless already changed)
+            if ($enrollment->getProject() === $this) {
+                $enrollment->setProject(null);
+            }
+        }
+
+        return $this;
     }
 }
