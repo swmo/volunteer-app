@@ -15,6 +15,7 @@ use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
 use App\Entity\Project;
 use App\Utils\IcsGenerator;
+use App\Utils\MergeProjectPerson;
 
 class VolunteerController extends AbstractController
 {
@@ -54,7 +55,8 @@ class VolunteerController extends AbstractController
             }
 
             $em->persist($enrollment);
-            $em->flush();           
+            $em->flush();    
+
             
             $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
 

@@ -160,7 +160,7 @@ class Person
 
     public function getZip(): ?string
     {
-        return $this->street;
+        return $this->zip;
     }
 
     public function setZip(?string $zip): self

@@ -33,7 +33,10 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-
+    
+    App\Doctrine\MergePersonListener:
+        tags:
+            - { name: doctrine.event_subscriber }
 
     # Doctrine Extension listeners to handle behaviors
     Gedmo\Translatable\TranslatableListener:

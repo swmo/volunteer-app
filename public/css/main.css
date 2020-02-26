@@ -80,3 +80,7 @@
   .form-group-error select{
     border-color:red !important;
   }
+
+.dropdown:hover > .dropdown-content {
+	display: block;
+}

@@ -19,7 +19,7 @@ class LogController extends AbstractController
         $logEntryRepository = $em->getRepository(LogEntry::class);
 
         return $this->render('admin/log/list.html.twig', [
-            'logEntries' => $logEntryRepository->findAll(),
+            'logEntries' => $logEntryRepository->findBy([],array('id' => 'DESC')),
         ]);
     }
 }

@@ -5,15 +5,14 @@
 
 namespace App\Utils;
 
-use App\Entity\Mission;
 use App\Entity\Project;
 use App\Entity\Enrollment;
 use App\Entity\Person;
-use App\Repository\PersonRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
-class MergeProjectPerson
+use Doctrine\ORM\EntityManagerInterface;
+
+
+class MergePerson
 {
 
     private $em = null;
@@ -22,17 +21,20 @@ class MergeProjectPerson
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-
     }
     
-    public function mergeProjectToPerson(Project $project)
+    public function mergeProject(Project $project)
     {   
-        $organisation = $project->getOrganisation();
-        
         $enrollments = $project->getEnrollments();
+        foreach($enrollments as $enrollment)
+        {
+            $this->mergeEnrollemnt($enrollment);
+        }
+    }
 
-        foreach($enrollments as $enrollment){
-         
+    public function mergeEnrollemnt(Enrollment $enrollment)
+    {
+            $organisation = $enrollment->getProject()->getOrganisation();
             /** @var Person $person */
             $personsFound = $this->em->getRepository(Person::class)->findByOrganisationFirstnameEmail(
                 $organisation,
@@ -46,7 +48,7 @@ class MergeProjectPerson
                 }
                 else {
                     $this->msgs[] = array('danger',$enrollment->getEmail() . ' ' . $enrollment->getFirstname()  . ' wurde mehrmals gefunden bitte in den Stammdaten bereinigen!');
-                    continue;
+                    return;
 
                 } 
             }
@@ -72,10 +74,8 @@ class MergeProjectPerson
             $enrollment->getEmail() ? $person->setEmail($enrollment->getEmail()) : null;
             
             $this->em->persist($person);
+            $this->em->flush();
           
-
-        }
-        $this->em->flush();
     }
 
     public function getMsgs(){

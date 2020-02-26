@@ -6,28 +6,40 @@
 
 <h2>Stammdaten </h2>
 
+
+
+<div class="dropdown inline-block relative">
+	<button class="bg-gray text-gray font-semibold py-2 px-4 rounded inline-flex items-center">
+		<i class="fas fa-2x fa-cog"></i>
+	</button>
+	<ul class="dropdown-content list-reset absolute hidden text-gray pt-1">
+      <li><a class="rounded-t bg-red hover:bg-gray py-2 px-4 block whitespace-no-wrap" href="#"><i class="fas fa-2x fa-file-excel"></i>Export to Excel</a></li>
+		<li><a class="rounded-t bg-red hover:bg-gray py-2 px-4 block whitespace-no-wrap" href="#"><i class="fas fa-2x fa-wrench"></i> Wartungsanaylse</a></li>
+	</ul>
+</div>
+
+
 <table class="table-auto">
   <thead>
     <tr>
-      <th>OU</th>
-        <th class="px-4 py-2">Lastname</th>
+      <th class="px-4 py-2">ID</th>
+      <th class="px-4 py-2">Lastname</th>
       <th class="px-4 py-2">Firstname</th>
       <th class="px-4 py-2">Street</th>
-        <th class="px-4 py-2">City</th>
-        <th class="px-4 py-2">PLZ</th>
+      <th class="px-4 py-2">City</th>
+      <th class="px-4 py-2">PLZ</th>
       <th class="px-4 py-2">Mobile</th>
       <th class="px-4 py-2">Email</th>
       <th class="px-4 py-2">Remark</th>
+      <th class="px-4 py-2">Enrollments</th>
       <th class="px-4 py-2">Action</th>
     </tr>
   </thead>
    <tbody>
       {% for person in persons %}
          <tr>
-            <td>
-               {% for organisation in person.getOrganisations() %}
-                     {{organisation.name}}
-               {% endfor %}
+            <td class="border px-4 py-2">
+               {{person.id}}
             </td>
             <td class="border px-4 py-2">
                {{person.lastname}}
@@ -53,7 +65,10 @@
             <td class="border px-4 py-2">
                {{person.remark}}
             </td>
-            <td>
+            <td class="border px-4 py-2">
+               Enrollments
+            </td>
+            <td class="border px-4 py-2">
             <a href="{{path('admin_person_delete',{'id':person.id})}}">delete</a>
             </td>
          </tr>

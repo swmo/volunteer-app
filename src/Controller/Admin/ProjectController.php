@@ -6,7 +6,7 @@ use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ProjectFormType;
-use App\Utils\MergeProjectPerson;
+use App\Utils\MergePerson;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -28,13 +28,14 @@ class ProjectController extends AbstractController
     }
 
     /**
+     * todo: create an Command for this and not over the Frontend (ugly because its only needed for special needs, as example for migrations)
      * @Route("/project/{id}/mergetoperson", name="admin_project_mergetoperson")
      */
-    public function mergetoperson(Project $project, EntityManagerInterface $em, MergeProjectPerson $mergeProjectPerson)
+    public function mergetoperson(Project $project, EntityManagerInterface $em, MergePerson $mergePerson)
     {
-        $mergeProjectPerson->mergeProjectToPerson($project);
+        $mergePerson->mergeProject($project);
 
-        foreach($msgs = $mergeProjectPerson->getMsgs() as $msg){
+        foreach($msgs = $mergePerson->getMsgs() as $msg){
             $this->addFlash($msg[0],$msg[1]);
         }
 
