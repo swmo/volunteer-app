@@ -77,7 +77,7 @@ class Person
 
     public function __construct()
     {
-        $this->organisation = new ArrayCollection();
+        $this->organisations = new ArrayCollection();
     }
 
     public function getId(): ?int

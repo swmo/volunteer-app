@@ -72,6 +72,9 @@ class MergePerson
             $enrollment->getMobile() ? $person->setMobile($enrollment->getMobile()) : null;
             //setEmail
             $enrollment->getEmail() ? $person->setEmail($enrollment->getEmail()) : null;
+
+            //setOrganisation
+            $person->addOrganisation($enrollment->getProject()->getOrganisation());
             
             $this->em->persist($person);
             $this->em->flush();

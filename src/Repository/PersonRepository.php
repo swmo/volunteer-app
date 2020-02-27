@@ -3,6 +3,7 @@
 namespace App\Repository;
 use App\Entity\Organisation;
 use App\Entity\Person;
+use App\Manager\UserOrganisationManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,9 +15,23 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PersonRepository extends ServiceEntityRepository
 {
+ 
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Person::class);
+   
+    }
+
+    public function findByOrganisation($organisation){
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.organisations', 'o')
+            ->andWhere('o = :organisation')
+            ->setParameter('organisation', $organisation)
+            ->addOrderBy('p.lastname', 'ASC')
+            ->addOrderBy('p.firstname', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findByOrganisationFirstnameEmail(Organisation $organisation, string $firstname, string $email){
@@ -24,8 +39,11 @@ class PersonRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('LOWER(p.firstname) = :firstname')
             ->andWhere('LOWER(p.email) = :email')
+            ->leftJoin('p.organisations', 'o')
+            ->andWhere('o = :organisation')
             ->setParameter('firstname', strtolower($firstname))
             ->setParameter('email', strtolower($email))
+            ->setParameter('organisation', ($organisation))
             ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()
