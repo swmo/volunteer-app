@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Mission;
 use App\Entity\Project;
+use App\Form\Admin\ProjectCopyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Admin\ProjectFormType;
@@ -37,9 +39,10 @@ class ProjectController extends AbstractController
         $formCreate = $this->createForm(ProjectFormType::class);
         $formCreate->handleRequest($request);
 
+
         if ($formCreate->isSubmitted() && $formCreate->isValid()) {
            
-             $project = $formCreate->getData();
+            $project = $formCreate->getData();
 
             $em->persist($project);
             $em->flush();       
@@ -51,8 +54,53 @@ class ProjectController extends AbstractController
         
             return $this->redirectToRoute('admin_project_list');
         }
+
+        $formCopy = $this->createForm(ProjectCopyFormType::class);
+        $formCopy->handleRequest($request);
+
+        if ($formCopy->isSubmitted() && $formCopy->isValid()) {
+            $data = $formCopy->getData();
+            /** @var Project $fromProject$ */
+           // $fromProject =  $em->getRepository(Project::class)->findOneBy(['id'=>$data['project']->getId()]);
+            $fromProject = $data['project'];
+            $newProject = new Project();
+            $newProject
+                ->setName($data['name'])
+                ->isEnabled(false);
+            $newProject->setOrganisation($fromProject->getOrganisation());
+
+            foreach($fromProject->getMissions() as $fromMission){
+                /** @var Mission $newMission */
+                $newMission = new Mission();
+                $newMission->setProject($newProject);
+                $newMission
+                    ->setIsEnabled(false)
+                    ->setCalendarEventDescription($fromMission->getCalendarEventDescription())
+                    ->setMeetingPoint($fromMission->getMeetingPoint())
+                    ->setRequiredVolunteers($fromMission->getRequiredVolunteers())
+                    ->setStart($fromMission->getStart())
+                    ->setEnd($fromMission->getEnd())
+                    ->setImage($fromMission->getImage())
+                    ->setShortDescription($fromMission->getShortDescription())
+                    ->setName(sprintf('copied: %s ',$fromMission->getName()))
+                    ;
+                $em->persist($newMission);
+           }
+
+            $this->addFlash(
+                'success',
+                sprintf('Projekt %s wurde erstellt',$newProject->getName())
+            );
+
+            $em->persist($newProject);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_project_list');
+        }
+
         return $this->render('admin/project/create.html.twig', [
             'formCreate' => $formCreate->createView(),
+            'formCopy' => $formCopy->createView(),
         ]);
 
     

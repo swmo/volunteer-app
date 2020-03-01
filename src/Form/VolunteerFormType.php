@@ -9,6 +9,7 @@ use App\Entity\Enrollment;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Mission;
+use App\Entity\Project;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,6 +19,8 @@ class VolunteerFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $project = $options['project'];
+
         //parent::buildForm($builder,$options);
         $builder
         ->add('firstname',TextType::class,[
@@ -47,9 +50,10 @@ class VolunteerFormType extends AbstractType
             'choice_label' => 'getNameForSelectbox',
             'required' => true,
             'placeholder' => 'Bitte Einsatz wählen', 
-            'query_builder' => function(MissionRepository $repo) {
+            'query_builder' => function(MissionRepository $repo) use ($project) {
                 return $repo->createQueryBuilder('m')
                 ->andWhere('m.isEnabled = true')
+                ->andWhere('m.project = '.$project->getId())
                 ->orderBy('m.name', 'ASC');
             }
         ])
@@ -59,9 +63,10 @@ class VolunteerFormType extends AbstractType
             'choice_label' => 'getNameForSelectbox',
             'placeholder' => 'kein zweiter Einsatz gewünscht',
             'required' => false,   
-            'query_builder' => function(MissionRepository $repo) {
+            'query_builder' => function(MissionRepository $repo) use ($project)  {
                 return $repo->createQueryBuilder('m')
                 ->andWhere('m.isEnabled = true')
+                ->andWhere('m.project = '.$project->getId())
                 ->orderBy('m.name', 'ASC');
             }
         ])
@@ -107,6 +112,10 @@ class VolunteerFormType extends AbstractType
             'data_class' => Enrollment::class,
             'translation_domain', 'messages'
         ]);
+
+        $resolver->setRequired('project');
+        // type validation - project instance
+        $resolver->setAllowedTypes('project', array(Project::class));
     }
 
  

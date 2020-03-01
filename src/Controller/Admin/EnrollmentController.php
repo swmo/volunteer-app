@@ -20,16 +20,16 @@ use App\Entity\Project;
 class EnrollmentController extends AbstractController
 {
     /**
-     * @Route("/enrollment/list", name="admin_enrollment_list")
      * @Route("/enrollment/list/project/{id}", name="admin_enrollment_list_by_project")
      */
     public function index(EntityManagerInterface $em, Project $project = null) 
     {
         
-        $enrollments = $em->getRepository(Enrollment::class)->findBy(array(), array('firstname' => 'ASC'));;
+        $enrollments = $em->getRepository(Enrollment::class)->findBy(array('project' => $project), array('firstname' => 'ASC'));;
 
         return $this->render('admin/enrollment/list.html.twig', [
             'enrollments' => $enrollments,
+            'project' => $project
         ]);
     }
 

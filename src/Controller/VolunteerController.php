@@ -19,16 +19,47 @@ use App\Utils\MergeProjectPerson;
 
 class VolunteerController extends AbstractController
 {
-
-    /**
-     * @Route("/volunteer/enroll", name="volunteer_enroll")
-     * @Route("/volunteer/enroll/{project}", name="volunteer_enroll_by_project")
-     * @Route("/", name="home")
+    /** 
+    * @Route("/", name="home")
      */
-    public function enroll(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
+    public function enroll(Request $request, EntityManagerInterface $em){
+
+        // read the host / domainname which the user open so the system knows which project he has to load
+        // example helfer.burgdorfer-stadtlauf.ch
+        $host = $request->headers->get('host');
+        $project = $em->getRepository(Project::class)->findOneBy(['isEnabled' => true,'domain' => $host]);
+        if($project){
+            return $this->redirectToRoute('volunteer_enroll_by_project',array('id'=>$project->getId()));
+        }
+
+        // if i couldnt found a project show the list of all organisations
+        return $this->redirectToRoute('volunteer_organisations');
+    }
+
+    /** 
+    * @Route("/volunteer/organisations", name="volunteer_organisations")
+     */
+    public function organisations(){
+        echo "kein Projekt gefunden auf die Domain. Liste die Organisationen auf:";
+        exit;
+    }
+
+    /** 
+    * @Route("/volunteer/enroll/project/{id}", name="volunteer_enroll_by_project")
+     */
+    public function enrollByProject(Project $project, EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
-        $form = $this->createForm(VolunteerFormType::class);
-        $missions = $em->getRepository(Mission::class)->findBy(array('isEnabled' => true), array('name' => 'ASC'));;
+
+        // If some saved the link as Lesezeichen and the project is not active anymore
+        if(!$project->isEnabled()){
+            return $this->redirectToRoute('home');
+        }
+
+        $form = $this->createForm(VolunteerFormType::class, null, array(
+            'project' => $project,
+        ));
+
+        $missions = $em->getRepository(Mission::class)->findBy(array('isEnabled' => true, 'project' => $project), array('name' => 'ASC'));;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,8 +68,7 @@ class VolunteerController extends AbstractController
             /** @var Enrollment $enrollment */
             $enrollment->setConfirmToken($tokenGenerator->generateToken());
             //temp fix:
-            $enrollment->setProject($em->getRepository(Project::class)->findOneBy(array('id' => 1)));
-
+            $enrollment->setProject($project);
             /*
             * Besteht die Person bereits unter den Stammdaten (Personen) so wird diese automatisch confirmed
             */
@@ -111,7 +141,7 @@ class VolunteerController extends AbstractController
 
             if($mailer->send($message)){
                 
-                return $this->redirectToRoute('volunteer_enroll_thankyou');
+                return $this->redirectToRoute('volunteer_enroll_thankyou',['project'=>$enrollment->getProject()->getId()]);
             }
             else {
                 $this->addFlash('error', 'Anmeldung nicht erfolgreich. Das Mail konnte nicht versendet werden');  
@@ -125,11 +155,13 @@ class VolunteerController extends AbstractController
     }
 
     /**
-     * @Route("/volunteer/enroll/thankyou", name="volunteer_enroll_thankyou")
+     * @Route("/volunteer/enroll/thankyou/project/{project}", name="volunteer_enroll_thankyou")
      */
-    public function enroll_thankyou()
+    public function enroll_thankyou(Project $project)
     {
-        return $this->render('volunteer/enroll.thankyou.html.twig');
+        return $this->render('volunteer/enroll.thankyou.html.twig',[
+            'project' => $project
+        ]);
     }
 
     /**

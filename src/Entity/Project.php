@@ -29,7 +29,7 @@ class Project
     private $organisation;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mission", mappedBy="Project")
+     * @ORM\OneToMany(targetEntity="App\Entity\Mission", mappedBy="project")
      */
     private $missions;
 
@@ -193,4 +193,5 @@ class Project
 
         return $this;
     }
+ 
 }

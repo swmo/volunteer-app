@@ -44,9 +44,6 @@ class EnrollmentFormType extends AbstractType
             ->add('confirmToken')
        //     ->add('status', TextType::class)
             ->add('missionChoice01')
-    
-
-
 
             ->add('organizedStartTimeMissionChoice01', 
                 TimeType::class, 
