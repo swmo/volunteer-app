@@ -38,6 +38,11 @@ class Organisation
      */
     private $userOrganisations;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default" : false})
+     */
+    private $public = false;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -155,5 +160,17 @@ class Organisation
     public function __toString(): ?string
     {
         return $this->getName();
+    }
+
+    public function getPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): self
+    {
+        $this->public = $public;
+
+        return $this;
     }
 }
