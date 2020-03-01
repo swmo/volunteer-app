@@ -6,6 +6,7 @@ use App\Entity\Enrollment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use App\Entity\Mission;
+use App\Entity\Organisation;
 
 /**
  * @method Enrollment|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,6 +31,12 @@ class EnrollmentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+
+    public function findByOrganisationAndPerson(Organisation $organisation, Person $person){
+        
+
     }
 
     // /**

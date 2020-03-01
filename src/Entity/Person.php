@@ -173,7 +173,7 @@ class Person
 
     public function getRemark(): ?string
     {
-        return $this->street;
+        return $this->remark;
     }
 
     public function setRemark(?string $remark): self
