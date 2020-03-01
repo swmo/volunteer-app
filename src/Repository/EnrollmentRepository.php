@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use App\Entity\Mission;
 use App\Entity\Organisation;
+use App\Entity\Person;
 
 /**
  * @method Enrollment|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,8 +36,17 @@ class EnrollmentRepository extends ServiceEntityRepository
 
 
     public function findByOrganisationAndPerson(Organisation $organisation, Person $person){
-        
-
+        return $this->createQueryBuilder('e')
+        ->leftJoin('e.project', 'p')
+        ->leftJoin('p.organisation', 'o')
+        ->andWhere('o = :organisation')
+        ->andWhere('LOWER(e.firstname) = :firstname')
+        ->andWhere('LOWER(e.email) = :email')
+        ->setParameter('firstname', strtolower($person->getFirstname()))
+        ->setParameter('email', strtolower($person->getEmail()))
+        ->setParameter('organisation', $organisation)
+        ->getQuery()
+        ->getResult();
     }
 
     // /**

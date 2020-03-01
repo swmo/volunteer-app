@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Entity\Enrollment;
+use App\Entity\Organisation;
+use App\Entity\Person;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200225121300 extends AbstractMigration
+final class Version20200301103200 extends AbstractMigration implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     public function getDescription() : string
     {
         return '';
@@ -42,4 +50,19 @@ final class Version20200225121300 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_DBDCD7E1166D1F9C');
         $this->addSql('ALTER TABLE enrollment DROP project_id');
     }
+
+    public function postUp(Schema $schema) : void
+    {
+        /** @var EntityManagerInterface $em  */
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $organisation = $em->getRepository(Organisation::class)->findOneBy(['id' => 2]);
+        $persons = $em->getRepository(Person::class)->findAll();
+        foreach($persons as $person){
+            /** @var Person $person  */
+            $person->addOrganisation($organisation);
+            $em->persist($person);
+            $em->flush();
+        }
+    }
+
 }

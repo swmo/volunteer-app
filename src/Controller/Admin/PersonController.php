@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Enrollment;
 use App\Entity\Person;
 use App\Manager\UserOrganisationManager;
 use App\Repository\PersonRepository;
@@ -80,6 +81,21 @@ class PersonController extends AbstractController
             $sheet->setCellValue('G'.$i, $person->getEmail());
             $sheet->setCellValue('H'.$i, $person->getMobile());
             $sheet->setCellValue('I'.$i, $person->getRemark());
+
+            $enrollments = $em->getRepository(Enrollment::class)->findByOrganisationAndPerson($userOrganisationManager->getSelectedOrganisation(),$person);
+
+            $cellJ = '';
+            foreach($enrollments as $enrollment){
+                if($enrollment->getMissionChoice01()){
+                    $cellJ .= $enrollment->getProject()->getName() . " - " . $enrollment->getMissionChoice01() . "\n";
+                }
+                if($enrollment->getMissionChoice02()){
+                    $cellJ .= $enrollment->getProject()->getName() . " - " . $enrollment->getMissionChoice02() . "\n";
+                }
+            }
+            $sheet->setCellValue('J'.$i, $cellJ);
+            $sheet->getStyle('J'.$i)->getAlignment()->setWrapText(true);
+
            // $sheet->setCellValue('J'.$i, $person->get());
            $i++;
         }
