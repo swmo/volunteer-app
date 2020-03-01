@@ -34,7 +34,10 @@
             <td class="py-4 px-6 border-b border-grey-light">{{ project.organisation.name }}</td>
             <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_mission_list_by_project',{'id':project.id})}}"> Einsätze</a></td>
             <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_enrollment_list_by_project',{'id':project.id})}}"> Anmeldungen</a></td>
-            <td class="py-4 px-6 border-b border-grey-light"><a href="{{ path('admin_project_mergetoperson',{'id':project.id})}}"> Merge to Person</a></td>
+            <td class="py-4 px-6 border-b border-grey-light">
+              <a href="{{ path('admin_project_edit',{'id':project.id})}}"> edit </a> <br>
+              <a href="{{ path('admin_project_mergetoperson',{'id':project.id})}}"> Merge to Person</a>
+            </td>
           </tr>
           {% endfor %}
 
