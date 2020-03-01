@@ -40,6 +40,8 @@ class VolunteerController extends AbstractController
     * @Route("/volunteer/organisations", name="volunteer_organisations")
      */
     public function organisations(){
+
+
         echo "kein Projekt gefunden auf die Domain. Liste die Organisationen auf:";
         exit;
     }
@@ -150,7 +152,8 @@ class VolunteerController extends AbstractController
 
         return $this->render('volunteer/enroll.html.twig', [
             'enrollForm' => $form->createView(),
-            'missions' => $missions
+            'missions' => $missions,
+            'project' => $project
         ]);
     }
 
