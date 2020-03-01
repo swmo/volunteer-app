@@ -5,9 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\ProjectFormType;
+use App\Form\Admin\ProjectFormType;
 use App\Utils\MergePerson;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin")
@@ -25,6 +26,36 @@ class ProjectController extends AbstractController
         return $this->render('admin/project/list.html.twig', [
             'projects' => $projects,
         ]);
+    }
+
+        /**
+     * @Route("/project/create", name="admin_project_create")
+     */
+    public function create(EntityManagerInterface $em, Request $request)
+    {
+        
+        $formCreate = $this->createForm(ProjectFormType::class);
+        $formCreate->handleRequest($request);
+
+        if ($formCreate->isSubmitted() && $formCreate->isValid()) {
+           
+             $project = $formCreate->getData();
+
+            $em->persist($project);
+            $em->flush();       
+
+            $this->addFlash(
+                'success',
+                'Projekt wurde erstellt'
+            );
+        
+            return $this->redirectToRoute('admin_project_list');
+        }
+        return $this->render('admin/project/create.html.twig', [
+            'formCreate' => $formCreate->createView(),
+        ]);
+
+    
     }
 
     /**

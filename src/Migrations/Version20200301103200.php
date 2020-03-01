@@ -55,6 +55,8 @@ final class Version20200301103200 extends AbstractMigration implements Container
     {
         /** @var EntityManagerInterface $em  */
         $em = $this->container->get('doctrine.orm.entity_manager');
+
+        /** @var Organisation $organisation */
         $organisation = $em->getRepository(Organisation::class)->findOneBy(['id' => 2]);
         $persons = $em->getRepository(Person::class)->findAll();
         foreach($persons as $person){

@@ -1,0 +1,20 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Neues Projekt{% endblock %}
+
+{% block main %}
+
+   <h1> Neues Projekt </h1>
+   {{ form(formCreate) }}
+
+   <h1 class="mt-3">  Projekt kopieren & anlegen </h1>
+   <form action="" method="post">
+
+      <input type="text" name="name" />
+      <select id="project_form_organisation" name="project_form[organisation]" class="bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey form-control">
+         <option value="">
+      </select>
+      <input type="submit">
+   </form>
+
+{% endblock %}
