@@ -490,4 +490,5 @@ class Enrollment
 
         return $this;
     }
+
 }
