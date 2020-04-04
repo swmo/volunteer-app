@@ -52,8 +52,11 @@ class VolunteerController extends AbstractController
     public function enrollByProject(Project $project = null, EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
 
+        if($project === null){
+            return $this->redirectToRoute('home');
+        }
         // If some saved the link as Lesezeichen and the project is not active anymore
-        if(!$project->isEnabled() || $project === null){
+        if(!$project->isEnabled()){
             return $this->redirectToRoute('home');
         }
 
