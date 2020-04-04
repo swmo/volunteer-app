@@ -45,7 +45,7 @@ COPY . ./var/www
 RUN  ./var/www/bin/console cache:warmup --env=prod
 RUN  ./var/www/bin/console assets:install --env=prod
 
-RUN chmod a+x ./var/www/docker/run_nginx_php.sh
+RUN chmod a+x ./var/www/resources/run_nginx_php.sh
 
 #CMD ./var/www/docker/run_nginx_php.sh
-CMD ["./var/www/docker/run_nginx_php.sh"]
+CMD ["./var/www/resources/run_nginx_php.sh"]
