@@ -53,7 +53,7 @@ class VolunteerController extends AbstractController
     {
 
         // If some saved the link as Lesezeichen and the project is not active anymore
-        if(!$project->isEnabled()){
+        if(!$project->isEnabled() || $project === null){
             return $this->redirectToRoute('home');
         }
 
