@@ -49,7 +49,7 @@ class VolunteerController extends AbstractController
     /** 
     * @Route("/volunteer/enroll/project/{id}", name="volunteer_enroll_by_project")
      */
-    public function enrollByProject(Project $project, EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
+    public function enrollByProject(Project $project = null, EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
 
         // If some saved the link as Lesezeichen and the project is not active anymore
