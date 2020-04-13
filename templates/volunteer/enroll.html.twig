@@ -280,7 +280,7 @@
                                 </div>  
 
                                 <div class="flex flex-wrap -mx-3 mb-4">
-                                    <div class="w-full px-3 mb-6 md:mb-0">
+                                    <div class="w-full px-3 mb-6 md:mb-0 hidden">
 
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
                                            {{ form_label(enrollForm.hasTshirt) }}
@@ -299,7 +299,7 @@
                                             </div>
 
                                     </div>
-                                    <div class="js-tshirtsize w-full  px-3 mb-6 md:mb-0 hidden">
+                                    <div class="js-tshirtsize w-full  px-3 mb-6 md:mb-0 ">
 
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
                                            {{ form_label(enrollForm.tshirtsize) }}
@@ -357,7 +357,7 @@
                                 <p class="font-bold mt-2">
                                     <div class="flex mb-2">
                                     <i class="fas fa-info-circle mr-2"></i> Ohne Helfer läuft nichts!<br />
-                                    Schon jetzt, besten Dank für deine tatkräftige Mithilfe und Unterstützung beim nächsten Stadtlauf 2019!
+                                    Schon jetzt, besten Dank für deine tatkräftige Mithilfe und Unterstützung beim nächsten Stadtlauf am 12.09.2020!
                                     </div>
                                 </p>
                                 <p class="mt-6">
@@ -417,6 +417,7 @@
 
             var renderTshirtForm = function(){
               
+              /*
                 var value = (jQuery('.js-hasTshirt').val());
                 console.log(value);
                 if(value === '0'){
@@ -425,6 +426,7 @@
                 else {
                     jQuery('.js-tshirtsize').hide();
                 }
+              */
             }
 
             var prevSlideBox = function(){

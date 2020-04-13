@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Admin\OrganisationController;
 use App\Form\VolunteerFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
 use App\Entity\Project;
+use App\Repository\OrganisationRepository;
 use App\Utils\IcsGenerator;
 use App\Utils\MergeProjectPerson;
 
@@ -39,8 +41,11 @@ class VolunteerController extends AbstractController
     /** 
     * @Route("/volunteer/organisations", name="volunteer_organisations")
      */
-    public function organisations(){
+    public function organisations(OrganisationRepository $organisationRepository){
 
+        $organisations = $organisationRepository->findAll();
+
+       // dd($organisations);
 
         echo "kein Projekt gefunden auf die Domain. Liste die Organisationen auf:";
         exit;

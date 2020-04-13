@@ -97,7 +97,7 @@ class VolunteerFormType extends AbstractType
                 'XL' => 'XL',
             ],
             'placeholder' => 'Bitte grösse wählen',
-            'required' => false,
+            'required' => true,
         ])
         ->add('comment', TextareaType::class, [
             'label' => 'Bemerkungen / Anregungen / Wünsche',
