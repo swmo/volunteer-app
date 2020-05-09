@@ -19,6 +19,7 @@ services:
       context: ./
     ports:
         - 8080:80
+        - 443:443
   mailhog:
     image: mailhog/mailhog
     ports:
