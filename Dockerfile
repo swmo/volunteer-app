@@ -11,6 +11,8 @@ RUN composer install --no-scripts --no-dev --ignore-platform-reqs
 
 FROM nginx:1.17.8-alpine-perl
 EXPOSE 80
+EXPOSE 443
+
 
 # alpine removes packages!: https://medium.com/@stschindler/the-problem-with-docker-and-alpines-package-pinning-18346593e891
 #ENV php7version 7.3.8-r0
