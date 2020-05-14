@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Admin\ProjectFormType;
 use App\Utils\MergePerson;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -144,6 +145,9 @@ class ProjectController extends AbstractController
      */
     public function mergetoperson(Project $project, EntityManagerInterface $em, MergePerson $mergePerson)
     {
+
+        throw new Exception("do not use this anymore");
+        /*
         $mergePerson->mergeProject($project);
 
         foreach($msgs = $mergePerson->getMsgs() as $msg){
@@ -151,6 +155,7 @@ class ProjectController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_project_list');
+        */
     }
 
 

@@ -34,6 +34,8 @@ class PersonRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
     public function findByOrganisationFirstnameEmail(Organisation $organisation, string $firstname, string $email){
         
         return $this->createQueryBuilder('p')

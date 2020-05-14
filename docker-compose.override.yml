@@ -4,6 +4,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
     volumes:
+      - /var/www/resources/
       - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
       - /var/www/docker #same for the docker directory (because theres ist the startup script) -> needs chmod a+x and be on the server
       - ./:/var/www # mount the rest of the symfony files inside /var/www

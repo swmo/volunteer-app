@@ -15,6 +15,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 /**
  * @Route("/admin")
  */
@@ -114,4 +117,43 @@ class PersonController extends AbstractController
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
+
+    /**
+     * @Route("/person/emailgroup", name="admin_person_emailgroup")
+     */
+    public function emailgroup(PersonRepository $personRepository, UserOrganisationManager $userOrganisationManager,ValidatorInterface $validator)
+    {
+
+        $persons = $personRepository->findByOrganisation($userOrganisationManager->getSelectedOrganisation());
+
+        $emails = array();
+
+        $emailConstraint = new Assert\Email();
+        // all constraint "options" can be set this way
+        $emailConstraint->message = 'Invalid email address';
+    
+
+        foreach($persons as $person){
+
+             // use the validator to validate the value
+            $errors = $validator->validate(
+                $person->getEmail(),
+                $emailConstraint
+            );
+        
+            if (0 === count($errors) && $person->getEmail() <> "") {
+
+                $emails[$person->getEmail()][] = $person;
+            } 
+           
+        }
+
+
+        return $this->render('admin/person/emailgroup.html.twig', [
+            'emails' =>  $emails,
+        ]);
+    }
+
+
+
 }
