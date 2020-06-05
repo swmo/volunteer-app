@@ -45,9 +45,13 @@
             <h2>Anzahl einmalige Emails: {{emails|length}}</h2>
                 <a  href="mailto:personal@burdorfer-stadtlauf.ch?bcc={% for email, users in emails %}{{ email }},{% endfor %}">Mailprogram starten</a>
             </div>
-            Gruppe "," getrennt:
-                <textarea class="w-full mb-5" rows="5">{% for email, users in emails %}{{ email }},{% endfor %}</textarea>
-            Gruppe ";" getrennt:
+            <h3>Gruppe "," getrennt: </h3><br />
+                
+                {% set counter = 1 %}
+                 {% set totalCounter = 1 %}
+
+                {% for email, users in emails %}{% if counter == 1 %}<b>50er Batch</b><textarea class="w-full mb-5 border" rows="5">{% endif %}{{ email }},{% if ((counter == 50) or ( emails|length  == totalCounter)) %}</textarea>{% endif %}{% set counter = counter + 1 %}{% set totalCounter = totalCounter + 1 %}{% if counter == 51 %}{% set counter = 1 %}{% endif %}{% endfor %}
+            <h3>Gruppe ";" getrennt:</h3>
                 <textarea class="w-full mb-5" rows="5">{% for email, users in emails %}{{ email }},{% endfor %}</textarea>
             </div>
           </div>

@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Person {% endblock %}
+
+{% block main %}
+
+{{ form(form) }}
+
+
+<h2>Log</h2>
+
+
+<table class="table-auto">
+  <thead>
+    <tr>
+        <th class="px-4 py-2">Datum</th>
+      <th class="px-4 py-2">Benutzer</th>
+      <th class="px-4 py-2">ObjektClas</th>
+        <th class="px-4 py-2">ObjektId</th>
+      <th class="px-4 py-2">Action</th>
+      <th class="px-4 py-2">Version</th>
+      <th class="px-4 py-2">Daten</th>
+    </tr>
+  </thead>
+   <tbody>
+      {% for logEntry in logEntries %}
+         <tr>
+            <td class="border px-4 py-2">
+               {{logEntry.loggedAt|date('Y-m-d H:i')}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.username}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.objectClass}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.objectId}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.action}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.version}}
+            </td>
+            <td class="border px-4 py-2">
+               {{logEntry.data|json_encode(constant('JSON_PRETTY_PRINT'))}}
+            </td>
+         </tr>
+      {% endfor %}
+   </tbody>
+</table>
+
+{% endblock %}

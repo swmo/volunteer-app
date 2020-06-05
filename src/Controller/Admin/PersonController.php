@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Enrollment;
 use App\Entity\Person;
+use App\Form\PersonFormType;
 use App\Manager\UserOrganisationManager;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Loggable\Entity\LogEntry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,6 +32,36 @@ class PersonController extends AbstractController
     {
         return $this->render('admin/person/list.html.twig', [
             'persons' =>  $personRepository->findByOrganisation($userOrganisationManager->getSelectedOrganisation()),
+        ]);
+    }
+
+
+    /**
+     * @Route("/person/edit/{id}", name="admin_person_edit")
+     */
+    public function edit(Person $person, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(PersonFormType::class,$person);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $person = $form->getData();
+
+            $em->persist($person);
+            $em->flush();       
+
+            $this->addFlash(
+                'success',
+                'Person wurde gespeichert'
+            );
+
+            return $this->redirectToRoute('admin_person_list');
+        }
+
+        return $this->render('admin/person/edit.html.twig', [
+            'form' => $form->createView(),
+            'logEntries' => $em->getRepository(LogEntry::class)->getLogEntries($person)
         ]);
     }
 
