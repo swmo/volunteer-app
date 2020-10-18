@@ -56,6 +56,11 @@ class Project
      */
     private $enrollments;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $enrollmentSettings = [];
+
     public function __construct()
     {
         $this->missions = new ArrayCollection();
@@ -190,6 +195,18 @@ class Project
                 $enrollment->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEnrollmentSettings(): ?array
+    {
+        return $this->enrollmentSettings;
+    }
+
+    public function setEnrollmentSettings(?array $enrollmentSettings): self
+    {
+        $this->enrollmentSettings = $enrollmentSettings;
 
         return $this;
     }
