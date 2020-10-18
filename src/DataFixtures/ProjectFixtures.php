@@ -28,9 +28,9 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             'form' => array(
                 'attributes' =>
                     array(
-                        'firstname',
-                        'lastname',
-                        'email'
+                        'firstname' => true,
+                        'lastname' => true,
+                        'email' => true,
                     )
             )
         ));

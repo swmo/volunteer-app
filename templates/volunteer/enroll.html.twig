@@ -139,6 +139,8 @@
                             <hr class="py-0 my-0 border border-grey-lighter">
                             <div class="py-8 w-3/4 mx-auto">
                                 <div class="flex flex-wrap -mx-3 mb-6">
+
+                                 
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.firstname) }}
@@ -151,6 +153,7 @@
                                             {{ form_errors(enrollForm.firstname) }}
                                         </p>
                                     </div>
+                                    {% if enrollForm.lastname is defined %}
                                     <div class="w-full md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.lastname) }}
@@ -163,9 +166,12 @@
                                             {{ form_errors(enrollForm.lastname) }}
                                         </p>
                                     </div>
+                                    {% endif %}
+
                                 </div>
 
                                 <div class="flex flex-wrap -mx-3 mb-6">
+                                {% if enrollForm.mobile is defined %}
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.mobile) }}
@@ -178,6 +184,7 @@
                                             {{ form_errors(enrollForm.mobile) }}
                                         </p>
                                     </div>
+                                {% endif %}
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.email) }}
@@ -192,8 +199,9 @@
                                     </div>
                                 </div>
 
+                                {% if (enrollForm.birthday is defined or enrollForm.street is defined) %}
                                 <div class="flex flex-wrap -mx-3 mb-6">
-
+                                      {% if enrollForm.birthday is defined %}
                                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 {% if not enrollForm.birthday.vars.valid %}form-group-error{% endif %}">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.birthday) }}
@@ -209,6 +217,9 @@
                                             {{ form_errors(enrollForm.birthday) }}
                                         </p>
                                     </div>
+                                    {% endif %}
+
+                                    {% if enrollForm.street is defined %}
                                     <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.street) }}
@@ -221,9 +232,13 @@
                                             {{ form_errors(enrollForm.street) }}
                                         </p>
                                     </div>
+                                    {% endif %}
                                 </div>
+                                {% endif %}
 
+                                {% if (enrollForm.zip is defined or enrollForm.city is defined) %}
                                 <div class="flex flex-wrap -mx-3 mb-12">
+                                    {% if enrollForm.zip is defined %}
                                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.zip) }}
@@ -236,6 +251,8 @@
                                             {{ form_errors(enrollForm.zip) }}
                                         </p>
                                     </div>
+                                    {% endif %}
+                                     {% if enrollForm.city is defined %}
                                     <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.city) }}
@@ -248,7 +265,9 @@
                                             {{ form_errors(enrollForm.city) }}
                                         </p>
                                     </div>
+                                    {% endif %}
                                 </div>
+                                {% endif %}
                         
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full px-3 mb-6 md:mb-0">
@@ -284,7 +303,9 @@
                                     </div>
                                 </div>  
 
+                                 {% if (enrollForm.hasTshirt is defined or enrollForm.tshirtsize is defined) %}
                                 <div class="flex flex-wrap -mx-3 mb-4">
+                                {% if enrollForm.hasTshirt is defined %}
                                     <div class="w-full px-3 mb-6 md:mb-0 hidden">
 
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
@@ -304,6 +325,9 @@
                                             </div>
 
                                     </div>
+                                    {% endif %}
+
+                                    {% if enrollForm.tshirtsize is defined %}
                                     <div class="js-tshirtsize w-full  px-3 mb-6 md:mb-0 ">
 
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
@@ -322,9 +346,14 @@
                                                 </div>
                                             </div>
                                     </div>
+                                    {% endif %}
                                 </div>
-                                
+                                {% endif %}
+
+
+                                 {% if enrollForm.comment is defined %}
                                 <div class="flex flex-wrap -mx-3 mb-6">
+                               
                                     <div class="w-full px-3 mb-6 md:mb-0">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                                             {{ form_label(enrollForm.comment) }}
@@ -339,6 +368,8 @@
                                 
                                     </div>
                                 </div>
+
+                                    {% endif %}
         
                                 <p class="mt-5">
                                     Wir bieten:
