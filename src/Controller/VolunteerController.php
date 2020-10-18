@@ -21,35 +21,6 @@ use App\Utils\MergeProjectPerson;
 
 class VolunteerController extends AbstractController
 {
-    /** 
-    * @Route("/", name="home")
-     */
-    public function enroll(Request $request, EntityManagerInterface $em){
-
-        // read the host / domainname which the user open so the system knows which project he has to load
-        // example helfer.burgdorfer-stadtlauf.ch
-        $host = $request->headers->get('host');
-        $project = $em->getRepository(Project::class)->findOneBy(['isEnabled' => true,'domain' => $host]);
-        if($project){
-            return $this->redirectToRoute('volunteer_enroll_by_project',array('id'=>$project->getId()));
-        }
-
-        // if i couldnt found a project show the list of all organisations
-        return $this->redirectToRoute('volunteer_organisations');
-    }
-
-    /** 
-    * @Route("/volunteer/organisations", name="volunteer_organisations")
-     */
-    public function organisations(OrganisationRepository $organisationRepository){
-
-        $organisations = $organisationRepository->findAll();
-
-       // dd($organisations);
-
-        echo "kein Projekt gefunden auf die Domain. Liste die Organisationen auf:";
-        exit;
-    }
 
     /** 
     * @Route("/volunteer/enroll/project/{id}", name="volunteer_enroll_by_project")

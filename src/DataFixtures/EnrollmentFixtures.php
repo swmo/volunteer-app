@@ -24,7 +24,9 @@ class EnrollmentFixtures extends Fixture implements DependentFixtureInterface
         ->setMobile('088 999 999 99')
         ->setZip(3600)
         ->setStreet('Teststrasse 10')
-        ->setHasTshirt(true);
+        ->setHasTshirt(true)
+        ->setProject($this->getReference('Project_Stadtlauf_2020'))
+        ;
         $manager->persist($enrollment);
         
     

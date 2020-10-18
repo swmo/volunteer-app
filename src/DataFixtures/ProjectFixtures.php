@@ -24,6 +24,16 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $project->setName("Stadtlauf 2020");
         $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf'));
         $project->setIsEnabled(true);
+        $project->setEnrollmentSettings(array(
+            'form' => array(
+                'attributes' =>
+                    array(
+                        'firstname',
+                        'lastname',
+                        'email'
+                    )
+            )
+        ));
         $manager->persist($project);
         $manager->flush();
 

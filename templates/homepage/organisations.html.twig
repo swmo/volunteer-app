@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ORGANISATIONEN{% endblock %}
+
+
+{% block body %}
+
+<style>
+  .w-70 {
+    width: 20rem;
+	}
+</style>
+
+<section class="blog text-gray-700 body-font">
+      <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 uppercase">  simple and open volunteer managment </h1>
+          <p class="lg:w-1/2 w-full leading-relaxed text-base">
+                Volunteer-App ist eine Opensource Projekt um freiwillge für ein Projekt / Event zu finden
+            </p>
+            <p class="m-4">
+                <a  href="https://github.com/swmo/volunteer-app">
+                    <i class="fab fa-4x fa-github"></i>
+                </a>
+            </p>
+        </div>
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+
+         {% for organisation in organisations %}
+         
+          <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
+            <div class="bg-gray-200 h-64 w-full rounded-lg shadow-md bg-cover bg-center" style="background-repeat: no-repeat; background-size: contain;background-image: url({{ asset('images/logo.jpg')}})"></div>
+
+            <div class=" w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5">
+            
+              <div class="font-medium">{{organisation.name}}</div>
+ 
+                <p class="pt-2 text-center">
+
+                  <span class="px-3 py-1 font-semibold text-black text-xs">
+                      {{organisation.projects|length}} Projekte
+                    </span>
+                    <span class="px-3 py-1 font-semibold text-black text-xs">        
+                        {{organisation.people|length}} Volunteers
+                    </span>
+                </p>
+            </div>
+          </div>
+          {% endfor %}
+         
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
+
+
