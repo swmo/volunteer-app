@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Project;
 use App\Manager\UserOrganisationManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Project|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +18,7 @@ class ProjectRepository extends ServiceEntityRepository
 
     protected $userOrganisationManager = null;
 
-    public function __construct(RegistryInterface $registry, UserOrganisationManager $userOrganisationManager)
+    public function __construct(ManagerRegistry $registry, UserOrganisationManager $userOrganisationManager)
     {
         $this->userOrganisationManager = $userOrganisationManager;
         parent::__construct($registry, Project::class);

@@ -3,12 +3,11 @@ framework:
         enrollment:
             type: "workflow"
             marking_store:
-                type: 'multiple_state' # or 'single_state'
-                arguments: 
-                    - 'status'
+                type: 'method' # or 'single_state'
+                property: 'status'
             supports:
                 - App\Entity\Enrollment
-            initial_place: enrolled
+            initial_marking: enrolled
             places:
                 - enrolled
                 - waiting for email confirmation
