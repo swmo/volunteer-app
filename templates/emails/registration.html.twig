@@ -44,22 +44,27 @@
                         {{enrollment.firstname}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        {{ 'lastname'|trans }}
-                    </td>
-                    <td>
-                        {{enrollment.lastname}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Mobile
-                    </td>
-                    <td>
-                        {{enrollment.mobile}}
-                    </td>
-                </tr>
+                {% if (projectManager.getFormSetting('lastname')) %}
+                    <tr>
+                        <td>
+                            {{ 'lastname'|trans }}
+                        </td>
+                        <td>
+                            {{enrollment.lastname}}
+                        </td>
+                    </tr>
+                {% endif %}
+
+                {% if (projectManager.getFormSetting('mobile')) %}
+                    <tr>
+                        <td>
+                            Mobile
+                        </td>
+                        <td>
+                            {{enrollment.mobile}}
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td>
                         Email
@@ -68,30 +73,38 @@
                         {{enrollment.email}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        {{ 'birthday'|trans }} 
-                    </td>
-                    <td>
-                        {{enrollment.birthday|date("d.m.Y")}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{ 'street'|trans }} 
-                    </td>
-                    <td>
-                        {{enrollment.street}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        PLZ / Ort 
-                    </td>
-                    <td>
-                        {{enrollment.zip}}  {{enrollment.city}}
-                    </td>
-                </tr>
+                {% if (projectManager.getFormSetting('birthday')) %}
+                    <tr>
+                        <td>
+                            {{ 'birthday'|trans }} 
+                        </td>
+                        <td>
+                            {{enrollment.birthday|date("d.m.Y")}}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if (projectManager.getFormSetting('street')) %}
+                    <tr>
+                        <td>
+                            {{ 'street'|trans }} 
+                        </td>
+                        <td>
+                            {{enrollment.street}}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if (projectManager.getFormSetting('zip') or projectManager.getFormSetting('city') ) %}
+                    <tr>
+                        <td>
+                            PLZ / Ort 
+                        </td>
+                        <td>
+                            {% if (projectManager.getFormSetting('zip')) %} {{enrollment.zip}}    {% endif %}
+                            
+                            {% if (projectManager.getFormSetting('city')) %} {{enrollment.city}}  {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td valign="top">
                         Gewünschter Einsatzort 
@@ -106,36 +119,43 @@
                     {% endif %}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Tshirt von letzem Jahr vorhanden und wird mitgenommen?
-                    </td>
-                    <td>
-                        {% if enrollment.hasTshirt %} 
-                            Ja
-                        {% else %}
-                            Nein
-                        {% endif %}   
-                    </td>
-                </tr>
+                {% if (projectManager.getFormSetting('hasTshirt')) %}
+                    <tr>
+                        <td>
+                            Tshirt von letzem Jahr vorhanden und wird mitgenommen?
+                        </td>
+                        <td>
+                            {% if enrollment.hasTshirt %} 
+                                Ja
+                            {% else %}
+                                Nein
+                            {% endif %}   
+                        </td>
+                    </tr>
+                {% endif %}
+            
                 {% if not enrollment.hasTshirt %} 
-                <tr>
-                    <td>
-                        T-Shirt Grösse
-                    </td>
-                    <td>
-                    {{enrollment.tshirtsize}} 
-                    </td>
-                </tr>
-                {% endif %}  
-                <tr>
-                    <td>
-                        Kommentar
-                    </td>
-                    <td>
-                        {{enrollment.comment}} <br />
-                    </td>
-                </tr>
+                    {% if (projectManager.getFormSetting('tshirtsize')) %}
+                        <tr>
+                            <td>
+                                T-Shirt Grösse
+                            </td>
+                            <td>
+                            {{enrollment.tshirtsize}} 
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endif %} 
+                {% if (projectManager.getFormSetting('comment')) %}
+                    <tr>
+                        <td>
+                            Kommentar
+                        </td>
+                        <td>
+                            {{enrollment.comment}} <br />
+                        </td>
+                    </tr>
+                {% endif %}
             </table>
             <p>
                 Liebe Grüsse

@@ -15,6 +15,7 @@ use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
 use App\Entity\Project;
+use App\Manager\ProjectManager;
 use App\Repository\OrganisationRepository;
 use App\Utils\IcsGenerator;
 use App\Utils\MergeProjectPerson;
@@ -82,8 +83,10 @@ class VolunteerController extends AbstractController
                     $this->renderView(
                         // templates/emails/registration.html.twig
                         'emails/registration.html.twig',
-                        ['enrollment' => $enrollment,
-                        'image' => $image
+                        [
+                            'enrollment' => $enrollment,
+                            'image' => $image,
+                            'projectManager' =>  new ProjectManager($project)
                         ]
                     ),
                     'text/html'

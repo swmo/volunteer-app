@@ -24,8 +24,6 @@ class VolunteerFormType extends AbstractType
         $project = $options['project'];
 
         $projectManager = new ProjectManager($project);
-
-        $enrollmentSettingsForm = $project->getEnrollmentSettings()['form'];
         
         $builder
         ->add('firstname',TextType::class,[

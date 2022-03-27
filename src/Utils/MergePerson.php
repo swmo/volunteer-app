@@ -59,7 +59,7 @@ class MergePerson
             //setFirstname
             $person->setFirstname($enrollment->getFirstname());
             //setLastname
-            $person->setLastname($enrollment->getLastname());
+            $enrollment->getLastname() ? $person->setLastname($enrollment->getLastname()) : null;
             //setMobile
             $enrollment->getMobile() ? $person->setMobile($enrollment->getMobile()) : null;
             //setStreet

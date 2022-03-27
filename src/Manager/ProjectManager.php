@@ -15,10 +15,13 @@ class ProjectManager
     }
 
     public function getFormSetting(String $attribute){
-       $enrollmentSettings =  $this->project->getEnrollmentSettings()['form'];
+       $enrollmentSettings =  ($this->project->getEnrollmentSettings()['form']);
        
        if(isset($enrollmentSettings['attributes'][$attribute])){
-           return true;
+           if($enrollmentSettings['attributes'][$attribute] == true){
+            return true;
+           }
+           
        }
 
        return false;

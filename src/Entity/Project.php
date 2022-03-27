@@ -57,9 +57,9 @@ class Project
     private $enrollments;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $enrollmentSettings = [];
+    private $enrollmentSettings = null;
 
     public function __construct()
     {
@@ -201,11 +201,12 @@ class Project
 
     public function getEnrollmentSettings(): ?array
     {
-        return $this->enrollmentSettings;
+        return ($this->enrollmentSettings);
     }
 
     public function setEnrollmentSettings(?array $enrollmentSettings): self
     {
+
         $this->enrollmentSettings = $enrollmentSettings;
 
         return $this;

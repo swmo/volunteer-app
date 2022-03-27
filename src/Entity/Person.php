@@ -23,13 +23,13 @@ class Person
 
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $lastname;
 
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $firstname;
 
