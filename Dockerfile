@@ -37,7 +37,8 @@ RUN apk --update add --no-cache \
 
 RUN apk --update add --no-cache \
 	php7-xmlwriter \
-	php7-fileinfo
+	php7-fileinfo \
+	php7-xmlreader
 
 RUN apk --update add --no-cache certbot
 # RUN /usr/bin/certbot certonly --webroot --webroot-path /var/www/public --agree-tos -m personal@burgdorfer-stadtlauf.ch -d helfer.burgdorfer-stadtlauf.ch --no-eff-email
