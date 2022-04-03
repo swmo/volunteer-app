@@ -43,6 +43,7 @@ class EnrollmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mutatedEndrollment = $form->getData();
+            
 
             $em->persist($mutatedEndrollment);
             $em->flush();       
@@ -52,7 +53,9 @@ class EnrollmentController extends AbstractController
                 'Anmeldung wurde gespeichert'
             );
 
-            return $this->redirectToRoute('admin_enrollment_list');
+            return $this->redirectToRoute('admin_enrollment_list_by_project',[
+                'id' => $mutatedEndrollment->getProject()->getId()
+            ]);
         }
 
         return $this->render('admin/enrollment/edit.html.twig', [
