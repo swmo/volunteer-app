@@ -36,6 +36,7 @@ class EnrollmentFormType extends AbstractType
                     [
                         'class' => 'js-datepicker'
                     ],
+                    'required' => false,
                 ]
             )
             ->add('tshirtsize')
