@@ -31,7 +31,8 @@ RUN apk --update add --no-cache \
 	php7-openssl  \
 	php7-pdo_pgsql  \
 	php7-zip  \
-	php7-gd 
+	php7-gd \
+	php7-phar
 
 RUN apk --update add --no-cache \
 	php7-xmlwriter \
@@ -40,6 +41,10 @@ RUN apk --update add --no-cache \
 # 
 RUN apk --update add --no-cache certbot
 # RUN /usr/bin/certbot certonly --webroot --webroot-path /var/www/public --agree-tos -m personal@burgdorfer-stadtlauf.ch -d helfer.burgdorfer-stadtlauf.ch --no-eff-email
+
+RUN apk add curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apk add git
 
 COPY ./resources/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./resources/php/php.ini /etc/php7/php.ini
