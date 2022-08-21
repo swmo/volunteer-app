@@ -64,16 +64,18 @@ class EnrollmentController extends AbstractController
     }
 
     /**
-     * @Route("/enrollment/export/{type}", name="admin_enrollment_export")
+     * @Route("/enrollment/export/{project}/{type}", name="admin_enrollment_export")
      */
-    public function export(Request $request, EntityManagerInterface $em)
+    public function export(Request $request, EntityManagerInterface $em, Project $project)
     {
         // liste mit vorname, nachname, von, bis, h, Einsatztort -> sortiert nach Einsatzort
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $missions = $em->getRepository(Mission::class)->findBy(array(), array('name' => 'ASC'));;
+
+        
+        $missions = $em->getRepository(Mission::class)->findAllByProject($project);
 
 
         $i = 2;
