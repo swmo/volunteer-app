@@ -53,6 +53,8 @@ class EnrollmentFormType extends AbstractType
             ->add('missionChoice01', EntityType::class, [
                 'label' => 'Einsatzort 1',
                 'class' => Mission::class,
+                'required'  => false,
+                'placeholder' => '-- Keine Auswahl --',
                 'query_builder' => function(MissionRepository $repo)  {
                     return $repo->createQueryBuilder('m')
                     ->andWhere('m.isEnabled = true')
@@ -85,6 +87,8 @@ class EnrollmentFormType extends AbstractType
             ->add('missionChoice02', EntityType::class, [
                 'label' => 'Einsatzort 2',
                 'class' => Mission::class,
+                'required'  => false,
+                'placeholder' => '-- Keine Auswahl --',
                 'query_builder' => function(MissionRepository $repo)  {
                     return $repo->createQueryBuilder('m')
                     ->andWhere('m.isEnabled = true')
