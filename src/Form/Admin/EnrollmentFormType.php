@@ -3,12 +3,15 @@
 namespace App\Form\Admin;
 
 use App\Entity\Enrollment;
+use App\Entity\Mission;
+use App\Repository\MissionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class EnrollmentFormType extends AbstractType
@@ -44,7 +47,18 @@ class EnrollmentFormType extends AbstractType
             ->add('hasTshirt')
             ->add('confirmToken')
        //     ->add('status', TextType::class)
-            ->add('missionChoice01')
+           // ->add('missionChoice01')
+
+
+            ->add('missionChoice01', EntityType::class, [
+                'label' => 'Einsatzort 1',
+                'class' => Mission::class,
+                'query_builder' => function(MissionRepository $repo)  {
+                    return $repo->createQueryBuilder('m')
+                    ->andWhere('m.isEnabled = true')
+                    ->orderBy('m.name', 'ASC');
+                }
+            ])
 
             ->add('organizedStartTimeMissionChoice01', 
                 TimeType::class, 
@@ -67,7 +81,17 @@ class EnrollmentFormType extends AbstractType
 
 
 
-            ->add('missionChoice02')
+            
+            ->add('missionChoice02', EntityType::class, [
+                'label' => 'Einsatzort 2',
+                'class' => Mission::class,
+                'query_builder' => function(MissionRepository $repo)  {
+                    return $repo->createQueryBuilder('m')
+                    ->andWhere('m.isEnabled = true')
+                    ->orderBy('m.name', 'ASC');
+                }
+            ])
+
             ->add('organizedStartTimeMissionChoice02', 
                 TimeType::class, 
                 [
