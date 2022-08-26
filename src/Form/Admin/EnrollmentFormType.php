@@ -57,7 +57,6 @@ class EnrollmentFormType extends AbstractType
                 'placeholder' => '-- Keine Auswahl --',
                 'query_builder' => function(MissionRepository $repo)  {
                     return $repo->createQueryBuilder('m')
-                    ->andWhere('m.isEnabled = true')
                     ->orderBy('m.name', 'ASC');
                 }
             ])
@@ -91,7 +90,6 @@ class EnrollmentFormType extends AbstractType
                 'placeholder' => '-- Keine Auswahl --',
                 'query_builder' => function(MissionRepository $repo)  {
                     return $repo->createQueryBuilder('m')
-                    ->andWhere('m.isEnabled = true')
                     ->orderBy('m.name', 'ASC');
                 }
             ])
