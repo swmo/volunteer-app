@@ -85,7 +85,7 @@
                                                     {{ mission.shortDescription|raw }}
                                                 </div>
                                                 <div>
-                                                    Wann: {{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
+                                                    <span class="font-bold">Wann:</span>{{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
                                                     
                                                     {% if mission.start|date('d.m.Y') != mission.end|date('d.m.Y') %}
                                                         {{mission.end|date('d.m.Y')}} um
