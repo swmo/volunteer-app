@@ -72,7 +72,7 @@ class VolunteerController extends AbstractController
             
             $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
 
-            $image = ($message->embed(\Swift_Image::fromPath('/var/www/public/images/maria2.jpg')));
+           // $image = ($message->embed(\Swift_Image::fromPath('/var/www/public/images/maria2.jpg')));
            // $image = "";
 
             $message
@@ -85,7 +85,7 @@ class VolunteerController extends AbstractController
                         'emails/registration.html.twig',
                         [
                             'enrollment' => $enrollment,
-                            'image' => $image,
+                           // 'image' => $image,
                             'projectManager' =>  new ProjectManager($project)
                         ]
                     ),
