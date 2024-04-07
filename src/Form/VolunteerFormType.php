@@ -112,7 +112,7 @@ class VolunteerFormType extends AbstractType
         if($projectManager->getFormSetting('hasTshirt')){
             $builder
             ->add('hasTshirt', ChoiceType::class, [
-                'label' => 'Helfer T-Shirt vorhanden und kann mitgenommen werden',
+                'label' => 'HelferInnnen T-Shirt vorhanden und kann mitgenommen werden',
                 'choices'  => [
                     'Ja' => true,
                     'Nein' => false,

@@ -37,7 +37,7 @@ END:VTIMEZONE
 
 $icsContent = $icsContent . "BEGIN:VEVENT
 UID:".$mission->getId()."@helfer.burgdorfer-stadtlauf.ch
-SUMMARY:Helfereinsatz Stadtlauf Burgdorf - ".$mission->getName()."
+SUMMARY:HelferInneneinsatz Stadtlauf Burgdorf - ".$mission->getName()."
 DTSTAMP:".$mission->getStart()->format('Ymd\THis')."
 DTSTART;TZID=Europe/Zurich:".$mission->getStart()->format('Ymd\THis')."
 DTEND;TZID=Europe/Zurich:".$mission->getEnd()->format('Ymd\THis')."
