@@ -5,11 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\Enrollment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class EnrollmentFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $enrollment = new Enrollment();
         $enrollment
@@ -33,7 +33,7 @@ class EnrollmentFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             MissionFixtures::class,

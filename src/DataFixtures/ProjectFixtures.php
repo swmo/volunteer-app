@@ -4,12 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Project;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $project = new Project();
         $project->setName("Stadtlauf 2019");
@@ -57,7 +57,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference('Project_Berner_Tennis_2020', $project);
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             OrganisationFixtures::class,

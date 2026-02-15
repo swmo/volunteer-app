@@ -4,16 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Manager\UserOrganisationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/admin")
- */
+#[Route("/admin")]
+
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/admin/user/list", name="admin_user_list")
-     */
+    #[Route("/admin/user/list", name: "admin_user_list")]
+
     public function list(UserOrganisationManager $userOrganisationManager)
     {
         $users = $userOrganisationManager->getUsers();

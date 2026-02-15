@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Mission;
 use App\Entity\Project;
 use App\Form\Admin\MissionFormType;
@@ -13,9 +13,8 @@ use App\Entity\Enrollment;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 
-/**
- * @Route("/admin")
- */
+#[Route("/admin")]
+
 class MissionController extends AbstractController
 {
 
@@ -28,10 +27,9 @@ class MissionController extends AbstractController
     }
     */
 
-    /**
-     * @Route("/mission/list", name="admin_mission_list")
-     * @Route ("/mission/list/project/{id}", name="admin_mission_list_by_project")
-     */
+    #[Route("/mission/list", name: "admin_mission_list")]
+#[Route("/mission/list/project/{id}", name: "admin_mission_list_by_project")]
+
     public function list(EntityManagerInterface $em, Project $project = null )
     {
         $missions = array();
@@ -60,9 +58,8 @@ class MissionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/mission/edit/{id}", name="admin_mission_edit")
-     */
+    #[Route("/mission/edit/{id}", name: "admin_mission_edit")]
+
     public function edit(Mission $mission, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(MissionFormType::class,$mission);
@@ -91,9 +88,8 @@ class MissionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/mission/create", name="admin_mission_create")
-     */
+    #[Route("/mission/create", name: "admin_mission_create")]
+
     public function create(EntityManagerInterface $em, Request $request)
     {
         $form = $this->createForm(MissionFormType::class);
@@ -118,9 +114,8 @@ class MissionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/mission/emailgroup/{id}", name="admin_mission_emailgroup")
-     */
+    #[Route("/mission/emailgroup/{id}", name: "admin_mission_emailgroup")]
+
     public function emailgroup(Mission $mission,EntityManagerInterface $em) 
     {
         $enrollments = $em->getRepository(Enrollment::class)->findByMission(
@@ -132,9 +127,8 @@ class MissionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/mission/toggle/activ/{id}", name="admin_mission_toggle_activ")
-     */
+    #[Route("/mission/toggle/activ/{id}", name: "admin_mission_toggle_activ")]
+
     public function toggleActiv(Mission $mission,EntityManagerInterface $em) 
     {
     

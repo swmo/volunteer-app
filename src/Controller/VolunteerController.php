@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\Admin\OrganisationController;
 use App\Form\VolunteerFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Enrollment;
@@ -19,14 +19,16 @@ use App\Manager\ProjectManager;
 use App\Repository\OrganisationRepository;
 use App\Utils\IcsGenerator;
 use App\Utils\MergeProjectPerson;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class VolunteerController extends AbstractController
 {
 
-    /** 
-    * @Route("/volunteer/enroll/project/{id}", name="volunteer_enroll_by_project")
-     */
-    public function enrollByProject(Project $project = null, EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
+    #[Route("/volunteer/enroll/project/{id}", name: "volunteer_enroll_by_project")]
+
+    public function enrollByProject(Project $project = null, EntityManagerInterface $em, Request $request, MailerInterface $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
     {
 
         if($project === null){
@@ -70,64 +72,41 @@ class VolunteerController extends AbstractController
             $em->flush();    
 
             
-            $message = (new \Swift_Message('Anmeldung | Burgdorfer Stadtlauf'));
-
-           // $image = ($message->embed(\Swift_Image::fromPath('/var/www/public/images/maria2.jpg')));
-           // $image = "";
-
-            $message
-                ->setFrom('personal@burgdorfer-stadtlauf.ch')
-                ->setTo($enrollment->getEmail())
-                ->setBcc('personal@burgdorfer-stadtlauf.ch')
-                ->setBody(
+            $message = (new Email())
+                ->subject('Anmeldung | Burgdorfer Stadtlauf')
+                ->from('personal@burgdorfer-stadtlauf.ch')
+                ->to($enrollment->getEmail())
+                ->bcc('personal@burgdorfer-stadtlauf.ch')
+                ->html(
                     $this->renderView(
-                        // templates/emails/registration.html.twig
                         'emails/registration.html.twig',
                         [
                             'enrollment' => $enrollment,
-                           // 'image' => $image,
-                            'projectManager' =>  new ProjectManager($project)
+                            'projectManager' => new ProjectManager($project)
                         ]
-                    ),
-                    'text/html'
-                )
-                /*
-                * If you also want to include a plaintext version of the message
-                ->addPart(
-                    $this->renderView(
-                        'emails/registration.txt.twig',
-                        ['name' => $name]
-                    ),
-                    'text/plain'
-                )
-                */
-            ;
+                    )
+                );
 
             if($enrollment->getMissionChoice01()){
-                $message
-                ->attach(
-                    \Swift_Attachment::fromPath(
-                        $icsGenerator->generateMissionIcs($enrollment->getMissionChoice01())
-                    )
-                    ->setContentType('text/calendar;charset=UTF-8;name="'.$enrollment->getMissionChoice01()->getName().'.ics";method=REQUEST')
+                $message->attachFromPath(
+                    $icsGenerator->generateMissionIcs($enrollment->getMissionChoice01()),
+                    $enrollment->getMissionChoice01()->getName().'.ics',
+                    'text/calendar; charset=UTF-8; method=REQUEST'
                 );
             }
 
             if($enrollment->getMissionChoice02()){
-                $message
-                ->attach(
-                    \Swift_Attachment::fromPath(
-                        $icsGenerator->generateMissionIcs($enrollment->getMissionChoice02())
-                    )
-                    ->setContentType('text/calendar;charset=UTF-8;name="'.$enrollment->getMissionChoice02()->getName().'.ics";method=REQUEST')
+                $message->attachFromPath(
+                    $icsGenerator->generateMissionIcs($enrollment->getMissionChoice02()),
+                    $enrollment->getMissionChoice02()->getName().'.ics',
+                    'text/calendar; charset=UTF-8; method=REQUEST'
                 );
             }
 
-            if($mailer->send($message)){
-                
+            try {
+                $mailer->send($message);
                 return $this->redirectToRoute('volunteer_enroll_thankyou',['project'=>$enrollment->getProject()->getId()]);
-            }
-            else {
+            } catch (TransportExceptionInterface $exception) {
                 $this->addFlash('error', 'Anmeldung nicht erfolgreich. Das Mail konnte nicht versendet werden');  
             }
         }
@@ -139,9 +118,8 @@ class VolunteerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/volunteer/enroll/thankyou/project/{project}", name="volunteer_enroll_thankyou")
-     */
+    #[Route("/volunteer/enroll/thankyou/project/{project}", name: "volunteer_enroll_thankyou")]
+
     public function enroll_thankyou(Project $project)
     {
         return $this->render('volunteer/enroll.thankyou.html.twig',[
@@ -149,9 +127,8 @@ class VolunteerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/volunteer/enroll/confirm/email/{id}/{token}", name="volunteer_confirm_enrollment_email")
-     */
+    #[Route("/volunteer/enroll/confirm/email/{id}/{token}", name: "volunteer_confirm_enrollment_email")]
+
     public function confirmEnrollmentEmail(Enrollment $enrollment, Request $request, Registry $workflows, EntityManagerInterface $em)
     {
         /** @var Request $request */

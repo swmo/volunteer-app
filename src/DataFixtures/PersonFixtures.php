@@ -5,12 +5,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Person;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PersonFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $file = dirname(__FILE__).'/../../resources/data/personen.csv';
 

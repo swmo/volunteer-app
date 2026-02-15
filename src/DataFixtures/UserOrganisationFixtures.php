@@ -5,11 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\UserOrganisation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class UserOrganisationFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $userOrganisation = new UserOrganisation();
         $userOrganisation->setAppuser($this->getReference('User_Tennisverein_Burgdorf'));
@@ -34,7 +34,7 @@ class UserOrganisationFixtures extends Fixture implements DependentFixtureInterf
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserFixtures::class,

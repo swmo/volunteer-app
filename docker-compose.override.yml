@@ -8,3 +8,14 @@ services:
       - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
       - /var/www/docker #same for the docker directory (because theres ist the startup script) -> needs chmod a+x and be on the server
       - ./:/var/www # mount the rest of the symfony files inside /var/www
+
+###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      - "8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###

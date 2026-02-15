@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Enrollment;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +14,12 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Entity\Mission;
 use App\Entity\Project;
 
-/**
- * @Route("/admin")
- */
+#[Route("/admin")]
+
 class EnrollmentController extends AbstractController
 {
-    /**
-     * @Route("/enrollment/list/project/{id}", name="admin_enrollment_list_by_project")
-     */
+    #[Route("/enrollment/list/project/{id}", name: "admin_enrollment_list_by_project")]
+
     public function index(EntityManagerInterface $em, Project $project = null) 
     {
         
@@ -33,9 +31,8 @@ class EnrollmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/enrollment/edit/{id}", name="admin_enrollment_edit")
-     */
+    #[Route("/enrollment/edit/{id}", name: "admin_enrollment_edit")]
+
     public function edit(Enrollment $enrollment, EntityManagerInterface $em, Request $request) 
     {
         $form = $this->createForm(EnrollmentFormType::class,$enrollment);
@@ -63,9 +60,8 @@ class EnrollmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/enrollment/export/{project}/{type}", name="admin_enrollment_export")
-     */
+    #[Route("/enrollment/export/{project}/{type}", name: "admin_enrollment_export")]
+
     public function export(Request $request, EntityManagerInterface $em, Project $project)
     {
         // liste mit vorname, nachname, von, bis, h, Einsatztort -> sortiert nach Einsatzort
@@ -178,9 +174,8 @@ class EnrollmentController extends AbstractController
         
     }
 
-    /**
-     * @Route("/enrollment/mergetoperson/project/{id}", name="admin_enrollment_mergetoperson")
-     */
+    #[Route("/enrollment/mergetoperson/project/{id}", name: "admin_enrollment_mergetoperson")]
+
     public function mergetoperson(Project $project, Request $request, EntityManagerInterface $em)
     {
 

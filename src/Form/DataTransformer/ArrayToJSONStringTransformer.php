@@ -11,16 +11,16 @@ class ArrayToJSONStringTransformer implements DataTransformerInterface
     /**
     * Transform an array to a JSON string
     */
-    public function transform($array)
+    public function transform(mixed $value): mixed
     {
-        return json_encode($array);
+        return json_encode($value);
     }
 
     /**
     * Transform a JSON string to an array
     */
-    public function reverseTransform($string)
+    public function reverseTransform(mixed $value): mixed
     {
-        return json_decode($string, true);
+        return json_decode((string) $value, true);
     }
 }

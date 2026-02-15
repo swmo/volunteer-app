@@ -2,13 +2,11 @@
 
 namespace App\EventSubscriber;
 
-use  Gedmo\Blameable\BlameableListener;
 use Gedmo\Loggable\LoggableListener;
 use Gedmo\Translatable\TranslatableListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -34,8 +32,8 @@ class DoctrineExtensionSubscriber implements EventSubscriberInterface
     public function __construct(
         TranslatableListener $translatableListener,
         LoggableListener $loggableListener,
-        AuthorizationCheckerInterface $authorizationChecker = null,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        ?AuthorizationCheckerInterface $authorizationChecker = null
     )
     {
     
@@ -58,9 +56,9 @@ class DoctrineExtensionSubscriber implements EventSubscriberInterface
         $this->translatableListener->setTranslatableLocale($event->getRequest()->getLocale());
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
-        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
@@ -71,7 +69,10 @@ class DoctrineExtensionSubscriber implements EventSubscriberInterface
         $token = $this->tokenStorage->getToken();
     
         if (null !== $token && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-           $this->loggableListener->setUsername($token->getUser()->getUsername());
+            $user = $token->getUser();
+            if (\is_object($user) && method_exists($user, 'getUserIdentifier')) {
+                $this->loggableListener->setUsername($user->getUserIdentifier());
+            }
         }
     }
 }

@@ -6,13 +6,12 @@ use App\Entity\Person;
 use App\Utils\MonologDbHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractController
 {
-    /**
-     * @Route("/admin", name="admin_dashboard")
-     */
+    #[Route("/admin", name: "admin_dashboard")]
+
     public function dashboard(MonologDbHandler $db)
     {
        

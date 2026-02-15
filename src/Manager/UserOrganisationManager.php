@@ -4,7 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Organisation;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class UserOrganisationManager 
 {

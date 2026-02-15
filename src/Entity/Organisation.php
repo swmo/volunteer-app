@@ -157,9 +157,9 @@ class Organisation
         return $this;
     }
 
-    public function __toString(): ?string
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     public function getPublic(): ?bool

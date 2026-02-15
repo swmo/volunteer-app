@@ -163,9 +163,9 @@ class Project
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getOrganisation()->getName() . ' ' . $this->getName();
+        return (string) ($this->getOrganisation()?->getName().' '.$this->getName());
     }
 
     /**

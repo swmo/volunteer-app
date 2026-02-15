@@ -6,16 +6,14 @@ use App\Form\Admin\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/admin")
- */
+#[Route("/admin")]
+
 class UserprofilController extends AbstractController
 {
-    /**
-     * @Route("/userprofil", name="admin_userprofil")
-     */
+    #[Route("/userprofil", name: "admin_userprofil")]
+
     public function index(Request $request, EntityManagerInterface $em)
     {
         $user = $this->getUser();

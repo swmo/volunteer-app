@@ -10,7 +10,7 @@ use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -20,14 +20,12 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/admin")
- */
+#[Route("/admin")]
+
 class PersonController extends AbstractController
 {
-    /**
-     * @Route("/person/list", name="admin_person_list")
-     */
+    #[Route("/person/list", name: "admin_person_list")]
+
     public function list(PersonRepository $personRepository, UserOrganisationManager $userOrganisationManager)
     {
         return $this->render('admin/person/list.html.twig', [
@@ -36,9 +34,8 @@ class PersonController extends AbstractController
     }
 
 
-    /**
-     * @Route("/person/edit/{id}", name="admin_person_edit")
-     */
+    #[Route("/person/edit/{id}", name: "admin_person_edit")]
+
     public function edit(Person $person, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(PersonFormType::class,$person);
@@ -65,9 +62,8 @@ class PersonController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/person/delete/{id}", name="admin_person_delete")
-     */
+    #[Route("/person/delete/{id}", name: "admin_person_delete")]
+
     public function delete(Person $person, EntityManagerInterface $em)
     {
         $msg = 'Person wurde gelöscht ' . $person->getId() . ': ' . $person->getLastname() . ' ' . $person->getFirstname(); 
@@ -82,9 +78,8 @@ class PersonController extends AbstractController
         return $this->redirectToRoute('admin_person_list');
     }
 
-    /**
-     * @Route("/person/export/", name="admin_person_export")
-     */
+    #[Route("/person/export/", name: "admin_person_export")]
+
     public function export(Request $request, EntityManagerInterface $em, UserOrganisationManager $userOrganisationManager)
     {
         $spreadsheet = new Spreadsheet();
@@ -150,9 +145,8 @@ class PersonController extends AbstractController
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
-    /**
-     * @Route("/person/emailgroup", name="admin_person_emailgroup")
-     */
+    #[Route("/person/emailgroup", name: "admin_person_emailgroup")]
+
     public function emailgroup(PersonRepository $personRepository, UserOrganisationManager $userOrganisationManager,ValidatorInterface $validator)
     {
 

@@ -7,13 +7,12 @@ use App\Repository\OrganisationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class HomepageController extends AbstractController
 {
-    /** 
-    * @Route("/", name="home")
-     */
+    #[Route("/", name: "home")]
+
     public function home(Request $request, EntityManagerInterface $em,OrganisationRepository $organisationRepository){
 
         // read the host / domainname which the user open so the system knows which project he has to load
