@@ -58,6 +58,10 @@ class VolunteerController extends AbstractController
         ));
 
         $missions = $em->getRepository(Mission::class)->findBy(array('isEnabled' => true, 'project' => $project), array('name' => 'ASC'));;
+        $projectTotalRequiredPersons = 0;
+        foreach ($missions as $mission) {
+            $projectTotalRequiredPersons += (int) $mission->getRequiredVolunteers();
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -131,7 +135,9 @@ class VolunteerController extends AbstractController
         return $this->render('volunteer/enroll.html.twig', [
             'enrollForm' => $form->createView(),
             'missions' => $missions,
-            'project' => $project
+            'project' => $project,
+            'projectEnrolledPersonsCount' => $project->getEnrollments()->count(),
+            'projectTotalRequiredPersons' => $projectTotalRequiredPersons,
         ]);
     }
 
