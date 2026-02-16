@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,10 @@ class ProjectCopyFormType extends AbstractType
     {
         $builder
             ->add('name', null, ['label' => 'admin.form.project_copy.name'])
+            ->add('missionsDate', DateType::class, [
+                'label' => 'admin.form.project_copy.missions_date',
+                'widget' => 'single_text',
+            ])
             ->add('project',EntityType::class,[
                 'label' => 'admin.form.project_copy.template_project',
                 'class' => Project::class,

@@ -92,6 +92,8 @@ class ProjectController extends AbstractController
             /** @var Project $fromProject$ */
            // $fromProject =  $em->getRepository(Project::class)->findOneBy(['id'=>$data['project']->getId()]);
             $fromProject = $data['project'];
+            /** @var \DateTimeInterface $missionsDate */
+            $missionsDate = $data['missionsDate'];
             $newProject = new Project();
             $newProject
                 ->setName($data['name'])
@@ -102,13 +104,24 @@ class ProjectController extends AbstractController
                 /** @var Mission $newMission */
                 $newMission = new Mission();
                 $newMission->setProject($newProject);
+                $missionStart = $fromMission->getStart();
+                $missionEnd = $fromMission->getEnd();
+
+                $newStart = (clone $missionStart)->setDate(
+                    (int) $missionsDate->format('Y'),
+                    (int) $missionsDate->format('m'),
+                    (int) $missionsDate->format('d')
+                );
+                $durationInSeconds = max(0, $missionEnd->getTimestamp() - $missionStart->getTimestamp());
+                $newEnd = (clone $newStart)->modify(sprintf('+%d seconds', $durationInSeconds));
+
                 $newMission
                     ->setIsEnabled(false)
                     ->setCalendarEventDescription($fromMission->getCalendarEventDescription())
                     ->setMeetingPoint($fromMission->getMeetingPoint())
                     ->setRequiredVolunteers($fromMission->getRequiredVolunteers())
-                    ->setStart($fromMission->getStart())
-                    ->setEnd($fromMission->getEnd())
+                    ->setStart($newStart)
+                    ->setEnd($newEnd)
                     ->setImage($fromMission->getImage())
                     ->setShortDescription($fromMission->getShortDescription())
                     ->setName(sprintf('copied: %s ',$fromMission->getName()))

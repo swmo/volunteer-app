@@ -52,6 +52,7 @@ admin.form.project.organisation: Organisation
 admin.form.project.enrollment_settings: Einstellungen Anmeldung (JSON)
 
 admin.form.project_copy.name: Neuer Projektname
+admin.form.project_copy.missions_date: Neues Datum der Einsaetze
 admin.form.project_copy.template_project: Vorlage
 admin.form.project_copy.choose_project: Projekt waehlen
 
