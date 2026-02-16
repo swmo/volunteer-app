@@ -34,29 +34,33 @@ class MissionController extends AbstractController
 
     public function list(EntityManagerInterface $em, ?Project $project = null )
     {
-        $missions = array();
+        $projectsWithMissions = [];
+        $projects = [];
 
-        // if no project is given search the first and use this:
-        if($project == null){
-            if(($project = $em->getRepository(Project::class)->findOneProject()) == null){
+        if ($project !== null) {
+            $projects = [$project];
+        } else {
+            $projects = $em->getRepository(Project::class)->findAll();
+            if (count($projects) === 0) {
                 $this->addFlash(
                     'danger',
                     'No Project found please create a Project first!'
                 );
-                
+
                 return $this->redirectToRoute('admin_project_list');
             }
         }
-        
-        
-        
-        $missions = $em->getRepository(Mission::class)->findAllByProject($project);
-        
-        
+
+        foreach ($projects as $listProject) {
+            $projectsWithMissions[] = [
+                'project' => $listProject,
+                'missions' => $em->getRepository(Mission::class)->findAllByProject($listProject),
+            ];
+        }
 
         return $this->render('admin/mission/list.html.twig', [
-            'missions' => $missions,
-            'project' => $project
+            'projectsWithMissions' => $projectsWithMissions,
+            'project' => $project,
         ]);
     }
 
