@@ -21,7 +21,7 @@
 
         .dashboard-kpis {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 0.75rem;
         }
 
@@ -95,10 +95,16 @@
 
         @media (max-width: 1080px) {
             .dashboard-kpis {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .dashboard-kpis {
                 grid-template-columns: 1fr;
             }
         }
@@ -130,8 +136,12 @@
                     </p>
                 </article>
                 <article class="dashboard-kpi">
-                    <p class="dashboard-kpi-label">Status</p>
-                    <p class="dashboard-kpi-value" style="font-size: 1.35rem;">Bereit</p>
+                    <p class="dashboard-kpi-label">Bereits angemeldet</p>
+                    <p class="dashboard-kpi-value">{{ totalEnrolledPersons }}</p>
+                </article>
+                <article class="dashboard-kpi">
+                    <p class="dashboard-kpi-label">Offene Anmeldungen</p>
+                    <p class="dashboard-kpi-value">{{ totalOpenEnrollments }}</p>
                 </article>
             </div>
         </section>
@@ -177,6 +187,40 @@
                     <a class="link-btn" href="{{ path('admin_log_list') }}"><i class="fas fa-stream"></i> Logs ansehen</a>
                 </div>
             </div>
+        </section>
+
+        <section class="admin-form-card">
+            <div class="page-header">
+                <div>
+                    <h2>Projektübersicht Anmeldungen</h2>
+                    <p class="page-subtitle">Angemeldete Personen und noch offene Plätze pro Projekt.</p>
+                </div>
+            </div>
+
+            {% if projectStats is empty %}
+                <div class="empty-state">Keine Projekte für die aktuell gewählte Organisation gefunden.</div>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Projekt</th>
+                                <th>Bereits angemeldet</th>
+                                <th>Offene Anmeldungen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in projectStats %}
+                                <tr>
+                                    <td>{{ row.project.name }}</td>
+                                    <td>{{ row.enrolledPersons }}</td>
+                                    <td>{{ row.openEnrollments }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </section>
     </div>
 {% endblock %}
