@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Anmeldung nicht verfügbar | {{ project.name }}{% endblock %}
+
+{% block logo %}
+    <img class="h-32 m-8 float-right" src="{{ asset('images/logo.jpg') }}">
+{% endblock %}
+
+{% block main %}
+    <section class="font-sans antialiased w-full">
+        <div class="max-w-2xl mx-auto bg-white shadow-lg rounded p-8">
+            <h1 class="text-grey-darkest mb-3">Anmeldung momentan nicht verfügbar</h1>
+            <p class="text-grey-dark mb-4">
+                Für das Projekt <strong>{{ project.name }}</strong> ist die Anmeldung aktuell noch nicht freigeschaltet.
+            </p>
+            <p class="text-grey-dark mb-6">
+                Bitte versuche es später erneut oder kontaktiere das Organisationsteam.
+            </p>
+            <a class="inline-block uppercase bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-3 px-6 border border-grey-light rounded shadow no-underline" href="{{ path('home') }}">
+                Zur Startseite
+            </a>
+        </div>
+    </section>
+{% endblock %}

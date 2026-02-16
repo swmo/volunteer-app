@@ -22,6 +22,7 @@ use App\Utils\MergePerson;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\HttpFoundation\Response;
 
 class VolunteerController extends AbstractController
 {
@@ -37,6 +38,19 @@ class VolunteerController extends AbstractController
         // If some saved the link as Lesezeichen and the project is not active anymore
         if(!$project->isEnabled()){
             return $this->redirectToRoute('home');
+        }
+
+        $enrollmentSettings = $project->getEnrollmentSettings();
+        if (
+            !is_array($enrollmentSettings) ||
+            !isset($enrollmentSettings['form']) ||
+            !is_array($enrollmentSettings['form'])
+        ) {
+            return $this->render(
+                'volunteer/enroll.unavailable.html.twig',
+                ['project' => $project],
+                new Response('', Response::HTTP_SERVICE_UNAVAILABLE)
+            );
         }
 
         $form = $this->createForm(VolunteerFormType::class, null, array(
