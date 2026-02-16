@@ -4,23 +4,14 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
-use App\Entity\Enrollment;
-use App\Entity\Organisation;
-use App\Entity\Person;
-
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200404082055 extends AbstractMigration implements ContainerAwareInterface
+final class Version20200404082055 extends AbstractMigration
 {
-    use ContainerAwareTrait;
-
     public function getDescription() : string
     {
         return '';
@@ -40,17 +31,19 @@ final class Version20200404082055 extends AbstractMigration implements Container
 
     public function postUp(Schema $schema) : void
     {
-        /** @var EntityManagerInterface $em  */
-        $em = $this->container->get('doctrine.orm.entity_manager');
-
-        /** @var Organisation $organisation */
-        $organisation = $em->getRepository(Organisation::class)->findOneBy(['id' => 2]);
-        $persons = $em->getRepository(Person::class)->findAll();
-        foreach($persons as $person){
-            /** @var Person $person  */
-            $person->addOrganisation($organisation);
-            $em->persist($person);
-            $em->flush();
-        }
+        $this->connection->executeStatement(
+            <<<'SQL'
+            INSERT INTO person_organisation (person_id, organisation_id)
+            SELECT p.id, 2
+            FROM person p
+            WHERE EXISTS (SELECT 1 FROM organisation o WHERE o.id = 2)
+              AND NOT EXISTS (
+                SELECT 1
+                FROM person_organisation po
+                WHERE po.person_id = p.id
+                  AND po.organisation_id = 2
+              )
+            SQL
+        );
     }
 }

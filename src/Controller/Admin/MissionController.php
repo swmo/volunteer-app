@@ -8,10 +8,12 @@ use App\Entity\Mission;
 use App\Entity\Project;
 use App\Form\Admin\MissionFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Entity\Enrollment;
 use Gedmo\Loggable\Entity\LogEntry;
-use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 
 #[Route("/admin")]
 
@@ -30,7 +32,7 @@ class MissionController extends AbstractController
     #[Route("/mission/list", name: "admin_mission_list")]
 #[Route("/mission/list/project/{id}", name: "admin_mission_list_by_project")]
 
-    public function list(EntityManagerInterface $em, Project $project = null )
+    public function list(EntityManagerInterface $em, ?Project $project = null )
     {
         $missions = array();
 
@@ -70,6 +72,16 @@ class MissionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mission = $form->getData();
+            try {
+                $this->handleMissionImageUpload($form, $mission);
+            } catch (FileException $e) {
+                $this->addFlash('danger', 'Bild konnte nicht hochgeladen werden.');
+
+                return $this->render('admin/mission/edit.html.twig', [
+                    'form' => $form->createView(),
+                    'logEntries' => $em->getRepository(LogEntry::class)->getLogEntries($mission),
+                ]);
+            }
 
             $em->persist($mission);
             $em->flush();       
@@ -98,6 +110,15 @@ class MissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
            
             $mission = $form->getData();
+            try {
+                $this->handleMissionImageUpload($form, $mission);
+            } catch (FileException $e) {
+                $this->addFlash('danger', 'Bild konnte nicht hochgeladen werden.');
+
+                return $this->render('admin/mission/create.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
 
             $em->persist($mission);
             $em->flush();       
@@ -139,6 +160,22 @@ class MissionController extends AbstractController
         return $this->redirectToRoute('admin_mission_list');
     }
     //todo: copyMissionToProject
-    
+    private function handleMissionImageUpload(FormInterface $form, Mission $mission): void
+    {
+        /** @var UploadedFile|null $imageFile */
+        $imageFile = $form->get('imageFile')->getData();
+        if (null === $imageFile) {
+            return;
+        }
+
+        $binaryContent = @file_get_contents($imageFile->getPathname());
+        if (false === $binaryContent) {
+            throw new FileException('Failed to read uploaded image.');
+        }
+
+        $mission->setImageData($binaryContent);
+        $mission->setImageMimeType($imageFile->getMimeType() ?: 'application/octet-stream');
+        $mission->setImage($imageFile->getClientOriginalName());
+    }
 
 }

@@ -53,6 +53,17 @@ class Mission
     private $image;
 
     /**
+     * @ORM\Column(type="blob", nullable=true)
+     */
+    private $imageData;
+
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageMimeType;
+
+    /**
      * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=false)
      */
@@ -184,6 +195,30 @@ class Mission
     public function setImage($image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImageData()
+    {
+        return $this->imageData;
+    }
+
+    public function setImageData($imageData): self
+    {
+        $this->imageData = $imageData;
+
+        return $this;
+    }
+
+    public function getImageMimeType(): ?string
+    {
+        return $this->imageMimeType;
+    }
+
+    public function setImageMimeType(?string $imageMimeType): self
+    {
+        $this->imageMimeType = $imageMimeType;
 
         return $this;
     }

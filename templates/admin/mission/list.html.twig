@@ -1,69 +1,66 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Einsätze {% endblock %}
+{% block title %}Einsätze{% endblock %}
 
 {% block main %}
+<div class="admin-form-card">
+  <div class="page-header">
+    <div>
+      <h1>Einsätze</h1>
+      <p class="page-subtitle">Projekt: {{ project.name }}</p>
+    </div>
+    <div class="page-actions">
+      <a class="link-btn primary" href="{{ path('admin_mission_create') }}"><i class="fas fa-plus"></i> Neuer Einsatz</a>
+    </div>
+  </div>
 
-<div class="w-full md:w-2/3 mx-auto">
-  <div class="bg-white shadow-md rounded my-6 p-3">
-
-
-    <h2>Projekt: {{project.name}}</h2>
-
-    {% if missions|length == 0 %}
-      No Missions found please create now your <a href="{{path('admin_mission_create')}}"> Mission </a>
-    
-    {% else %}
-          <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
-            <thead>
-              <tr>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Aktiv</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Einsatz</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">von</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">bis</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light"></th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for mission in missions %}
-                        <tr class="hover:bg-grey-lighter">
-
-                          <td class="py-4 px-6 border-b border-grey-light">
-                          <a href="{{ path('admin_mission_toggle_activ', {id: mission.id}) }}">
-                              {% if (mission.isEnabled) %}
-                              <i class="fas fa-toggle-on"></i>
-                              {% else %}
-                              <i class="fas fa-toggle-off"></i>
-                              {% endif %}
-                              </a>
-                          </td>
-                          <td class="py-4 px-6 border-b border-grey-light">{{ mission.name }}</td>
-                          <td class="py-4 px-6 border-b border-grey-light">
-                            {{mission.start|date('d.m.Y H:i')}}
-                          </td>
-                          <td class="py-4 px-6 border-b border-grey-light">
-
-                          {% if (mission.start|date('d.m.Y') == mission.end|date('d.m.Y')) %}
-                            {{mission.end|date('H:i')}}
-                          {% else %}
-                            {{mission.end|date('d.m.Y H:i')}}
-                          {% endif %}
-
-                          
-                          </td>
-                          <td class="py-4 px-6 border-b text-right border-grey-light">
-                            <a href="{{ path('admin_mission_emailgroup',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Email Gruppe</a>
-                            <a href="{{ path('admin_mission_edit',{id: mission.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
-                  
-                          </td>
-                          
-                          </tr>
-                  {% endfor %}
-                  
-              </tbody>
-              </table>
-          {% endif %}
-          </div>
-          </div>
+  {% if missions|length == 0 %}
+    <div class="empty-state">Keine Einsätze vorhanden. Erstelle jetzt den ersten Einsatz.</div>
+  {% else %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Einsatz</th>
+            <th>Von</th>
+            <th>Bis</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mission in missions %}
+            <tr>
+              <td>
+                <a class="link-btn" href="{{ path('admin_mission_toggle_activ', {id: mission.id}) }}">
+                  {% if mission.isEnabled %}
+                    <span class="badge enabled"><i class="fas fa-toggle-on"></i> Aktiv</span>
+                  {% else %}
+                    <span class="badge disabled"><i class="fas fa-toggle-off"></i> Inaktiv</span>
+                  {% endif %}
+                </a>
+              </td>
+              <td>{{ mission.name }}</td>
+              <td>{{ mission.start|date('d.m.Y H:i') }}</td>
+              <td>
+                {% if mission.start|date('d.m.Y') == mission.end|date('d.m.Y') %}
+                  {{ mission.end|date('H:i') }}
+                {% else %}
+                  {{ mission.end|date('d.m.Y H:i') }}
+                {% endif %}
+              </td>
+              <td>
+                <div class="page-actions">
+                  <a class="link-btn" href="{{ path('admin_mission_emailgroup', {id: mission.id}) }}">Email Gruppe</a>
+                  <a class="link-btn" href="{{ path('admin_mission_edit', {id: mission.id}) }}">Edit</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
 
 {% endblock %}

@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EnrollmentRepository")
+ * @Gedmo\Loggable
  */
 class Enrollment
 {
@@ -17,112 +19,134 @@ class Enrollment
     private $id;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $street;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $zip;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $mobile;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="App\Entity\Mission")
      */
     private $missionChoice01;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="App\Entity\Mission")
      */
     private $missionChoice02;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="date", nullable=true)
      */
     private $birthday;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tshirtsize;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $hasTshirt;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $confirmToken;
 
 
-    /** 
-     * @ORM\Column(type="json_array", nullable=true) 
-     * */
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(type="json", nullable=true)
+     */
     private $status;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $organizedStartTimeMissionChoice01;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $organizedEndTimeMissionChoice01;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     private $organizedDescriptionMissionChoice01;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $organizedStartTimeMissionChoice02;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $organizedEndTimeMissionChoice02;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     private $organizedDescriptionMissionChoice02;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="enrollments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -258,7 +282,7 @@ class Enrollment
         return $this->tshirtsize;
     }
 
-    public function setTshirtsize(string $tshirtsize): self
+    public function setTshirtsize(?string $tshirtsize): self
     {
         $this->tshirtsize = $tshirtsize;
 
@@ -282,7 +306,7 @@ class Enrollment
         return $this->hasTshirt;
     }
 
-    public function setHasTshirt(bool $hasTshirt): self
+    public function setHasTshirt(?bool $hasTshirt): self
     {
         $this->hasTshirt = $hasTshirt;
         return $this;

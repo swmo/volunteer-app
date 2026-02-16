@@ -58,7 +58,7 @@
                                 ">
                                     <div class="sm:flex sm:items-center px-6 py-4 js-mission-image">
                                     <div style="position:relative">
-                                        <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/images/{{mission.image}}" alt="">
+                                        <img  class="block sm:h-1/2 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="{{ path('mission_image', {id: mission.id}) }}" alt="">
 
                                         <div class="invisible cursor-pointer js-mission-video-preview opacity-50" style="
                                             position: absolute;
@@ -540,4 +540,3 @@
         });
     </script>
 {% endblock %}
-

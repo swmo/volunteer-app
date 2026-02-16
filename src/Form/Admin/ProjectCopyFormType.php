@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectCopyFormType extends AbstractType
 {
+    private ProjectRepository $projectRepository;
 
     public function __construct(ProjectRepository $projectRepository)
     {
@@ -22,16 +23,17 @@ class ProjectCopyFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null, ['label' => 'admin.form.project_copy.name'])
             ->add('project',EntityType::class,[
+                'label' => 'admin.form.project_copy.template_project',
                 'class' => Project::class,
-                'placeholder' => 'choose a project',
+                'placeholder' => 'admin.form.project_copy.choose_project',
                 'choice_label' => function(Project $project){
                     return $project->getName();
                 },
                 'choices' => $this->projectRepository->findAll()
             ])
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, ['label' => 'admin.form.save'])
 
         ;
     }
@@ -39,7 +41,7 @@ class ProjectCopyFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'translation_domain' => 'messages',
         ]);
     }
 }

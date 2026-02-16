@@ -23,7 +23,7 @@ final class Version20190426202715 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE enrollment ADD status JSON DEFAULT NULL');
-        $this->addSql('COMMENT ON COLUMN enrollment.status IS \'(DC2Type:json_array)\'');
+        $this->addSql('COMMENT ON COLUMN enrollment.status IS \'(DC2Type:json)\'');
     }
 
     public function down(Schema $schema) : void

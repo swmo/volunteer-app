@@ -7,3 +7,62 @@ street: Strasse
 zip: PLZ
 city: Ort
 desired place of use: gewünschten Einsatzort/e
+
+admin.form.save: Speichern
+admin.form.placeholder.none: -- Keine Auswahl --
+
+admin.form.enrollment.firstname: Vorname
+admin.form.enrollment.lastname: Nachname
+admin.form.enrollment.street: Strasse
+admin.form.enrollment.zip: PLZ
+admin.form.enrollment.city: Ort
+admin.form.enrollment.mobile: Mobile
+admin.form.enrollment.email: E-Mail
+admin.form.enrollment.birthday: Geburtstag
+admin.form.enrollment.tshirtsize: T-Shirt-Groesse
+admin.form.enrollment.comment: Bemerkung
+admin.form.enrollment.has_tshirt: T-Shirt vorhanden
+admin.form.enrollment.confirm_token: Bestaetigungs-Token
+admin.form.enrollment.mission_choice_01: Einsatzort 1
+admin.form.enrollment.mission_choice_02: Einsatzort 2
+admin.form.enrollment.organized_start_01: Organisierte Startzeit Einsatz 1
+admin.form.enrollment.organized_end_01: Organisierte Endzeit Einsatz 1
+admin.form.enrollment.organized_description_01: Organisierte Beschreibung Einsatz 1
+admin.form.enrollment.organized_start_02: Organisierte Startzeit Einsatz 2
+admin.form.enrollment.organized_end_02: Organisierte Endzeit Einsatz 2
+admin.form.enrollment.organized_description_02: Organisierte Beschreibung Einsatz 2
+
+admin.form.mission.enabled: Aktiv
+admin.form.mission.name: Name
+admin.form.mission.short_description: Kurzbeschreibung
+admin.form.mission.image: Bild
+admin.form.mission.image_upload: Bild hochladen
+admin.form.mission.image_upload_help: Optional. Laesst du es leer, bleibt das vorhandene Bild erhalten.
+admin.form.mission.start: Start
+admin.form.mission.end: Ende
+admin.form.mission.required_volunteers: Benoetigte Helfer
+admin.form.mission.project: Projekt
+admin.form.mission.meeting_point: Treffpunkt
+admin.form.mission.calendar_event_description: Kalenderbeschreibung
+
+admin.form.project.name: Projektname
+admin.form.project.domain: Domain
+admin.form.project.enabled: Aktiv
+admin.form.project.organisation: Organisation
+admin.form.project.enrollment_settings: Einstellungen Anmeldung (JSON)
+
+admin.form.project_copy.name: Neuer Projektname
+admin.form.project_copy.template_project: Vorlage
+admin.form.project_copy.choose_project: Projekt waehlen
+
+admin.form.user.new_password: Neues Passwort
+
+admin.form.person.lastname: Nachname
+admin.form.person.firstname: Vorname
+admin.form.person.street: Strasse
+admin.form.person.city: Ort
+admin.form.person.zip: PLZ
+admin.form.person.mobile: Mobile
+admin.form.person.email: E-Mail
+admin.form.person.remark: Bemerkung
+admin.form.person.organisations: Organisationen

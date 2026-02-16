@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Organisation;
 use App\Entity\Project;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -13,7 +14,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
     {
         $project = new Project();
         $project->setName("Stadtlauf 2019");
-        $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf'));
+        $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf', Organisation::class));
         
         $manager->persist($project);
         $manager->flush();
@@ -22,7 +23,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
         $project = new Project();
         $project->setName("Stadtlauf 2020");
-        $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf'));
+        $project->setOrganisation($this->getReference('Organisation_Stadtlauf_Burgdorf', Organisation::class));
         $project->setIsEnabled(true);
         $project->setEnrollmentSettings(array(
             'form' => array(
@@ -41,7 +42,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
         $project = new Project();
         $project->setName("Tennisturnier Grindelwald 2020");
-        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf'));
+        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf', Organisation::class));
         $project->setIsEnabled(true);
         $manager->persist($project);
         $manager->flush();
@@ -49,7 +50,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
         $project = new Project();
         $project->setName("Berner Tennis 2020");
-        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf'));
+        $project->setOrganisation($this->getReference('Organisation_Tennisverein_Burgdorf', Organisation::class));
         $project->setIsEnabled(true);
         $manager->persist($project);
         $manager->flush();

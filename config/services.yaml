@@ -45,7 +45,11 @@ services:
     # Doctrine Extension listeners to handle behaviors
     Gedmo\Translatable\TranslatableListener:
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_listener, event: postLoad, connection: default }
+            - { name: doctrine.event_listener, event: postPersist, connection: default }
+            - { name: doctrine.event_listener, event: preFlush, connection: default }
+            - { name: doctrine.event_listener, event: onFlush, connection: default }
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
             - [ setDefaultLocale, ["%locale%"] ]
@@ -53,7 +57,8 @@ services:
 
     Gedmo\Loggable\LoggableListener:
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_listener, event: onFlush, connection: default }
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
+            - { name: doctrine.event_listener, event: postPersist, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
-

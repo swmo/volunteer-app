@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Entity\Mission;
 use App\Entity\Project;
+use Gedmo\Loggable\Entity\LogEntry;
 
 #[Route("/admin")]
 
@@ -20,7 +21,7 @@ class EnrollmentController extends AbstractController
 {
     #[Route("/enrollment/list/project/{id}", name: "admin_enrollment_list_by_project")]
 
-    public function index(EntityManagerInterface $em, Project $project = null) 
+    public function index(EntityManagerInterface $em, ?Project $project = null) 
     {
         
         $enrollments = $em->getRepository(Enrollment::class)->findBy(array('project' => $project), array('firstname' => 'ASC'));;
@@ -57,6 +58,7 @@ class EnrollmentController extends AbstractController
 
         return $this->render('admin/enrollment/edit.html.twig', [
             'form' => $form->createView(),
+            'logEntries' => $em->getRepository(LogEntry::class)->getLogEntries($enrollment),
         ]);
     }
 

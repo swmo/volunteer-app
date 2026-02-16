@@ -1,14 +1,18 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Mein Profil {% endblock %}
+{% block title %}Mein Profil{% endblock %}
 
 {% block main %}
-   {{ user.username }}
-   {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div>
-            <input type="submit" value="Passwort setzen" />
-        </div>
-    {{ form_end(form) }} 
+<div class="admin-form-card">
+  <div class="form-header">
+    <h1>Mein Profil</h1>
+    <p class="form-help">Angemeldet als {{ user.email }}. Hier kannst du dein Passwort aktualisieren.</p>
+  </div>
+  {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="form-actions">
+      <button type="submit" class="btn">Passwort setzen</button>
+    </div>
+  {{ form_end(form) }}
 </div>
 {% endblock %}

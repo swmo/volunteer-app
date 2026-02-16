@@ -18,18 +18,21 @@ class EnrollmentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $enrollment = $builder->getData();
+        $project = $enrollment instanceof Enrollment ? $enrollment->getProject() : null;
+
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('street')
-            ->add('zip')
-            ->add('city')
-            ->add('mobile')
-            ->add('email')
+            ->add('firstname', null, ['label' => 'admin.form.enrollment.firstname'])
+            ->add('lastname', null, ['label' => 'admin.form.enrollment.lastname'])
+            ->add('street', null, ['label' => 'admin.form.enrollment.street'])
+            ->add('zip', null, ['label' => 'admin.form.enrollment.zip'])
+            ->add('city', null, ['label' => 'admin.form.enrollment.city'])
+            ->add('mobile', null, ['label' => 'admin.form.enrollment.mobile'])
+            ->add('email', null, ['label' => 'admin.form.enrollment.email'])
             ->add(
                 'birthday', DateType::class, [
                     'widget'    => 'single_text',
-                    'label'     => 'birthday',
+                    'label'     => 'admin.form.enrollment.birthday',
                     'format'    => 'dd.MM.yyyy',
 
                     // prevents rendering it as type="date", to avoid HTML5 date pickers
@@ -42,22 +45,29 @@ class EnrollmentFormType extends AbstractType
                     'required' => false,
                 ]
             )
-            ->add('tshirtsize')
-            ->add('comment')
-            ->add('hasTshirt')
-            ->add('confirmToken')
+            ->add('tshirtsize', null, ['label' => 'admin.form.enrollment.tshirtsize'])
+            ->add('comment', null, ['label' => 'admin.form.enrollment.comment'])
+            ->add('hasTshirt', null, ['label' => 'admin.form.enrollment.has_tshirt'])
+            ->add('confirmToken', null, ['label' => 'admin.form.enrollment.confirm_token'])
        //     ->add('status', TextType::class)
            // ->add('missionChoice01')
 
 
             ->add('missionChoice01', EntityType::class, [
-                'label' => 'Einsatzort 1',
+                'label' => 'admin.form.enrollment.mission_choice_01',
                 'class' => Mission::class,
                 'required'  => false,
-                'placeholder' => '-- Keine Auswahl --',
-                'query_builder' => function(MissionRepository $repo)  {
-                    return $repo->createQueryBuilder('m')
-                    ->orderBy('m.name', 'ASC');
+                'placeholder' => 'admin.form.placeholder.none',
+                'query_builder' => function(MissionRepository $repo) use ($project) {
+                    $qb = $repo->createQueryBuilder('m')
+                        ->orderBy('m.name', 'ASC');
+
+                    if (null !== $project) {
+                        $qb->andWhere('m.project = :project')
+                            ->setParameter('project', $project);
+                    }
+
+                    return $qb;
                 }
             ])
 
@@ -66,6 +76,7 @@ class EnrollmentFormType extends AbstractType
                 [
                     'input'  => 'datetime',
                     'widget' => 'single_text',
+                    'label' => 'admin.form.enrollment.organized_start_01',
                     'required' => false
                 ]
             )
@@ -74,23 +85,31 @@ class EnrollmentFormType extends AbstractType
                 [
                     'input'  => 'datetime',
                     'widget' => 'single_text',
+                    'label' => 'admin.form.enrollment.organized_end_01',
                     'required' => false
                 ]
             )
-            ->add('organizedDescriptionMissionChoice01')
+            ->add('organizedDescriptionMissionChoice01', null, ['label' => 'admin.form.enrollment.organized_description_01'])
 
 
 
 
             
             ->add('missionChoice02', EntityType::class, [
-                'label' => 'Einsatzort 2',
+                'label' => 'admin.form.enrollment.mission_choice_02',
                 'class' => Mission::class,
                 'required'  => false,
-                'placeholder' => '-- Keine Auswahl --',
-                'query_builder' => function(MissionRepository $repo)  {
-                    return $repo->createQueryBuilder('m')
-                    ->orderBy('m.name', 'ASC');
+                'placeholder' => 'admin.form.placeholder.none',
+                'query_builder' => function(MissionRepository $repo) use ($project) {
+                    $qb = $repo->createQueryBuilder('m')
+                        ->orderBy('m.name', 'ASC');
+
+                    if (null !== $project) {
+                        $qb->andWhere('m.project = :project')
+                            ->setParameter('project', $project);
+                    }
+
+                    return $qb;
                 }
             ])
 
@@ -99,6 +118,7 @@ class EnrollmentFormType extends AbstractType
                 [
                     'input'  => 'datetime',
                     'widget' => 'single_text',
+                    'label' => 'admin.form.enrollment.organized_start_02',
                     'required' => false
                 ]
             )
@@ -107,10 +127,11 @@ class EnrollmentFormType extends AbstractType
                 [
                     'input'  => 'datetime',
                     'widget' => 'single_text',
+                    'label' => 'admin.form.enrollment.organized_end_02',
                     'required' => false
                 ]
             )
-            ->add('organizedDescriptionMissionChoice02')
+            ->add('organizedDescriptionMissionChoice02', null, ['label' => 'admin.form.enrollment.organized_description_02'])
 
         ;
     }
@@ -119,6 +140,7 @@ class EnrollmentFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Enrollment::class,
+            'translation_domain' => 'messages',
         ]);
     }
 }

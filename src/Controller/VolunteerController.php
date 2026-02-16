@@ -18,7 +18,7 @@ use App\Entity\Project;
 use App\Manager\ProjectManager;
 use App\Repository\OrganisationRepository;
 use App\Utils\IcsGenerator;
-use App\Utils\MergeProjectPerson;
+use App\Utils\MergePerson;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -28,7 +28,7 @@ class VolunteerController extends AbstractController
 
     #[Route("/volunteer/enroll/project/{id}", name: "volunteer_enroll_by_project")]
 
-    public function enrollByProject(Project $project = null, EntityManagerInterface $em, Request $request, MailerInterface $mailer,TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator)
+    public function enrollByProject(EntityManagerInterface $em, Request $request, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator, MergePerson $mergePerson, ?Project $project = null)
     {
 
         if($project === null){
@@ -69,7 +69,10 @@ class VolunteerController extends AbstractController
             }
 
             $em->persist($enrollment);
-            $em->flush();    
+            $em->flush();
+
+            // Keep person master data in sync even if doctrine subscriber is not triggered.
+            $mergePerson->mergeEnrollemnt($enrollment);
 
             
             $message = (new Email())

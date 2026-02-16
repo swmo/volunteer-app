@@ -1,73 +1,59 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Anmeldungen {% endblock %}
+{% block title %}Anmeldungen{% endblock %}
 
 {% block main %}
-
-<div class="w-full mx-auto">
-  <div class="bg-white shadow-md rounded my-6">
-    <h1 class="p-5"><a href="{{path('admin_project_list')}}">Projekte</a> &#8594; {{project.name}}</h1>
-    <div class="m-5" >
-    <a href="{{path('admin_enrollment_export',{type: 'overview', project: project.id})}}"><i class="fas fa-3x fa-file-excel"></i> Excel Export</a>
-    
-
-   
+<div class="admin-form-card">
+  <div class="page-header">
+    <div>
+      <h1>Anmeldungen</h1>
+      <p class="page-subtitle"><a href="{{ path('admin_project_list') }}">Projekte</a> -> {{ project.name }}</p>
     </div>
-    <table class="text-left w-full border-collapse">
-      <thead>
-        <tr>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Vorname</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Nachname</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">E-Mail</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Mobile</th>
+    <div class="page-actions">
+      <a class="link-btn" href="{{ path('admin_enrollment_export', {type: 'overview', project: project.id}) }}">
+        <i class="fas fa-file-excel"></i> Excel Export
+      </a>
+    </div>
+  </div>
 
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Einsatz</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-
-          {% for enrollment in enrollments %}
-        <tr class="hover:bg-grey-lighter">
-          <td class="py-4 px-6 border-b border-grey-light">
-            {{ enrollment.firstname }}
-        </td>
-          <td class="py-4 px-6 border-b border-grey-light">
-            {{ enrollment.lastname }}
-          </td>
-          <td class="py-4 px-6 border-b border-grey-light">
-            {{ enrollment.email }}
-          </td>
-          <td class="py-4 px-6 border-b border-grey-light">
-            {{ enrollment.mobile }}
-          </td>
-          <td class="py-4 px-6 border-b border-grey-light">
-
-            {% if enrollment.missionChoice01 %}
-              {{ enrollment.missionChoice01.name }} <br>
-            {% endif %}
-            {% if enrollment.missionChoice02 %}
-              {{ enrollment.missionChoice02.name }} <br>
-            {% endif %}
-            
-            {{enrollment.getWorkingTime|date('%h:%i')}}
-          </td>
-          <td class="py-4 px-6 border-b text-right border-grey-light">
-            <a href="{{ path('admin_enrollment_edit',{id: enrollment.id})}}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
-          </td>
-          
+  {% if enrollments is empty %}
+    <div class="empty-state">Keine Anmeldungen für dieses Projekt vorhanden.</div>
+  {% else %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>E-Mail</th>
+            <th>Mobile</th>
+            <th>Einsätze</th>
+            <th>Aktion</th>
           </tr>
-    {% endfor %}
-
-          </tbody>
-          </table>
-
-
-
-
-          
-          </div>
-          </div>
+        </thead>
+        <tbody>
+          {% for enrollment in enrollments %}
+            <tr>
+              <td>{{ enrollment.firstname }}</td>
+              <td>{{ enrollment.lastname }}</td>
+              <td>{{ enrollment.email }}</td>
+              <td>{{ enrollment.mobile }}</td>
+              <td>
+                {% if enrollment.missionChoice01 %}
+                  {{ enrollment.missionChoice01.name }}<br>
+                {% endif %}
+                {% if enrollment.missionChoice02 %}
+                  {{ enrollment.missionChoice02.name }}<br>
+                {% endif %}
+                {{ enrollment.getWorkingTime|date('%h:%i') }}
+              </td>
+              <td><a class="link-btn" href="{{ path('admin_enrollment_edit', {id: enrollment.id}) }}">Edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
 
 {% endblock %}

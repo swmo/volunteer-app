@@ -1,13 +1,43 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Organisationen {% endblock %}
+{% block title %}Organisationen{% endblock %}
 
 {% block main %}
-    <h2> Meine Organisationen </h2>
-    {% for organisation in organisations %}
-        {{organisation.id}}  {{organisation.name}}  <a href="{{path('admin_organisation_select',{id:organisation.id})}}">select</a></br>
-    {% endfor %}
-    <h2> Neue Organisationen erstellen </h2>
-    Deine Organisation ist noch 
-{% endblock %}
+<div class="admin-form-card">
+  <div class="page-header">
+    <div>
+      <h1>Meine Organisationen</h1>
+      <p class="page-subtitle">Wähle eine Organisation aus, um Projekte und Einsätze zu verwalten.</p>
+    </div>
+  </div>
 
+  {% if organisations is empty %}
+    <div class="empty-state">Noch keine Organisationen vorhanden.</div>
+  {% else %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Aktion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for organisation in organisations %}
+            <tr>
+              <td>{{ organisation.id }}</td>
+              <td>{{ organisation.name }}</td>
+              <td>
+                <a class="link-btn primary" href="{{ path('admin_organisation_select', {id: organisation.id}) }}">
+                  <i class="fas fa-arrow-right"></i> Auswählen
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

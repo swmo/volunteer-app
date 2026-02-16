@@ -1,84 +1,54 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Stammdaten {% endblock %}
+{% block title %}Stammdaten{% endblock %}
 
 {% block main %}
+<div class="admin-form-card">
+  <div class="page-header">
+    <div>
+      <h1>Stammdaten</h1>
+      <p class="page-subtitle">Verwaltung aller Personen und Kontaktinformationen.</p>
+    </div>
+    <div class="page-actions">
+      <a class="link-btn" href="{{ path('admin_person_emailgroup') }}"><i class="fas fa-envelope"></i> Emailgruppe</a>
+      <a class="link-btn" target="_blank" href="{{ path('admin_person_export') }}"><i class="fas fa-file-excel"></i> Excel Export</a>
+    </div>
+  </div>
 
-<h2>Stammdaten </h2>
-
-
-
-<div class="dropdown inline-block relative">
-	<button class="bg-gray text-gray font-semibold py-2 px-4 rounded inline-flex items-center">
-		<i class="fas fa-2x fa-cog"></i>
-	</button>
-	<ul class="dropdown-content list-reset absolute hidden text-gray pt-1">
-
-   
-   <li><a class="rounded-t bg-red hover:bg-gray py-2 px-4 block whitespace-no-wrap"  href="{{path('admin_person_emailgroup')}}"><i class="fas fa-2x fa-envelope"></i>Emailgruppe</a></li>
-		
-      <li><a class="rounded-t bg-red hover:bg-gray py-2 px-4 block whitespace-no-wrap" target="_blank" href="{{path('admin_person_export')}}"><i class="fas fa-2x fa-file-excel"></i>Export to Excel</a></li>
-		<li><a class="rounded-t bg-red hover:bg-gray py-2 px-4 block whitespace-no-wrap" href="#"><i class="fas fa-2x fa-wrench"></i> Wartungsanaylse</a></li>
-	</ul>
+  {% if persons is empty %}
+    <div class="empty-state">Keine Personen vorhanden.</div>
+  {% else %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Adresse</th>
+            <th>Kontakt</th>
+            <th>Bemerkung</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in persons %}
+            <tr>
+              <td>{{ person.id }}</td>
+              <td>{{ person.lastname }} {{ person.firstname }}</td>
+              <td>{{ person.street }}<br>{{ person.zip }} {{ person.city }}</td>
+              <td>{{ person.mobile }}<br>{{ person.email }}</td>
+              <td>{{ person.remark }}</td>
+              <td>
+                <div class="page-actions">
+                  <a class="link-btn" href="{{ path('admin_person_edit', {id: person.id}) }}">Edit</a>
+                  <a class="link-btn" href="{{ path('admin_person_delete', {id: person.id}) }}">Delete</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
 </div>
-
-
-<table class="table-auto">
-  <thead>
-    <tr>
-      <th class="px-4 py-2">ID</th>
-      <th class="px-4 py-2">Lastname</th>
-      <th class="px-4 py-2">Firstname</th>
-      <th class="px-4 py-2">Street</th>
-      <th class="px-4 py-2">City</th>
-      <th class="px-4 py-2">PLZ</th>
-      <th class="px-4 py-2">Mobile</th>
-      <th class="px-4 py-2">Email</th>
-      <th class="px-4 py-2">Remark</th>
-      <th class="px-4 py-2">Enrollments</th>
-      <th class="px-4 py-2">Action</th>
-    </tr>
-  </thead>
-   <tbody>
-      {% for person in persons %}
-         <tr>
-            <td class="border px-4 py-2">
-               {{person.id}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.lastname}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.firstname}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.street}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.city}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.zip}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.mobile}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.email}}
-            </td>
-            <td class="border px-4 py-2">
-               {{person.remark}}
-            </td>
-            <td class="border px-4 py-2">
-               Enrollments
-            </td>
-            <td class="border px-4 py-2">
-             <a href="{{path('admin_person_edit',{'id':person.id})}}">edit</a> 
-            <a href="{{path('admin_person_delete',{'id':person.id})}}">delete</a>
-            </td>
-         </tr>
-      {% endfor %}
-   </tbody>
-</table>
-    
 {% endblock %}

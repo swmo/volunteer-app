@@ -2,126 +2,600 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-
+        <title>{% block title %}Admin{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/tailwind.min.css') }}" >
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/tailwind.min.css') }}">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}" >
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
         {% endblock %}
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700&family=DM+Serif+Display&display=swap');
+
+            :root {
+                --bg: #f7f5ef;
+                --ink: #1d2a35;
+                --ink-soft: #556877;
+                --line: rgba(29, 42, 53, 0.13);
+                --brand: #de5a2a;
+                --brand-dark: #aa3f1a;
+                --sidebar-bg: #1f2f3f;
+                --sidebar-text: #d7e4ef;
+                --ok-bg: rgba(45, 151, 98, 0.12);
+                --ok-line: rgba(45, 151, 98, 0.35);
+                --danger-bg: rgba(185, 58, 50, 0.12);
+                --danger-line: rgba(185, 58, 50, 0.35);
+            }
+
+            body {
+                margin: 0;
+                background:
+                    radial-gradient(circle at 14% 10%, rgba(245, 170, 90, 0.2), transparent 34%),
+                    radial-gradient(circle at 86% 0%, rgba(86, 134, 200, 0.16), transparent 30%),
+                    linear-gradient(145deg, #f5f0e5 0%, var(--bg) 45%, #eef5fa 100%);
+                color: var(--ink);
+                font-family: 'Nunito', sans-serif;
+            }
+
+            .admin-shell {
+                display: grid;
+                grid-template-columns: 290px 1fr;
+                min-height: 100vh;
+            }
+
+            .admin-sidebar {
+                background: linear-gradient(180deg, #25384b 0%, var(--sidebar-bg) 100%);
+                color: var(--sidebar-text);
+                padding: 1.2rem 1rem;
+                border-right: 1px solid rgba(255, 255, 255, 0.08);
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            .admin-brand {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.7rem;
+                margin-bottom: 1rem;
+            }
+
+            .admin-brand-text {
+                font-family: 'DM Serif Display', serif;
+                font-size: 1.35rem;
+                line-height: 1;
+                margin: 0;
+                color: #fff;
+            }
+
+            .admin-brand-kicker {
+                margin: 0.1rem 0 0;
+                font-size: 0.75rem;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: #abc0d0;
+                font-weight: 700;
+            }
+
+            .admin-logo {
+                width: 48px;
+                height: 48px;
+                border-radius: 0.85rem;
+                object-fit: cover;
+                border: 1px solid rgba(255, 255, 255, 0.16);
+            }
+
+            .admin-nav {
+                margin-top: 0.8rem;
+            }
+
+            .admin-nav-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: grid;
+                gap: 0.35rem;
+            }
+
+            .admin-nav-link {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                border-radius: 0.7rem;
+                padding: 0.52rem 0.65rem;
+                color: var(--sidebar-text);
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 0.9rem;
+                transition: background 120ms ease, transform 120ms ease;
+            }
+
+            .admin-nav-link:hover {
+                background: rgba(255, 255, 255, 0.12);
+                transform: translateX(1px);
+                color: #fff;
+            }
+
+            .admin-sidebar-separator {
+                margin: 0.95rem 0;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            .admin-main {
+                padding: 1rem 1.1rem 2rem;
+            }
+
+            .admin-topbar {
+                margin: 0 auto;
+                max-width: 1220px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                border: 1px solid var(--line);
+                border-radius: 1rem;
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(4px);
+                padding: 0.75rem 0.9rem;
+            }
+
+            .admin-topbar-title {
+                margin: 0;
+                font-family: 'DM Serif Display', serif;
+                font-size: 1.45rem;
+                line-height: 1;
+            }
+
+            .admin-topbar-sub {
+                margin: 0.15rem 0 0;
+                color: var(--ink-soft);
+                font-size: 0.84rem;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+            }
+
+            .admin-topbar-logo {
+                width: 56px;
+                height: 56px;
+                border-radius: 0.9rem;
+                object-fit: cover;
+                border: 1px solid var(--line);
+                background: #fff;
+            }
+
+            .admin-content {
+                max-width: 1220px;
+                margin: 1rem auto 0;
+                border: 1px solid var(--line);
+                border-radius: 1rem;
+                background: rgba(255, 255, 255, 0.74);
+                backdrop-filter: blur(4px);
+                padding: 1rem;
+            }
+
+            .flash-stack {
+                display: grid;
+                gap: 0.6rem;
+                margin-bottom: 0.85rem;
+            }
+
+            .flash-card {
+                border-radius: 0.75rem;
+                padding: 0.62rem 0.72rem;
+                font-weight: 700;
+                font-size: 0.9rem;
+            }
+
+            .flash-card.success {
+                border: 1px solid var(--ok-line);
+                background: var(--ok-bg);
+                color: #256d4a;
+            }
+
+            .flash-card.danger {
+                border: 1px solid var(--danger-line);
+                background: var(--danger-bg);
+                color: #8b2f2a;
+            }
+
+            .admin-content table {
+                background: rgba(255, 255, 255, 0.85);
+                border-radius: 0.8rem;
+                overflow: hidden;
+            }
+
+            .admin-content h1,
+            .admin-content h2,
+            .admin-content h3 {
+                font-family: 'DM Serif Display', serif;
+            }
+
+            .admin-content h1 {
+                margin: 0;
+                font-size: clamp(1.42rem, 2.3vw, 1.85rem);
+                line-height: 1.1;
+            }
+
+            .admin-content h2 {
+                margin: 0;
+                font-size: 1.3rem;
+                line-height: 1.2;
+            }
+
+            .form-header {
+                display: grid;
+                gap: 0.35rem;
+                margin-bottom: 0.65rem;
+            }
+
+            .admin-form-grid {
+                display: grid;
+                gap: 1rem;
+            }
+
+            .admin-form-grid.two-col {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-content form {
+                display: grid;
+                gap: 0.9rem;
+            }
+
+            .admin-content .form-group,
+            .admin-content .form-row,
+            .admin-content div:has(> label + input),
+            .admin-content div:has(> label + textarea),
+            .admin-content div:has(> label + select) {
+                display: grid;
+                gap: 0.38rem;
+            }
+
+            .admin-content label {
+                font-size: 0.84rem;
+                font-weight: 700;
+                letter-spacing: 0.02em;
+                color: var(--ink-soft);
+                text-transform: uppercase;
+            }
+
+            .admin-content input[type='text'],
+            .admin-content input[type='email'],
+            .admin-content input[type='password'],
+            .admin-content input[type='number'],
+            .admin-content input[type='date'],
+            .admin-content input[type='datetime-local'],
+            .admin-content input[type='time'],
+            .admin-content input[type='url'],
+            .admin-content input[type='tel'],
+            .admin-content input[type='search'],
+            .admin-content select,
+            .admin-content textarea {
+                width: 100%;
+                border: 1px solid var(--line);
+                border-radius: 0.72rem;
+                background: rgba(255, 255, 255, 0.95);
+                color: var(--ink);
+                padding: 0.62rem 0.75rem;
+                font-size: 0.95rem;
+                line-height: 1.45;
+            }
+
+            .admin-content textarea {
+                min-height: 120px;
+            }
+
+            .admin-content input:focus,
+            .admin-content select:focus,
+            .admin-content textarea:focus {
+                outline: none;
+                border-color: rgba(222, 90, 42, 0.55);
+                box-shadow: 0 0 0 3px rgba(222, 90, 42, 0.16);
+            }
+
+            .admin-content input[type='checkbox'],
+            .admin-content input[type='radio'] {
+                accent-color: var(--brand);
+            }
+
+            .admin-content .help-text,
+            .admin-content .invalid-feedback,
+            .admin-content .form-error-message,
+            .admin-content .form-errors {
+                color: #9a3a2f;
+                font-size: 0.82rem;
+                font-weight: 700;
+            }
+
+            .admin-content ul {
+                margin: 0.2rem 0 0;
+                padding-left: 1rem;
+            }
+
+            .admin-content .btn,
+            .admin-content button,
+            .admin-content input[type='submit'] {
+                border: 0;
+                border-radius: 999px;
+                background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+                color: #fff;
+                padding: 0.58rem 1rem;
+                font-weight: 700;
+                font-size: 0.9rem;
+                cursor: pointer;
+                width: fit-content;
+                box-shadow: 0 8px 20px rgba(170, 63, 26, 0.25);
+            }
+
+            .admin-content .btn:hover,
+            .admin-content button:hover,
+            .admin-content input[type='submit']:hover {
+                filter: brightness(1.03);
+                transform: translateY(-1px);
+            }
+
+            .form-actions {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                margin-top: 0.2rem;
+            }
+
+            .admin-content .form-help,
+            .admin-content small {
+                color: #7b8d9c;
+                font-size: 0.82rem;
+            }
+
+            .admin-form-card {
+                border: 1px solid var(--line);
+                border-radius: 0.9rem;
+                background: rgba(255, 255, 255, 0.82);
+                padding: 0.95rem;
+            }
+
+            .page-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 0.9rem;
+                margin-bottom: 0.85rem;
+            }
+
+            .page-subtitle {
+                margin: 0.25rem 0 0;
+                color: var(--ink-soft);
+                font-size: 0.87rem;
+            }
+
+            .page-actions {
+                display: flex;
+                align-items: center;
+                gap: 0.45rem;
+                flex-wrap: wrap;
+            }
+
+            .link-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                border: 1px solid var(--line);
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.9);
+                color: var(--ink);
+                font-size: 0.82rem;
+                font-weight: 700;
+                text-decoration: none;
+                padding: 0.36rem 0.72rem;
+            }
+
+            .link-btn:hover {
+                border-color: rgba(222, 90, 42, 0.5);
+                color: var(--brand-dark);
+            }
+
+            .link-btn.primary {
+                border: 0;
+                background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+                color: #fff;
+                box-shadow: 0 8px 20px rgba(170, 63, 26, 0.25);
+            }
+
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+                border-radius: 999px;
+                font-size: 0.74rem;
+                font-weight: 800;
+                letter-spacing: 0.03em;
+                padding: 0.24rem 0.56rem;
+                text-transform: uppercase;
+            }
+
+            .badge.enabled {
+                color: #1f6d47;
+                background: rgba(45, 151, 98, 0.14);
+                border: 1px solid rgba(45, 151, 98, 0.3);
+            }
+
+            .badge.disabled {
+                color: #8b2f2a;
+                background: rgba(185, 58, 50, 0.12);
+                border: 1px solid rgba(185, 58, 50, 0.3);
+            }
+
+            .table-wrap {
+                border: 1px solid var(--line);
+                border-radius: 0.9rem;
+                overflow: auto;
+                background: rgba(255, 255, 255, 0.9);
+            }
+
+            .data-table {
+                width: 100%;
+                border-collapse: collapse;
+                min-width: 680px;
+            }
+
+            .data-table th {
+                text-align: left;
+                font-size: 0.74rem;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: #6d7d8a;
+                padding: 0.62rem 0.7rem;
+                border-bottom: 1px solid var(--line);
+                background: rgba(247, 245, 239, 0.9);
+            }
+
+            .data-table td {
+                font-size: 0.87rem;
+                color: var(--ink);
+                padding: 0.62rem 0.7rem;
+                border-bottom: 1px solid var(--line);
+                vertical-align: top;
+            }
+
+            .data-table tbody tr:hover {
+                background: rgba(86, 134, 200, 0.07);
+            }
+
+            .empty-state {
+                border: 1px dashed var(--line);
+                border-radius: 0.8rem;
+                padding: 0.85rem;
+                color: var(--ink-soft);
+                font-size: 0.88rem;
+            }
+
+            .admin-log-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 0.65rem;
+                font-size: 0.86rem;
+            }
+
+            .admin-log-table th {
+                text-align: left;
+                font-size: 0.75rem;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: #6d7d8a;
+                padding: 0.55rem 0.6rem;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .admin-log-table td {
+                padding: 0.55rem 0.6rem;
+                border-bottom: 1px solid var(--line);
+                vertical-align: top;
+            }
+
+            .json-preview {
+                margin: 0;
+                white-space: pre-wrap;
+                word-break: break-word;
+                font-size: 0.76rem;
+                line-height: 1.4;
+                color: #4c5d6c;
+            }
+
+            @media (max-width: 980px) {
+                .admin-shell {
+                    grid-template-columns: 1fr;
+                }
+
+                .admin-sidebar {
+                    position: static;
+                    height: auto;
+                    border-right: 0;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .admin-nav-list {
+                    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+                }
+
+                .admin-form-grid.two-col {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
 
         <link rel="manifest" href="/manifest_admin.json">
     </head>
     <body>
         {% block body %}
-
-            <div class="flex md:flex-row-reverse flex-wrap" style="margin-bottom:100px">
-
-                <div class="w-full md:w-4/5 bg-grey-lightest">
-                    <nav class="clearfix container mx-auto mt-5 mr-5 ">
-                        <img class="h-32 float-right" src="{{ asset('images/logo.jpg')}}">
-                    </nav>
-                    <div class="container bg-grey-lightest pt-8 px-6">
-                        {% for message in app.flashes('success') %}
-                            <div class="w-full">
-                                <div class="flex max-w-sm mb-4">
-                                    <div class="w-24 bg-green-light ">
-                                        <div class="p-6 text-center text-white">
-                                            <i class="fas fa-check fa-3x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="items-center p-4">
-                                        <p >
-                                        {{message}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>           
-                        {% endfor %}
-                        {% for message in app.flashes('danger') %}
-                            <div class="w-full">
-                                <div class="flex max-w-sm mb-4">
-                                    <div class="w-24 bg-red-light">
-                                        <div class="p-6 text-center text-white">
-                                        
-                                        <i class="fas fa-exclamation fa-3x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="items-center p-4">
-                                        <p >
-                                        {{message}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>           
-                        {% endfor %}
-
-                        {% block main %}
-
-                        {% endblock %}
-                    </div>
-                </div>
-
+            <div class="admin-shell">
                 {% block sidebar %}
-                    <div class="w-full md:w-1/5 bg-black md:bg-black px-2 text-center fixed pin-b md:pt-8 md:pin-t md:pin-l h-16 md:h-screen md:border-r-4 md:border-grey-dark">
-                        <div class="md:relative w-full lg:float-right lg:px-6">
-                        
-                        <ul class="list-reset flex flex-row md:flex-col text-center md:text-left"> 
-                            <li class="mr-3  flex-1">
-                                    <a href="{{path('admin_organisation_list')}}" 
-                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
-                                    >
-                                        <i class="fas fa-link pr-0 md:pr-3"></i>
-                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
-                                            Organisationen
-                                        </span>
-                                </a>
-                            </li>
-                        </ul>
+                    <aside class="admin-sidebar">
+                        <div class="admin-brand">
+                            <div>
+                                <p class="admin-brand-text">Volunteer Admin</p>
+                                <p class="admin-brand-kicker">Control Center</p>
+                            </div>
+                            <img class="admin-logo" src="{{ asset('images/logo.jpg') }}" alt="Logo">
+                        </div>
+
+                        <nav class="admin-nav">
+                            <ul class="admin-nav-list">
+                                <li><a class="admin-nav-link" href="{{ path('admin_organisation_list') }}"><i class="fas fa-sitemap"></i>Organisationen</a></li>
+                            </ul>
+                        </nav>
+
+                        <div class="admin-sidebar-separator"></div>
 
                         {% include 'admin/organisation_sidebar.html.twig' %}
 
-                        <ul class="mt-3 list-reset flex flex-row md:flex-col text-center md:text-left"> 
-                            <li class="mr-3 flex-1">
-                                    <a href="{{path('admin_userprofil')}}" 
-                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
-                                    >
-                                        <i class="fas fa-link pr-0 md:pr-3"></i>
-                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
-                                            Mein Profil
-                                        </span>
-                                </a>
-                            </li>
-                            <li class="mr-3 flex-1">
-                                    <a href="{{path('app_logout')}}" 
-                                        class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest no-underline hover:text-yellow-light border-b-2 border-grey-darkest md:border-black hover:border-yellow-light"
-                                    >
-                                        <i class="fas fa-sign-out-alt pr-0 md:pr-3"></i>
-                                        <span class="pb-1 md:pb-0 text-s md:text-base text-grey-dark md:text-grey-light block md:inline-block">
-                                            Logout
-                                        </span>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
-                    </div>
-                {% endblock %}  
-            </div>
+                        <div class="admin-sidebar-separator"></div>
 
+                        <nav class="admin-nav">
+                            <ul class="admin-nav-list">
+                                <li><a class="admin-nav-link" href="{{ path('admin_userprofil') }}"><i class="fas fa-user-circle"></i>Mein Profil</a></li>
+                                <li><a class="admin-nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                            </ul>
+                        </nav>
+                    </aside>
+                {% endblock %}
+
+                <main class="admin-main">
+                    <header class="admin-topbar">
+                        <div>
+                            <h1 class="admin-topbar-title">Admin Bereich</h1>
+                            <p class="admin-topbar-sub">Volunteer Management</p>
+                        </div>
+                        <img class="admin-topbar-logo" src="{{ asset('images/logo.jpg') }}" alt="Logo">
+                    </header>
+
+                    <section class="admin-content">
+                        <div class="flash-stack">
+                            {% for message in app.flashes('success') %}
+                                <div class="flash-card success">
+                                    <i class="fas fa-check-circle"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                            {% for message in app.flashes('danger') %}
+                                <div class="flash-card danger">
+                                    <i class="fas fa-exclamation-triangle"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% block main %}
+                        {% endblock %}
+                    </section>
+                </main>
+            </div>
         {% endblock %}
 
         {% block javascripts %}
-
         {% endblock %}
     </body>
 </html>
-
-
-
-
-
-
-
-  

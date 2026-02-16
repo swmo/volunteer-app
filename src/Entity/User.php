@@ -130,12 +130,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
-        /*
-         * Die nullung des plainPassword wird benötit damit garantiert
-         * werden kann das der Listener für das Hashing des Passwortes
-         * aufgerufen wird auch wenn nur das Password zurückgesetzt wird.
-         */
-        $this->password = null;
         return $this;
     }
 

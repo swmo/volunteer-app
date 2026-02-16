@@ -23,11 +23,12 @@ class ProjectFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('domain')
-            ->add('isEnabled')
-            ->add('organisation')
+            ->add('name', null, ['label' => 'admin.form.project.name'])
+            ->add('domain', null, ['label' => 'admin.form.project.domain'])
+            ->add('isEnabled', null, ['label' => 'admin.form.project.enabled'])
+            ->add('organisation', null, ['label' => 'admin.form.project.organisation'])
             ->add('enrollmentSettings',TextType::class,[
+                'label' => 'admin.form.project.enrollment_settings',
                 'help' => '
                 {
                     "form":
@@ -48,7 +49,7 @@ class ProjectFormType extends AbstractType
                 }
                     ',
             ])
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, ['label' => 'admin.form.save'])
         ;
 
         $builder->get('enrollmentSettings')
@@ -59,6 +60,7 @@ class ProjectFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Project::class,
+            'translation_domain' => 'messages',
         ]);
     }
 }

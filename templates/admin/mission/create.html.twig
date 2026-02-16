@@ -3,7 +3,11 @@
 {% block title %}Neuer Einsatz{% endblock %}
 
 {% block main %}
-
-   {{ form(form) }}
-
+<div class="admin-form-card">
+  <div class="form-header">
+    <h1>Neuer Einsatz</h1>
+    <p class="form-help">Lege Zeitfenster, Beschreibung, Kapazitaet und Projektzuordnung fest.</p>
+  </div>
+  {{ form(form) }}
+</div>
 {% endblock %}

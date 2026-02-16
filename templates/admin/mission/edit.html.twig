@@ -1,54 +1,62 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Neuer Einsatz{% endblock %}
+{% block title %}Einsatz bearbeiten{% endblock %}
 
 {% block main %}
+<div class="admin-form-card">
+  <div class="form-header">
+    <h1>Einsatz bearbeiten</h1>
+    <p class="form-help">Aktualisiere den Einsatz und pruefe danach den Aenderungsverlauf.</p>
+  </div>
+  {% if form.vars.value.imageData or form.vars.value.image %}
+    <p class="form-help">Aktuelles Bild:</p>
+    <img src="{{ path('mission_image', {id: form.vars.value.id}) }}" alt="Mission Bild" style="max-width: 220px; border-radius: 0.6rem; border: 1px solid var(--line); margin-bottom: 0.75rem;">
+  {% endif %}
+  {{ form(form) }}
+</div>
 
-{{ form(form) }}
-
-
-<h2>Log</h2>
-
-
-<table class="table-auto">
-  <thead>
-    <tr>
-        <th class="px-4 py-2">Datum</th>
-      <th class="px-4 py-2">Benutzer</th>
-      <th class="px-4 py-2">ObjektClas</th>
-        <th class="px-4 py-2">ObjektId</th>
-      <th class="px-4 py-2">Action</th>
-      <th class="px-4 py-2">Version</th>
-      <th class="px-4 py-2">Daten</th>
-    </tr>
-  </thead>
-   <tbody>
-      {% for logEntry in logEntries %}
-         <tr>
-            <td class="border px-4 py-2">
-               {{logEntry.loggedAt|date('Y-m-d H:i')}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.username}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.objectClass}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.objectId}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.action}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.version}}
-            </td>
-            <td class="border px-4 py-2">
-               {{logEntry.data|json_encode(constant('JSON_PRETTY_PRINT'))}}
-            </td>
-         </tr>
-      {% endfor %}
-   </tbody>
-</table>
-
+<div class="admin-form-card mt-4">
+  <div class="form-header">
+    <h2>Aenderungslog</h2>
+    <p class="form-help">Die letzten Aenderungen an diesem Einsatz.</p>
+  </div>
+  {% if logEntries is empty %}
+    <div class="empty-state">Noch keine Aenderungen vorhanden.</div>
+  {% else %}
+    <div class="table-wrap">
+      <table class="admin-log-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Benutzer</th>
+            <th>ObjektClass</th>
+            <th>ObjektId</th>
+            <th>Action</th>
+            <th>Version</th>
+            <th>Daten</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for logEntry in logEntries %}
+            <tr>
+              <td>{{ logEntry.loggedAt ? logEntry.loggedAt|date('Y-m-d H:i') : '-' }}</td>
+              <td>{{ logEntry.username ?: 'System' }}</td>
+              <td>{{ logEntry.objectClass ?: '-' }}</td>
+              <td>{{ logEntry.objectId ?: '-' }}</td>
+              <td>{{ logEntry.action ?: '-' }}</td>
+              <td>{{ logEntry.version ?: '-' }}</td>
+              <td>
+                {% if logEntry.data is empty %}
+                  -
+                {% else %}
+                  <pre class="json-preview">{{ logEntry.data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

@@ -3,12 +3,21 @@
 {% block title %}Neues Projekt{% endblock %}
 
 {% block main %}
+<div class="admin-form-grid two-col">
+  <div class="admin-form-card">
+    <div class="form-header">
+      <h1>Neues Projekt</h1>
+      <p class="form-help">Erstelle ein neues Projekt mit allen Stammdaten und Startwerten.</p>
+    </div>
+    {{ form(formCreate) }}
+  </div>
 
-   <h1> Neues Projekt </h1>
-   {{ form(formCreate) }}
-
-   <h1 class="mt-3">  Projekt kopieren & anlegen </h1>
-
- {{ form(formCopy) }}
-
+  <div class="admin-form-card">
+    <div class="form-header">
+      <h2>Projekt kopieren</h2>
+      <p class="form-help">Nutze ein bestehendes Projekt als Vorlage und passe nur die Unterschiede an.</p>
+    </div>
+    {{ form(formCopy) }}
+  </div>
+</div>
 {% endblock %}
