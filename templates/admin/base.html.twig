@@ -130,45 +130,6 @@
                 padding: 1rem 1.1rem 2rem;
             }
 
-            .admin-topbar {
-                margin: 0 auto;
-                max-width: 1220px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 1rem;
-                border: 1px solid var(--line);
-                border-radius: 1rem;
-                background: rgba(255, 255, 255, 0.7);
-                backdrop-filter: blur(4px);
-                padding: 0.75rem 0.9rem;
-            }
-
-            .admin-topbar-title {
-                margin: 0;
-                font-family: 'DM Serif Display', serif;
-                font-size: 1.45rem;
-                line-height: 1;
-            }
-
-            .admin-topbar-sub {
-                margin: 0.15rem 0 0;
-                color: var(--ink-soft);
-                font-size: 0.84rem;
-                font-weight: 700;
-                letter-spacing: 0.04em;
-                text-transform: uppercase;
-            }
-
-            .admin-topbar-logo {
-                width: 56px;
-                height: 56px;
-                border-radius: 0.9rem;
-                object-fit: cover;
-                border: 1px solid var(--line);
-                background: #fff;
-            }
-
             .admin-content {
                 max-width: 1220px;
                 margin: 1rem auto 0;
@@ -566,14 +527,6 @@
                 {% endblock %}
 
                 <main class="admin-main">
-                    <header class="admin-topbar">
-                        <div>
-                            <h1 class="admin-topbar-title">Admin Bereich</h1>
-                            <p class="admin-topbar-sub">Volunteer Management</p>
-                        </div>
-                        <img class="admin-topbar-logo" src="{{ asset('images/logo.jpg') }}" alt="Logo">
-                    </header>
-
                     <section class="admin-content">
                         <div class="flash-stack">
                             {% for message in app.flashes('success') %}
