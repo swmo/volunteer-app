@@ -26,7 +26,7 @@ class MissionRepository extends ServiceEntityRepository
     }
 
     public function findAllByProject(Project $project){
-        return $this->findBy(array('project' => $project->getId()), array('isEnabled' => 'DESC','name' => 'ASC'));
+        return $this->findBy(array('project' => $project->getId()), array('start' => 'ASC', 'name' => 'ASC'));
 
     }
 

@@ -34,32 +34,20 @@ class MissionController extends AbstractController
 
     public function list(EntityManagerInterface $em, ?Project $project = null )
     {
-        $projectsWithMissions = [];
-        $projects = [];
-
-        if ($project !== null) {
-            $projects = [$project];
-        } else {
-            $projects = $em->getRepository(Project::class)->findAll();
-            if (count($projects) === 0) {
-                $this->addFlash(
-                    'danger',
-                    'No Project found please create a Project first!'
-                );
-
-                return $this->redirectToRoute('admin_project_list');
+        if ($project === null) {
+            if ($em->getRepository(Project::class)->findOneProject() === null) {
+                $this->addFlash('danger', 'No Project found please create a Project first!');
+            } else {
+                $this->addFlash('warning', 'Bitte Projekt auswaehlen, um die Einsaetze anzuzeigen.');
             }
+
+            return $this->redirectToRoute('admin_project_list');
         }
 
-        foreach ($projects as $listProject) {
-            $projectsWithMissions[] = [
-                'project' => $listProject,
-                'missions' => $em->getRepository(Mission::class)->findAllByProject($listProject),
-            ];
-        }
+        $missions = $em->getRepository(Mission::class)->findAllByProject($project);
 
         return $this->render('admin/mission/list.html.twig', [
-            'projectsWithMissions' => $projectsWithMissions,
+            'missions' => $missions,
             'project' => $project,
         ]);
     }
@@ -95,7 +83,13 @@ class MissionController extends AbstractController
                 'Einsatz wurde gespeichert'
             );
 
-            return $this->redirectToRoute('admin_mission_list');
+            if ($mission->getProject() === null) {
+                return $this->redirectToRoute('admin_project_list');
+            }
+
+            return $this->redirectToRoute('admin_mission_list_by_project', [
+                'id' => $mission->getProject()->getId(),
+            ]);
         }
 
         return $this->render('admin/mission/edit.html.twig', [
@@ -131,8 +125,14 @@ class MissionController extends AbstractController
                 'success',
                 'Einsatz wurde erstellt'
             );
-        
-            return $this->redirectToRoute('admin_mission_list');
+
+            if ($mission->getProject() === null) {
+                return $this->redirectToRoute('admin_project_list');
+            }
+
+            return $this->redirectToRoute('admin_mission_list_by_project', [
+                'id' => $mission->getProject()->getId(),
+            ]);
         }
         return $this->render('admin/mission/create.html.twig', [
             'form' => $form->createView(),
@@ -161,7 +161,13 @@ class MissionController extends AbstractController
         $em->persist($mission);
         $em->flush();
 
-        return $this->redirectToRoute('admin_mission_list');
+        if ($mission->getProject() === null) {
+            return $this->redirectToRoute('admin_project_list');
+        }
+
+        return $this->redirectToRoute('admin_mission_list_by_project', [
+            'id' => $mission->getProject()->getId(),
+        ]);
     }
     //todo: copyMissionToProject
     private function handleMissionImageUpload(FormInterface $form, Mission $mission): void

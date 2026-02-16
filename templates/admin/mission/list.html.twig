@@ -7,78 +7,60 @@
   <div class="page-header">
     <div>
       <h1>Einsätze</h1>
-      {% if project %}
-        <p class="page-subtitle">Projekt: {{ project.name }}</p>
-      {% else %}
-        <p class="page-subtitle">Alle Projekte mit ihren Einsaetzen</p>
-      {% endif %}
+      <p class="page-subtitle">Projekt: {{ project.name }}</p>
     </div>
     <div class="page-actions">
       <a class="link-btn primary" href="{{ path('admin_mission_create') }}"><i class="fas fa-plus"></i> Neuer Einsatz</a>
     </div>
   </div>
 
-  {% set hasAnyMissions = false %}
-  {% for projectGroup in projectsWithMissions %}
-    {% if projectGroup.missions|length > 0 %}
-      {% set hasAnyMissions = true %}
-    {% endif %}
-  {% endfor %}
-
-  {% if not hasAnyMissions %}
+  {% if missions|length == 0 %}
     <div class="empty-state">Keine Einsätze vorhanden. Erstelle jetzt den ersten Einsatz.</div>
-  {% endif %}
-
-  {% for projectGroup in projectsWithMissions %}
-    <h2 style="margin-top: 1.5rem;">{{ projectGroup.project.name }}</h2>
-    {% if projectGroup.missions|length == 0 %}
-      <div class="empty-state">Keine Einsätze in diesem Projekt.</div>
-    {% else %}
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
+  {% else %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Einsatz</th>
+            <th>Von</th>
+            <th>Bis</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mission in missions %}
             <tr>
-              <th>Status</th>
-              <th>Einsatz</th>
-              <th>Von</th>
-              <th>Bis</th>
-              <th>Aktionen</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for mission in projectGroup.missions %}
-              <tr>
-                <td>
-                  <a class="link-btn" href="{{ path('admin_mission_toggle_activ', {id: mission.id}) }}">
-                    {% if mission.isEnabled %}
-                      <span class="badge enabled"><i class="fas fa-toggle-on"></i> Aktiv</span>
-                    {% else %}
-                      <span class="badge disabled"><i class="fas fa-toggle-off"></i> Inaktiv</span>
-                    {% endif %}
-                  </a>
-                </td>
-                <td>{{ mission.name }}</td>
-                <td>{{ mission.start|date('d.m.Y H:i') }}</td>
-                <td>
-                  {% if mission.start|date('d.m.Y') == mission.end|date('d.m.Y') %}
-                    {{ mission.end|date('H:i') }}
+              <td>
+                <a class="link-btn" href="{{ path('admin_mission_toggle_activ', {id: mission.id}) }}">
+                  {% if mission.isEnabled %}
+                    <span class="badge enabled"><i class="fas fa-toggle-on"></i> Aktiv</span>
                   {% else %}
-                    {{ mission.end|date('d.m.Y H:i') }}
+                    <span class="badge disabled"><i class="fas fa-toggle-off"></i> Inaktiv</span>
                   {% endif %}
-                </td>
-                <td>
-                  <div class="page-actions">
-                    <a class="link-btn" href="{{ path('admin_mission_emailgroup', {id: mission.id}) }}">Email Gruppe</a>
-                    <a class="link-btn" href="{{ path('admin_mission_edit', {id: mission.id}) }}">Edit</a>
-                  </div>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    {% endif %}
-  {% endfor %}
+                </a>
+              </td>
+              <td>{{ mission.name }}</td>
+              <td>{{ mission.start|date('d.m.Y H:i') }}</td>
+              <td>
+                {% if mission.start|date('d.m.Y') == mission.end|date('d.m.Y') %}
+                  {{ mission.end|date('H:i') }}
+                {% else %}
+                  {{ mission.end|date('d.m.Y H:i') }}
+                {% endif %}
+              </td>
+              <td>
+                <div class="page-actions">
+                  <a class="link-btn" href="{{ path('admin_mission_emailgroup', {id: mission.id}) }}">Email Gruppe</a>
+                  <a class="link-btn" href="{{ path('admin_mission_edit', {id: mission.id}) }}">Edit</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}
