@@ -25,6 +25,10 @@ class EnrollmentController extends AbstractController
     {
         
         $enrollments = $em->getRepository(Enrollment::class)->findBy(array('project' => $project), array('firstname' => 'ASC'));;
+        $enrollments = array_values(array_filter(
+            $enrollments,
+            fn (Enrollment $enrollment): bool => !$this->isSoftDeleted($enrollment)
+        ));
 
         return $this->render('admin/enrollment/list.html.twig', [
             'enrollments' => $enrollments,
@@ -62,6 +66,25 @@ class EnrollmentController extends AbstractController
         ]);
     }
 
+    #[Route("/enrollment/delete/{id}", name: "admin_enrollment_delete")]
+    public function delete(Enrollment $enrollment, EntityManagerInterface $em)
+    {
+        $status = $enrollment->getStatus() ?? [];
+
+        if (!in_array('deleted', $status, true)) {
+            $status[] = 'deleted';
+            $enrollment->setStatus($status);
+            $em->persist($enrollment);
+            $em->flush();
+        }
+
+        $this->addFlash('success', 'Anmeldung wurde gelöscht');
+
+        return $this->redirectToRoute('admin_enrollment_list_by_project', [
+            'id' => $enrollment->getProject()->getId(),
+        ]);
+    }
+
     #[Route("/enrollment/export/{project}/{type}", name: "admin_enrollment_export")]
 
     public function export(Request $request, EntityManagerInterface $em, Project $project)
@@ -93,6 +116,9 @@ class EnrollmentController extends AbstractController
             /** @var Mission $mission **/
             foreach($mission->getEnrollments() as $enrollment){
                 /** @var Enrollment $enrollment **/
+                if ($this->isSoftDeleted($enrollment)) {
+                    continue;
+                }
 
                 $sheet->setCellValue('A'.$i, $mission->getName());
                 $sheet->setCellValue('B'.$i, $enrollment->getFirstname());
@@ -181,6 +207,11 @@ class EnrollmentController extends AbstractController
     public function mergetoperson(Project $project, Request $request, EntityManagerInterface $em)
     {
 
+    }
+
+    private function isSoftDeleted(Enrollment $enrollment): bool
+    {
+        return in_array('deleted', $enrollment->getStatus() ?? [], true);
     }
 
     

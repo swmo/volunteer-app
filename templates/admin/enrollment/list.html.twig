@@ -47,7 +47,10 @@
                 {% endif %}
                 {{ enrollment.getWorkingTime|date('%h:%i') }}
               </td>
-              <td><a class="link-btn" href="{{ path('admin_enrollment_edit', {id: enrollment.id}) }}">Edit</a></td>
+              <td>
+                <a class="link-btn" href="{{ path('admin_enrollment_edit', {id: enrollment.id}) }}">Edit</a>
+                <a class="link-btn" href="{{ path('admin_enrollment_delete', {id: enrollment.id}) }}" onclick="return confirm('Anmeldung wirklich löschen?');">Löschen</a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
