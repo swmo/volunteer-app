@@ -136,7 +136,7 @@ class VolunteerController extends AbstractController
             'enrollForm' => $form->createView(),
             'missions' => $missions,
             'project' => $project,
-            'projectEnrolledPersonsCount' => $project->getEnrollments()->count(),
+            'projectEnrolledPersonsCount' => $this->countActiveProjectEnrollments($project),
             'projectTotalRequiredPersons' => $projectTotalRequiredPersons,
         ]);
     }
@@ -179,5 +179,17 @@ class VolunteerController extends AbstractController
     }
 
 
+    private function countActiveProjectEnrollments(Project $project): int
+    {
+        $count = 0;
+
+        foreach ($project->getEnrollments() as $enrollment) {
+            if (!in_array('deleted', $enrollment->getStatus() ?? [], true)) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 
 }

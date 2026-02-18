@@ -277,7 +277,15 @@ class Mission
     
     public function countEnrolledVolunteers(): ?int
     {
-       return  $this->enrollment01->count() + $this->enrollment02->count();
+        $count = 0;
+
+        foreach ($this->getEnrollments() as $enrollment) {
+            if (!in_array('deleted', $enrollment->getStatus() ?? [], true)) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     public function getMeetingPoint(): ?string
