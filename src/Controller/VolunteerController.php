@@ -15,6 +15,7 @@ use App\Utils\TokenGeneratorInterface;
 use Symfony\Component\Workflow\Registry;
 use App\Entity\Person;
 use App\Entity\Project;
+use App\Manager\CommunicationTemplateManager;
 use App\Manager\ProjectManager;
 use App\Repository\OrganisationRepository;
 use App\Utils\IcsGenerator;
@@ -29,7 +30,17 @@ class VolunteerController extends AbstractController
 
     #[Route("/volunteer/enroll/project/{id}", name: "volunteer_enroll_by_project")]
 
-    public function enrollByProject(EntityManagerInterface $em, Request $request, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, Registry $workflows, IcsGenerator $icsGenerator, MergePerson $mergePerson, ?Project $project = null)
+    public function enrollByProject(
+        EntityManagerInterface $em,
+        Request $request,
+        MailerInterface $mailer,
+        TokenGeneratorInterface $tokenGenerator,
+        Registry $workflows,
+        IcsGenerator $icsGenerator,
+        MergePerson $mergePerson,
+        CommunicationTemplateManager $communicationTemplateManager,
+        ?Project $project = null
+    )
     {
 
         if($project === null){
@@ -94,16 +105,15 @@ class VolunteerController extends AbstractController
 
             
             $message = (new Email())
-                ->subject('Anmeldung | Burgdorfer Stadtlauf')
+                ->subject($communicationTemplateManager->getRegistrationSubject())
                 ->from('personal@burgdorfer-stadtlauf.ch')
                 ->to($enrollment->getEmail())
                 ->bcc('personal@burgdorfer-stadtlauf.ch')
                 ->html(
-                    $this->renderView(
-                        'emails/registration.html.twig',
+                    $communicationTemplateManager->renderRegistrationTemplate(
                         [
                             'enrollment' => $enrollment,
-                            'projectManager' => new ProjectManager($project)
+                            'projectManager' => new ProjectManager($project),
                         ]
                     )
                 );
