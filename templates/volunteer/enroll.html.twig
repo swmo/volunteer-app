@@ -25,21 +25,6 @@
                     {% set iconSlots = totalHelpers > 0 ? (totalHelpers > 40 ? 40 : totalHelpers) : 0 %}
                     {% set filledSlots = totalHelpers > 0 ? ((enrolledHelpers / totalHelpers) * iconSlots)|round(0, 'ceil') : 0 %}
 
-                    <div class="w-full pb-4 text-center text-sm text-grey-dark">
-                        Bereits angemeldete Helfer*Innen: <span class="font-bold">{{ enrolledHelpers }}</span>
-                        <span class="mx-2">|</span>
-                        Total gesucht: <span class="font-bold">{{ totalHelpers }}</span>
-                    </div>
-                    {% if iconSlots > 0 %}
-                        <div class="w-full pb-6 text-center">
-                            <div class="inline-flex flex-wrap justify-center" style="gap: 0.22rem; max-width: 22rem;">
-                                {% for i in 1..iconSlots %}
-                                    <i class="fas fa-running {% if i <= filledSlots %}text-green{% else %}text-grey-light{% endif %}" aria-hidden="true"></i>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-
                     <div class="bg-burgdorf-light relative rounded shadow-lg w-full md:w-1/2 z-0 mx-auto -mt-1 md:-mt-0 md:-ml-1">
                         
                         <div class="
@@ -136,6 +121,23 @@
                                     </div>
                                 </div>
                             {% endfor %}   
+                        </div>
+
+                        <div class="px-6 pb-8 text-center">
+                            <div class="text-grey-darkest font-semibold uppercase">
+                                Bereits angemeldet: <span class="font-bold">{{ enrolledHelpers }}</span>
+                                <span class="mx-2">|</span>
+                                Total gesucht: <span class="font-bold">{{ totalHelpers }}</span>
+                            </div>
+                            {% if iconSlots > 0 %}
+                                <div class="pt-4">
+                                    <div class="inline-flex flex-wrap justify-center" style="gap: 0.22rem; max-width: 22rem;">
+                                        {% for i in 1..iconSlots %}
+                                            <i class="fas fa-running {% if i <= filledSlots %}text-black{% else %}text-grey-light{% endif %}" aria-hidden="true"></i>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
