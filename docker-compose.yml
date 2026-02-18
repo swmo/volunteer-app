@@ -2,14 +2,14 @@ volumes:
   pg-db-data:
 services:
   postgres:
-    image: 'postgres:11.2-alpine'
+    image: 'postgres:18.2-alpine'
     container_name: "postgres"
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:
       - pg-db-data:/var/lib/postgresql/data
   adminer:
-    image: 'adminer:4.7.1-standalone'
+    image: 'adminer:5.4.2-standalone'
     restart: always
     ports:
       - 9090:8080
