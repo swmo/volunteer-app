@@ -22,7 +22,7 @@
                 <div class="my-8 flex-row-reverse flex flex-wrap md:items-center w-full">
                     {% set totalHelpers = projectTotalRequiredPersons|default(0) %}
                     {% set enrolledHelpers = projectEnrolledPersonsCount|default(0) %}
-                    {% set iconSlots = totalHelpers > 0 ? (totalHelpers > 40 ? 40 : totalHelpers) : 0 %}
+                    {% set iconSlots = totalHelpers  %}
                     {% set filledSlots = totalHelpers > 0 ? ((enrolledHelpers / totalHelpers) * iconSlots)|round(0, 'ceil') : 0 %}
 
                     <div class="bg-burgdorf-light relative rounded shadow-lg w-full md:w-1/2 z-0 mx-auto -mt-1 md:-mt-0 md:-ml-1">
@@ -89,7 +89,7 @@
                                                     {{ mission.shortDescription|raw }}
                                                 </div>
                                                 <div>
-                                                    <span class="font-bold">Wann:</span>{{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
+                                                    <span class="font-bold">Wann: </span>{{mission.start|date('d.m.Y')}} um {{mission.start|date('H:i')}} bis
                                                     
                                                     {% if mission.start|date('d.m.Y') != mission.end|date('d.m.Y') %}
                                                         {{mission.end|date('d.m.Y')}} um
@@ -114,7 +114,7 @@
                                                 </div>
                                                 <div class="text-center w-1/2">
                                                     <h2>{{mission.requiredVolunteers}}</h2>
-                                                    <span>Total gesuchte HelferInnen</span>
+                                                    <span> gesuchte HelferInnen</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,9 +125,10 @@
 
                         <div class="px-6 pb-8 text-center">
                             <div class="text-grey-darkest font-semibold uppercase">
-                                Bereits angemeldet: <span class="font-bold">{{ enrolledHelpers }}</span>
+                                Insgesamt <br>
+                                angemeldet: <span class="font-bold">{{ enrolledHelpers }}</span>
                                 <span class="mx-2">|</span>
-                                Total gesucht: <span class="font-bold">{{ totalHelpers }}</span>
+                                 gesucht: <span class="font-bold">{{ totalHelpers }}</span>
                             </div>
                             {% if iconSlots > 0 %}
                                 <div class="pt-4">
