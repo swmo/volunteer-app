@@ -1,9 +1,15 @@
 services:
-  web:    
+  web:
     build:
       dockerfile: Dockerfile.dev
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      APP_DEBUG: ${APP_DEBUG:-1}
     volumes:
-      - /var/www/resources/
-      - /var/www/vendor #exlude mounting of vendor / mount the vendor to nothing
-      - /var/www/docker #same for the docker directory (because theres ist the startup script) -> needs chmod a+x and be on the server
-      - ./:/var/www # mount the rest of the symfony files inside /var/www
+      - ./:/var/www
+      - vendor_data:/var/www/vendor
+      - var_data:/var/www/var
+
+volumes:
+  vendor_data:
+  var_data:

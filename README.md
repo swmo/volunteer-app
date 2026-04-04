@@ -21,6 +21,22 @@ Volunteer management app (Symfony 7.4) for projects, missions, enrollments, and 
    or
    `php -S 127.0.0.1:8000 -t public`
 
+## Docker Setup
+
+- Start the stack for local development:
+  `docker compose up --build`
+- App:
+  `http://localhost:8080`
+- Adminer:
+  `http://localhost:9090`
+- MailHog:
+  `http://localhost:8025`
+
+Compose now follows a base-plus-override pattern:
+
+- [docker-compose.yml](/Users/moses/projects/volunteer-app/docker-compose.yml) contains the shared service definitions.
+- [docker-compose.override.yml](/Users/moses/projects/volunteer-app/docker-compose.override.yml) switches the `web` service to the dev image and mounts the project for local development.
+
 ## Recent Functional Changes
 
 - Enrollments support soft delete via `status` (`deleted`).

@@ -49,6 +49,7 @@ RUN ./bin/console cache:warmup --env=prod
 RUN ./bin/console assets:install --env=prod
 
 RUN chmod a+x ./resources/run_nginx_php.sh
+RUN chmod a+x ./resources/run_web.sh
 
-#CMD ./resources/run_nginx_php.sh
-CMD ["./resources/run_nginx_php.sh"]
+# Start via sh so bind-mounted scripts also work without an executable bit.
+CMD ["sh", "./resources/run_web.sh"]
