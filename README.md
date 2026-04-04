@@ -54,7 +54,7 @@ For [docker-compose.prod.yml](/Users/moses/projects/volunteer-app/docker-compose
 
 ## Ubuntu Production Example
 
-Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and existing Let's Encrypt certificates.
+Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and existing Let's Encrypt certificates, using a separate deployment directory outside the git checkout.
 
 1. Install Docker:
    ```bash
@@ -73,16 +73,19 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    Log out and back in once so the `docker` group is active.
 
-2. Check out the project:
+2. Create a deployment directory and check out the project as a subdirectory:
    ```bash
+   mkdir -p ~/apps/volunteer-app-prod
+   cd ~/apps/volunteer-app-prod
    git clone https://github.com/swmo/volunteer-app.git
    cd volunteer-app
    git checkout master
+   cd ..
    ```
 
-3. Create a production env file:
+3. Create a production env file outside the repo:
    ```bash
-   cat > .env.prod <<'EOF'
+   cat > ~/apps/volunteer-app-prod/.env.prod <<'EOF'
    POSTGRES_DB=volunteer
    POSTGRES_USER=volunteer
    POSTGRES_PASSWORD=change-this-password
@@ -96,25 +99,42 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    EOF
    ```
 
-4. Start the production stack:
+4. Start the production stack from the deployment directory:
    ```bash
-   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+   cd ~/apps/volunteer-app-prod
+   docker compose \
+     --env-file .env.prod \
+     -f volunteer-app/docker-compose.prod.yml \
+     up --build -d
    ```
 
 5. Run database migrations:
    ```bash
-   docker compose --env-file .env.prod -f docker-compose.prod.yml exec app php bin/console doctrine:migrations:migrate --no-interaction
+   cd ~/apps/volunteer-app-prod
+   docker compose \
+     --env-file .env.prod \
+     -f volunteer-app/docker-compose.prod.yml \
+     exec app php bin/console doctrine:migrations:migrate --no-interaction
    ```
 
 6. Update on later deploys:
    ```bash
+   cd ~/apps/volunteer-app-prod/volunteer-app
    git pull
-   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
-   docker compose --env-file .env.prod -f docker-compose.prod.yml exec app php bin/console doctrine:migrations:migrate --no-interaction
+   cd ..
+   docker compose \
+     --env-file .env.prod \
+     -f volunteer-app/docker-compose.prod.yml \
+     up --build -d
+   docker compose \
+     --env-file .env.prod \
+     -f volunteer-app/docker-compose.prod.yml \
+     exec app php bin/console doctrine:migrations:migrate --no-interaction
    ```
 
 Notes:
 
+- This keeps `.env.prod` and deployment commands outside the git repository itself.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
 - `MAILER_DSN` should point to your real SMTP provider in production.
 - If port `80` or `443` is already used by another reverse proxy, adjust `HTTP_PORT` and `HTTPS_PORT` in `.env.prod`.
