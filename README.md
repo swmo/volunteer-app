@@ -50,6 +50,7 @@ For [docker-compose.prod.yml](/Users/moses/projects/volunteer-app/docker-compose
 - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
 - `POSTGRES_DATA_DIR`
 - `APP_SECRET`, `DATABASE_URL`, `MAILER_DSN`
+- `BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD`, `BOOTSTRAP_ORGANISATION_NAME`
 - `SERVER_NAME`
 - optionally `LETSENCRYPT_DIR`, `SSL_CERTIFICATE`, `SSL_CERTIFICATE_KEY`
 
@@ -94,6 +95,9 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    APP_SECRET=change-this-secret
    DATABASE_URL=pgsql://volunteer:change-this-password@postgres:5432/volunteer
    MAILER_DSN=smtp://mailhog:1025
+   BOOTSTRAP_ADMIN_EMAIL=admin@example.org
+   BOOTSTRAP_ADMIN_PASSWORD=change-this-admin-password
+   BOOTSTRAP_ORGANISATION_NAME=Example Organisation
    SERVER_NAME=example.org
    LETSENCRYPT_DIR=/etc/letsencrypt
    SSL_CERTIFICATE=/etc/letsencrypt/live/example.org/fullchain.pem
@@ -112,19 +116,13 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    The `Makefile` should live next to `.env.prod`, one directory above the git checkout.
 
-6. Start the production stack from the deployment directory:
+6. Run the initial production setup from the deployment directory:
    ```bash
    cd ~/apps/volunteer-app-prod
-   make prod-up
+   make prod-init
    ```
 
-7. Run database migrations:
-   ```bash
-   cd ~/apps/volunteer-app-prod
-   make prod-migrate
-   ```
-
-8. Update on later deploys:
+7. Update on later deploys:
    ```bash
    cd ~/apps/volunteer-app-prod
    make prod-update
@@ -134,6 +132,8 @@ Notes:
 
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
 - [Makefile.deploy.example](/Users/moses/projects/volunteer-app/Makefile.deploy.example) is intended to be copied to the parent deployment directory as `Makefile`.
+- `make prod-init` is the first-run setup for a fresh server. It creates the Postgres data directory, starts the stack, runs migrations, and creates the minimum admin data.
+- `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`.
 - `--project-directory volunteer-app` makes Compose resolve the project relative to the checked-out app directory even when you run the command from the parent folder.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
