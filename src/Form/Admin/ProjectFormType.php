@@ -26,7 +26,6 @@ class ProjectFormType extends AbstractType
             ->add('name', null, ['label' => 'admin.form.project.name'])
             ->add('domain', null, ['label' => 'admin.form.project.domain'])
             ->add('isEnabled', null, ['label' => 'admin.form.project.enabled'])
-            ->add('organisation', null, ['label' => 'admin.form.project.organisation'])
             ->add('enrollmentSettings',TextType::class,[
                 'label' => 'admin.form.project.enrollment_settings',
                 'help' => '

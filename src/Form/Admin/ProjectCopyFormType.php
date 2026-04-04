@@ -2,6 +2,7 @@
 
 namespace App\Form\Admin;
 
+use App\Entity\Organisation;
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,6 +24,11 @@ class ProjectCopyFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $organisation = $options['organisation'];
+        $projects = $organisation instanceof Organisation
+            ? $this->projectRepository->findBy(['organisation' => $organisation], ['name' => 'ASC'])
+            : [];
+
         $builder
             ->add('name', null, ['label' => 'admin.form.project_copy.name'])
             ->add('missionsDate', DateType::class, [
@@ -36,7 +42,7 @@ class ProjectCopyFormType extends AbstractType
                 'choice_label' => function(Project $project){
                     return $project->getName();
                 },
-                'choices' => $this->projectRepository->findAll()
+                'choices' => $projects
             ])
             ->add('save', SubmitType::class, ['label' => 'admin.form.save'])
 
@@ -47,6 +53,7 @@ class ProjectCopyFormType extends AbstractType
     {
         $resolver->setDefaults([
             'translation_domain' => 'messages',
+            'organisation' => null,
         ]);
     }
 }

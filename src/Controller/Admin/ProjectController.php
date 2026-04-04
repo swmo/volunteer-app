@@ -8,6 +8,7 @@ use App\Form\Admin\ProjectCopyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Form\Admin\ProjectFormType;
+use App\Manager\UserOrganisationManager;
 use App\Utils\MergePerson;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -20,9 +21,12 @@ class ProjectController extends AbstractController
 
     #[Route("/project/list", name: "admin_project_list")]
 
-    public function list(EntityManagerInterface $em)
+    public function list(EntityManagerInterface $em, UserOrganisationManager $userOrganisationManager)
     {
-        $projects = $em->getRepository(Project::class)->findAll();
+        $organisation = $userOrganisationManager->getSelectedOrganisation();
+        $projects = null === $organisation
+            ? []
+            : $em->getRepository(Project::class)->findBy(['organisation' => $organisation], ['name' => 'ASC']);
         
         return $this->render('admin/project/list.html.twig', [
             'projects' => $projects,
@@ -31,8 +35,12 @@ class ProjectController extends AbstractController
 
     #[Route("/project/edit/{id}", name: "admin_project_edit")]
 
-    public function edit(Project $project, EntityManagerInterface $em, Request $request)
+    public function edit(Project $project, EntityManagerInterface $em, Request $request, UserOrganisationManager $userOrganisationManager)
     {
+        $organisation = $userOrganisationManager->getSelectedOrganisation();
+        if (null === $organisation || $project->getOrganisation()?->getId() !== $organisation->getId()) {
+            throw $this->createAccessDeniedException();
+        }
         
         $form = $this->createForm(ProjectFormType::class,$project);
         $form->handleRequest($request);
@@ -41,6 +49,7 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
            
             $project = $form->getData();
+            $project->setOrganisation($organisation);
 
             $em->persist($project);
             $em->flush();       
@@ -62,8 +71,12 @@ class ProjectController extends AbstractController
 
         #[Route("/project/create", name: "admin_project_create")]
 
-    public function create(EntityManagerInterface $em, Request $request)
+    public function create(EntityManagerInterface $em, Request $request, UserOrganisationManager $userOrganisationManager)
     {
+        $organisation = $userOrganisationManager->getSelectedOrganisation();
+        if (null === $organisation) {
+            throw $this->createAccessDeniedException();
+        }
         
         $formCreate = $this->createForm(ProjectFormType::class);
         $formCreate->handleRequest($request);
@@ -72,6 +85,7 @@ class ProjectController extends AbstractController
         if ($formCreate->isSubmitted() && $formCreate->isValid()) {
            
             $project = $formCreate->getData();
+            $project->setOrganisation($organisation);
 
             $em->persist($project);
             $em->flush();       
@@ -84,7 +98,9 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('admin_project_list');
         }
 
-        $formCopy = $this->createForm(ProjectCopyFormType::class);
+        $formCopy = $this->createForm(ProjectCopyFormType::class, null, [
+            'organisation' => $organisation,
+        ]);
         $formCopy->handleRequest($request);
 
         if ($formCopy->isSubmitted() && $formCopy->isValid()) {
@@ -98,7 +114,7 @@ class ProjectController extends AbstractController
             $newProject
                 ->setName($data['name'])
                 ->isEnabled(false);
-            $newProject->setOrganisation($fromProject->getOrganisation());
+            $newProject->setOrganisation($organisation);
 
             foreach($fromProject->getMissions() as $fromMission){
                 /** @var Mission $newMission */
