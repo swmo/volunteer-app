@@ -11,9 +11,9 @@ services:
       - var_data:/var/www/var
 
   web:
-    build:
-      dockerfile: Dockerfile.web.dev
+    image: nginx:1.29-alpine
     volumes:
+      - ./resources/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./:/var/www
 
 volumes:
