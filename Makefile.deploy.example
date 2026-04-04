@@ -5,7 +5,7 @@ COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) 
 BACKUP_DIR := backups
 MAINTENANCE_DB := template1
 
-.PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-backup prod-restore prod-logs
+.PHONY: prod-init prod-up prod-down prod-update prod-migrate prod-bootstrap prod-backup prod-restore prod-logs
 
 prod-init:
 	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
@@ -28,6 +28,9 @@ prod-init:
 
 prod-up:
 	$(COMPOSE) up --build -d
+
+prod-down:
+	$(COMPOSE) down
 
 prod-update:
 	cd $(APP_DIR) && git pull
