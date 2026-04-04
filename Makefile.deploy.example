@@ -10,7 +10,9 @@ prod-init:
 	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
 	$(COMPOSE) up -d postgres
 	$(COMPOSE) up --build -d
-	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
+	$(COMPOSE) exec app php bin/console doctrine:schema:create --no-interaction
+	$(COMPOSE) exec app php bin/console doctrine:migrations:sync-metadata-storage --no-interaction
+	$(COMPOSE) exec app php bin/console doctrine:migrations:version --add --all --no-interaction
 	$(COMPOSE) exec app php bin/console app:bootstrap-production --no-interaction
 
 prod-up:
