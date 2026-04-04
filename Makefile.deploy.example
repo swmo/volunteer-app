@@ -1,0 +1,20 @@
+APP_DIR := volunteer-app
+ENV_FILE := .env.prod
+COMPOSE_FILE := $(APP_DIR)/docker-compose.prod.yml
+COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) -f $(COMPOSE_FILE)
+
+.PHONY: prod-up prod-update prod-migrate prod-logs
+
+prod-up:
+	$(COMPOSE) up --build -d
+
+prod-update:
+	cd $(APP_DIR) && git pull
+	$(COMPOSE) up --build -d
+	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
+
+prod-migrate:
+	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
+
+prod-logs:
+	$(COMPOSE) logs -f

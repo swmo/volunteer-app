@@ -106,46 +106,34 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    mkdir -p ~/apps/volunteer-app-prod/postgres-data
    ```
 
-5. Start the production stack from the deployment directory:
+5. Copy the deployment Makefile from the repo into the parent deployment directory:
+   ```bash
+   cp ~/apps/volunteer-app-prod/volunteer-app/Makefile.deploy.example ~/apps/volunteer-app-prod/Makefile
+   ```
+   The `Makefile` should live next to `.env.prod`, one directory above the git checkout.
+
+6. Start the production stack from the deployment directory:
    ```bash
    cd ~/apps/volunteer-app-prod
-   docker compose \
-     --env-file .env.prod \
-     --project-directory volunteer-app \
-     -f volunteer-app/docker-compose.prod.yml \
-     up --build -d
+   make prod-up
    ```
 
-6. Run database migrations:
+7. Run database migrations:
    ```bash
    cd ~/apps/volunteer-app-prod
-   docker compose \
-     --env-file .env.prod \
-     --project-directory volunteer-app \
-     -f volunteer-app/docker-compose.prod.yml \
-     exec app php bin/console doctrine:migrations:migrate --no-interaction
+   make prod-migrate
    ```
 
-7. Update on later deploys:
+8. Update on later deploys:
    ```bash
-   cd ~/apps/volunteer-app-prod/volunteer-app
-   git pull
-   cd ..
-   docker compose \
-     --env-file .env.prod \
-     --project-directory volunteer-app \
-     -f volunteer-app/docker-compose.prod.yml \
-     up --build -d
-   docker compose \
-     --env-file .env.prod \
-     --project-directory volunteer-app \
-     -f volunteer-app/docker-compose.prod.yml \
-     exec app php bin/console doctrine:migrations:migrate --no-interaction
+   cd ~/apps/volunteer-app-prod
+   make prod-update
    ```
 
 Notes:
 
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
+- [Makefile.deploy.example](/Users/moses/projects/volunteer-app/Makefile.deploy.example) is intended to be copied to the parent deployment directory as `Makefile`.
 - Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`.
 - `--project-directory volunteer-app` makes Compose resolve the project relative to the checked-out app directory even when you run the command from the parent folder.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
