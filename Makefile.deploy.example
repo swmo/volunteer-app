@@ -2,8 +2,9 @@ APP_DIR := volunteer-app
 ENV_FILE := .env.prod
 COMPOSE_FILE := $(APP_DIR)/docker-compose.prod.yml
 COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) -f $(COMPOSE_FILE)
+BACKUP_DIR := backups
 
-.PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-logs
+.PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-backup prod-logs
 
 prod-init:
 	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
@@ -26,6 +27,13 @@ prod-migrate:
 
 prod-bootstrap:
 	$(COMPOSE) exec app php bin/console app:bootstrap-production --no-interaction
+
+prod-backup:
+	@mkdir -p $(BACKUP_DIR)
+	@set -e; \
+		WEEKDAY=$$(date +%A | tr '[:upper:]' '[:lower:]'); \
+		$$(grep '^POSTGRES_PASSWORD=' $(ENV_FILE) >/dev/null); \
+		$(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' > $(BACKUP_DIR)/postgres-$${WEEKDAY}.sql
 
 prod-logs:
 	$(COMPOSE) logs -f
