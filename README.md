@@ -25,6 +25,8 @@ Volunteer management app (Symfony 7.4) for projects, missions, enrollments, and 
 
 - Start the stack for local development:
   `docker compose up --build`
+- Start the production-style stack:
+  `docker compose -f docker-compose.prod.yml up --build -d`
 - App:
   `http://localhost:8080`
 - Adminer:
@@ -36,11 +38,19 @@ Compose now follows a base-plus-override pattern:
 
 - [docker-compose.yml](/Users/moses/projects/volunteer-app/docker-compose.yml) contains the shared service definitions.
 - [docker-compose.override.yml](/Users/moses/projects/volunteer-app/docker-compose.override.yml) switches `app` to the dev image and mounts the project for local development.
+- [docker-compose.prod.yml](/Users/moses/projects/volunteer-app/docker-compose.prod.yml) is a standalone production-oriented deployment file with only `postgres`, `app`, and `web`.
 
 The Docker setup now uses separate containers for:
 
 - `app`: PHP-FPM / Symfony runtime
 - `web`: the stock `nginx` image with the project Nginx config mounted directly from Compose
+
+For [docker-compose.prod.yml](/Users/moses/projects/volunteer-app/docker-compose.prod.yml), set at least these environment variables before starting:
+
+- `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- `APP_SECRET`, `DATABASE_URL`, `MAILER_DSN`
+- `SERVER_NAME`
+- optionally `LETSENCRYPT_DIR`, `SSL_CERTIFICATE`, `SSL_CERTIFICATE_KEY`
 
 ## Recent Functional Changes
 
