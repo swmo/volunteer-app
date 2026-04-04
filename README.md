@@ -135,6 +135,13 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    This writes a dump like `backups/postgres-monday.sql` in the parent deployment directory.
 
+9. Restore a database dump:
+   ```bash
+   cd ~/apps/volunteer-app-prod
+   make prod-restore DUMP=backups/postgres-monday.sql
+   ```
+   This drops and recreates the configured PostgreSQL database before importing the dump.
+
 Notes:
 
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
@@ -144,6 +151,7 @@ Notes:
 - `make prod-init` only creates the schema on an empty database. If the database is partially initialized, it stops with an error instead of trying to create duplicate tables or sequences.
 - `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - `make prod-backup` creates a PostgreSQL dump in `backups/` with the weekday in the filename.
+- `make prod-restore DUMP=...` drops and recreates the configured PostgreSQL database, then imports the given SQL dump.
 - `make prod-update` also refreshes the parent-directory `Makefile` from `volunteer-app/Makefile.deploy.example` after `git pull`.
 - `.env.prod` is treated as a Docker Compose env file, so it does not need to be shell-sourceable.
 - After changing values in `.env.prod`, recreate the containers with `make prod-up` or `make prod-update` before running `make prod-bootstrap`, so the new env vars are present inside the `app` container.

@@ -4,7 +4,7 @@ COMPOSE_FILE := $(APP_DIR)/docker-compose.prod.yml
 COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) -f $(COMPOSE_FILE)
 BACKUP_DIR := backups
 
-.PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-backup prod-logs
+.PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-backup prod-restore prod-logs
 
 prod-init:
 	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
@@ -46,6 +46,13 @@ prod-backup:
 		WEEKDAY=$$(date +%A | tr '[:upper:]' '[:lower:]'); \
 		$$(grep '^POSTGRES_PASSWORD=' $(ENV_FILE) >/dev/null); \
 		$(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' > $(BACKUP_DIR)/postgres-$${WEEKDAY}.sql
+
+prod-restore:
+	@test -n "$(DUMP)" || (echo "Usage: make prod-restore DUMP=backups/postgres-monday.sql" && exit 1)
+	@test -f "$(DUMP)" || (echo "Dump file not found: $(DUMP)" && exit 1)
+	$(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" psql -U "$$POSTGRES_USER" -d postgres -c "DROP DATABASE IF EXISTS \"$$POSTGRES_DB\";"'
+	$(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" psql -U "$$POSTGRES_USER" -d postgres -c "CREATE DATABASE \"$$POSTGRES_DB\";"'
+	$(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' < $(DUMP)
 
 prod-logs:
 	$(COMPOSE) logs -f
