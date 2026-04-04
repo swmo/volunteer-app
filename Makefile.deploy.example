@@ -6,8 +6,7 @@ COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) 
 .PHONY: prod-init prod-up prod-update prod-migrate prod-bootstrap prod-logs
 
 prod-init:
-	@set -a; . ./$(ENV_FILE); set +a; \
-		mkdir -p "$$POSTGRES_DATA_DIR"
+	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
 	$(COMPOSE) up -d postgres
 	$(COMPOSE) up --build -d
 	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
@@ -18,6 +17,7 @@ prod-up:
 
 prod-update:
 	cd $(APP_DIR) && git pull
+	cp $(APP_DIR)/Makefile.deploy.example Makefile
 	$(COMPOSE) up --build -d
 	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
 
