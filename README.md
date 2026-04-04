@@ -152,6 +152,7 @@ Notes:
 - `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - `make prod-backup` creates a PostgreSQL dump in `backups/` with the weekday in the filename.
 - `make prod-restore DUMP=...` drops and recreates the configured PostgreSQL database, then imports the given SQL dump.
+- `make prod-restore` uses `template1` as the PostgreSQL maintenance database and terminates active connections before dropping the target database.
 - `make prod-update` also refreshes the parent-directory `Makefile` from `volunteer-app/Makefile.deploy.example` after `git pull`.
 - `.env.prod` is treated as a Docker Compose env file, so it does not need to be shell-sourceable.
 - After changing values in `.env.prod`, recreate the containers with `make prod-up` or `make prod-update` before running `make prod-bootstrap`, so the new env vars are present inside the `app` container.
