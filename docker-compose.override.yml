@@ -1,5 +1,5 @@
 services:
-  web:
+  app:
     build:
       dockerfile: Dockerfile.dev
     environment:
@@ -9,6 +9,12 @@ services:
       - ./:/var/www
       - vendor_data:/var/www/vendor
       - var_data:/var/www/var
+
+  web:
+    build:
+      dockerfile: Dockerfile.web.dev
+    volumes:
+      - ./:/var/www
 
 volumes:
   vendor_data:
