@@ -41,6 +41,7 @@ RUN apk --update add --no-cache certbot
 
 COPY ./resources/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./resources/php/php.ini /etc/php84/php.ini
+COPY ./resources/php/zz-docker-env.conf /etc/php84/php-fpm.d/zz-docker-env.conf
 COPY --from=composer /app /var/www
 COPY . .
 
