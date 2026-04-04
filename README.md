@@ -48,6 +48,7 @@ The Docker setup now uses separate containers for:
 For [docker-compose.prod.yml](/Users/moses/projects/volunteer-app/docker-compose.prod.yml), set at least these environment variables before starting:
 
 - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- `POSTGRES_DATA_DIR`
 - `APP_SECRET`, `DATABASE_URL`, `MAILER_DSN`
 - `SERVER_NAME`
 - optionally `LETSENCRYPT_DIR`, `SSL_CERTIFICATE`, `SSL_CERTIFICATE_KEY`
@@ -89,6 +90,7 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    POSTGRES_DB=volunteer
    POSTGRES_USER=volunteer
    POSTGRES_PASSWORD=change-this-password
+   POSTGRES_DATA_DIR=/home/your-user/apps/volunteer-app-prod/postgres-data
    APP_SECRET=change-this-secret
    DATABASE_URL=pgsql://volunteer:change-this-password@postgres:5432/volunteer
    MAILER_DSN=smtp://mailhog:1025
@@ -99,35 +101,44 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    EOF
    ```
 
-4. Start the production stack from the deployment directory:
+4. Create the local Postgres data directory next to `.env.prod`:
+   ```bash
+   mkdir -p ~/apps/volunteer-app-prod/postgres-data
+   ```
+
+5. Start the production stack from the deployment directory:
    ```bash
    cd ~/apps/volunteer-app-prod
    docker compose \
      --env-file .env.prod \
+     --project-directory volunteer-app \
      -f volunteer-app/docker-compose.prod.yml \
      up --build -d
    ```
 
-5. Run database migrations:
+6. Run database migrations:
    ```bash
    cd ~/apps/volunteer-app-prod
    docker compose \
      --env-file .env.prod \
+     --project-directory volunteer-app \
      -f volunteer-app/docker-compose.prod.yml \
      exec app php bin/console doctrine:migrations:migrate --no-interaction
    ```
 
-6. Update on later deploys:
+7. Update on later deploys:
    ```bash
    cd ~/apps/volunteer-app-prod/volunteer-app
    git pull
    cd ..
    docker compose \
      --env-file .env.prod \
+     --project-directory volunteer-app \
      -f volunteer-app/docker-compose.prod.yml \
      up --build -d
    docker compose \
      --env-file .env.prod \
+     --project-directory volunteer-app \
      -f volunteer-app/docker-compose.prod.yml \
      exec app php bin/console doctrine:migrations:migrate --no-interaction
    ```
@@ -135,6 +146,8 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
 Notes:
 
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
+- Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`.
+- `--project-directory volunteer-app` makes Compose resolve the project relative to the checked-out app directory even when you run the command from the parent folder.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
 - `MAILER_DSN` should point to your real SMTP provider in production.
 - If port `80` or `443` is already used by another reverse proxy, adjust `HTTP_PORT` and `HTTPS_PORT` in `.env.prod`.
