@@ -136,6 +136,7 @@ Notes:
 - `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - `make prod-update` also refreshes the parent-directory `Makefile` from `volunteer-app/Makefile.deploy.example` after `git pull`.
 - `.env.prod` is treated as a Docker Compose env file, so it does not need to be shell-sourceable.
+- After changing values in `.env.prod`, recreate the containers with `make prod-up` or `make prod-update` before running `make prod-bootstrap`, so the new env vars are present inside the `app` container.
 - Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`.
 - `--project-directory volunteer-app` makes Compose resolve the project relative to the checked-out app directory even when you run the command from the parent folder.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
