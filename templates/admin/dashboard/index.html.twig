@@ -93,6 +93,11 @@
             visibility: visible;
         }
 
+        .dashboard-project-stats-wrap {
+            overflow-x: auto;
+            overflow-y: visible;
+        }
+
         .dashboard-kpi-value {
             margin: 0.25rem 0 0;
             font-family: 'DM Serif Display', serif;
@@ -268,7 +273,7 @@
             {% if projectStats is empty %}
                 <div class="empty-state">Keine Projekte für die aktuell gewählte Organisation gefunden.</div>
             {% else %}
-                <div class="table-wrap">
+                <div class="table-wrap dashboard-project-stats-wrap">
                     <table class="data-table">
                         <thead>
                             <tr>
