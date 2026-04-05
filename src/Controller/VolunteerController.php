@@ -194,7 +194,18 @@ class VolunteerController extends AbstractController
         $count = 0;
 
         foreach ($project->getEnrollments() as $enrollment) {
-            if (!in_array('deleted', $enrollment->getStatus() ?? [], true)) {
+            if (in_array('deleted', $enrollment->getStatus() ?? [], true)) {
+                continue;
+            }
+
+            $missionChoice01 = $enrollment->getMissionChoice01();
+            $missionChoice02 = $enrollment->getMissionChoice02();
+
+            $hasEnabledMission =
+                ($missionChoice01 !== null && $missionChoice01->getIsEnabled()) ||
+                ($missionChoice02 !== null && $missionChoice02->getIsEnabled());
+
+            if ($hasEnabledMission) {
                 $count++;
             }
         }
