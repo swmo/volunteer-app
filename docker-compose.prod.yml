@@ -23,7 +23,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    user: "nobody:nobody"
     restart: unless-stopped
     depends_on:
       postgres:
