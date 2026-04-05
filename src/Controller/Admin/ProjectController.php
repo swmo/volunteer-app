@@ -26,7 +26,7 @@ class ProjectController extends AbstractController
         $organisation = $userOrganisationManager->getSelectedOrganisation();
         $projects = null === $organisation
             ? []
-            : $em->getRepository(Project::class)->findBy(['organisation' => $organisation], ['name' => 'ASC']);
+            : $em->getRepository(Project::class)->findByOrganisationForAdminList($organisation);
         
         return $this->render('admin/project/list.html.twig', [
             'projects' => $projects,

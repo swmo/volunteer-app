@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\Organisation;
 use App\Manager\UserOrganisationManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -30,6 +31,20 @@ class ProjectRepository extends ServiceEntityRepository
 
     public function findAll(){
         return $this->findBy(array('organisation' => $this->userOrganisationManager->getSelectedOrganisation()));
+    }
+
+    /**
+     * @return Project[]
+     */
+    public function findByOrganisationForAdminList(Organisation $organisation): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.organisation = :organisation')
+            ->setParameter('organisation', $organisation)
+            ->orderBy('p.isEnabled', 'DESC')
+            ->addOrderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
