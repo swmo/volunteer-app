@@ -135,6 +135,16 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    This writes a dump like `backups/postgres-monday.sql` in the parent deployment directory.
 
+   Add it to crontab, for example to run every day at 02:30:
+   ```bash
+   crontab -e
+   ```
+   Then add:
+   ```cron
+   30 2 * * * cd /home/your-user/apps/volunteer-app-prod && make prod-backup
+   ```
+   Use the parent deployment directory that contains `.env.prod` and `Makefile`, not the `volunteer-app` git checkout itself.
+
 9. Restore a database dump:
    ```bash
    cd ~/apps/volunteer-app-prod
