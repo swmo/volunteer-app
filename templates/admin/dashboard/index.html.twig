@@ -41,6 +41,26 @@
             font-weight: 700;
         }
 
+        .dashboard-label-with-tooltip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .dashboard-tooltip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            color: var(--ink-soft);
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 0.7rem;
+            cursor: help;
+        }
+
         .dashboard-kpi-value {
             margin: 0.25rem 0 0;
             font-family: 'DM Serif Display', serif;
@@ -136,11 +156,21 @@
                     </p>
                 </article>
                 <article class="dashboard-kpi">
-                    <p class="dashboard-kpi-label">Bereits angemeldet</p>
+                    <p class="dashboard-kpi-label">
+                        <span class="dashboard-label-with-tooltip">
+                            Bereits angemeldet
+                            <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                        </span>
+                    </p>
                     <p class="dashboard-kpi-value">{{ totalEnrolledPersons }}</p>
                 </article>
                 <article class="dashboard-kpi">
-                    <p class="dashboard-kpi-label">Offene Anmeldungen</p>
+                    <p class="dashboard-kpi-label">
+                        <span class="dashboard-label-with-tooltip">
+                            Offene Anmeldungen
+                            <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                        </span>
+                    </p>
                     <p class="dashboard-kpi-value">{{ totalOpenEnrollments }}</p>
                 </article>
             </div>
@@ -205,8 +235,18 @@
                         <thead>
                             <tr>
                                 <th>Projekt</th>
-                                <th>Total angemeldet</th>
-                                <th>Offene Anmeldungen</th>
+                                <th>
+                                    <span class="dashboard-label-with-tooltip">
+                                        Total angemeldet
+                                        <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="dashboard-label-with-tooltip">
+                                        Offene Anmeldungen
+                                        <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

@@ -11,6 +11,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractController
 {
+    private const ACTIVE_MISSION_TOOLTIP = 'Es werden nur Anmeldungen in aktiven Einsätzen gezählt. Gelöschte Anmeldungen sind ausgeschlossen.';
+
     #[Route("/admin", name: "admin_dashboard")]
 
     public function dashboard(MonologDbHandler $db, EntityManagerInterface $em)
@@ -45,7 +47,7 @@ class DashboardController extends AbstractController
                 $filledSlots += (int) $mission->countEnrolledVolunteers();
             }
 
-            $enrolledPersons = $project->getEnrollments()->count();
+            $enrolledPersons = $filledSlots;
             $openEnrollments = max(0, $requiredSlots - $filledSlots);
 
             $totalEnrolledPersons += $enrolledPersons;
@@ -64,6 +66,7 @@ class DashboardController extends AbstractController
             'projectStats' => $projectStats,
             'totalOpenEnrollments' => $totalOpenEnrollments,
             'totalEnrolledPersons' => $totalEnrolledPersons,
+            'activeMissionCountTooltip' => self::ACTIVE_MISSION_TOOLTIP,
         ]);
     }
 
