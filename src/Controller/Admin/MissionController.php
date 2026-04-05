@@ -146,6 +146,10 @@ class MissionController extends AbstractController
         $enrollments = $em->getRepository(Enrollment::class)->findByMission(
            $mission
         );
+        $enrollments = array_values(array_filter(
+            $enrollments,
+            fn (Enrollment $enrollment): bool => !$this->isSoftDeleted($enrollment)
+        ));
 
         return $this->render('admin/mission/emailgroup.html.twig', [
             'enrollments' => $enrollments,
@@ -186,6 +190,11 @@ class MissionController extends AbstractController
         $mission->setImageData($binaryContent);
         $mission->setImageMimeType($imageFile->getMimeType() ?: 'application/octet-stream');
         $mission->setImage($imageFile->getClientOriginalName());
+    }
+
+    private function isSoftDeleted(Enrollment $enrollment): bool
+    {
+        return in_array('deleted', $enrollment->getStatus() ?? [], true);
     }
 
 }
