@@ -146,7 +146,7 @@ class VolunteerController extends AbstractController
             'enrollForm' => $form->createView(),
             'missions' => $missions,
             'project' => $project,
-            'projectEnrolledPersonsCount' => $this->countActiveProjectEnrollments($project),
+            'projectEnrolledPersonsCount' => $this->countActiveProjectEnrollments($missions),
             'projectTotalRequiredPersons' => $projectTotalRequiredPersons,
         ]);
     }
@@ -189,25 +189,22 @@ class VolunteerController extends AbstractController
     }
 
 
-    private function countActiveProjectEnrollments(Project $project): int
+    /**
+     * Counts filled slots across enabled missions so the total matches
+     * the "gesucht" number, which is also based on mission slots.
+     *
+     * @param Mission[] $missions
+     */
+    private function countActiveProjectEnrollments(array $missions): int
     {
         $count = 0;
 
-        foreach ($project->getEnrollments() as $enrollment) {
-            if (in_array('deleted', $enrollment->getStatus() ?? [], true)) {
+        foreach ($missions as $mission) {
+            if (!$mission->getIsEnabled()) {
                 continue;
             }
 
-            $missionChoice01 = $enrollment->getMissionChoice01();
-            $missionChoice02 = $enrollment->getMissionChoice02();
-
-            $hasEnabledMission =
-                ($missionChoice01 !== null && $missionChoice01->getIsEnabled()) ||
-                ($missionChoice02 !== null && $missionChoice02->getIsEnabled());
-
-            if ($hasEnabledMission) {
-                $count++;
-            }
+            $count += (int) $mission->countEnrolledVolunteers();
         }
 
         return $count;
