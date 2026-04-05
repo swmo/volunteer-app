@@ -2,6 +2,7 @@ APP_DIR := volunteer-app
 ENV_FILE := .env.prod
 COMPOSE_FILE := $(APP_DIR)/docker-compose.prod.yml
 COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) -f $(COMPOSE_FILE)
+APP_EXEC := $(COMPOSE) exec -u nobody app
 BACKUP_DIR := backups
 MAINTENANCE_DB := template1
 
@@ -17,14 +18,14 @@ prod-init:
 		if [ "$$APPUSER_EXISTS" = "1" ]; then \
 			echo "Existing application schema detected, skipping doctrine:schema:create."; \
 		elif [ "$$TABLE_COUNT" = "0" ]; then \
-			$(COMPOSE) exec app php bin/console doctrine:schema:create --no-interaction; \
-			$(COMPOSE) exec app php bin/console doctrine:migrations:sync-metadata-storage --no-interaction; \
-			$(COMPOSE) exec app php bin/console doctrine:migrations:version --add --all --no-interaction; \
+			$(APP_EXEC) php bin/console doctrine:schema:create --no-interaction; \
+			$(APP_EXEC) php bin/console doctrine:migrations:sync-metadata-storage --no-interaction; \
+			$(APP_EXEC) php bin/console doctrine:migrations:version --add --all --no-interaction; \
 		else \
 			echo "Database is partially initialized. Clean POSTGRES_DATA_DIR or restore a known-good backup before rerunning prod-init."; \
 			exit 1; \
 		fi
-	$(COMPOSE) exec app php bin/console app:bootstrap-production --no-interaction
+	$(APP_EXEC) php bin/console app:bootstrap-production --no-interaction
 
 prod-up:
 	$(COMPOSE) up --build -d
@@ -36,13 +37,13 @@ prod-update:
 	cd $(APP_DIR) && git pull
 	cp $(APP_DIR)/Makefile.deploy.example Makefile
 	$(COMPOSE) up --build -d
-	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
+	$(APP_EXEC) php bin/console doctrine:migrations:migrate --no-interaction
 
 prod-migrate:
-	$(COMPOSE) exec app php bin/console doctrine:migrations:migrate --no-interaction
+	$(APP_EXEC) php bin/console doctrine:migrations:migrate --no-interaction
 
 prod-bootstrap:
-	$(COMPOSE) exec app php bin/console app:bootstrap-production --no-interaction
+	$(APP_EXEC) php bin/console app:bootstrap-production --no-interaction
 
 prod-backup:
 	@mkdir -p $(BACKUP_DIR)
