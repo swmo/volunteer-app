@@ -48,6 +48,7 @@
         }
 
         .dashboard-tooltip {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -59,6 +60,37 @@
             background: rgba(255, 255, 255, 0.9);
             font-size: 0.7rem;
             cursor: help;
+        }
+
+        .dashboard-tooltip-text {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 0.45rem);
+            transform: translateX(-50%);
+            width: min(18rem, 70vw);
+            padding: 0.5rem 0.6rem;
+            border-radius: 0.65rem;
+            border: 1px solid var(--line);
+            background: rgba(29, 42, 53, 0.96);
+            color: #fff;
+            font-size: 0.72rem;
+            line-height: 1.35;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(29, 42, 53, 0.18);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 120ms ease, visibility 120ms ease;
+            z-index: 10;
+        }
+
+        .dashboard-tooltip:hover .dashboard-tooltip-text,
+        .dashboard-tooltip:focus .dashboard-tooltip-text,
+        .dashboard-tooltip:focus-visible .dashboard-tooltip-text {
+            opacity: 1;
+            visibility: visible;
         }
 
         .dashboard-kpi-value {
@@ -157,9 +189,12 @@
                 </article>
                 <article class="dashboard-kpi">
                     <p class="dashboard-kpi-label">
-                        <span class="dashboard-label-with-tooltip">
-                            Bereits angemeldet
-                            <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                            <span class="dashboard-label-with-tooltip">
+                                Bereits angemeldet
+                            <span class="dashboard-tooltip" tabindex="0" aria-label="{{ activeMissionCountTooltip }}">
+                                i
+                                <span class="dashboard-tooltip-text">{{ activeMissionCountTooltip }}</span>
+                            </span>
                         </span>
                     </p>
                     <p class="dashboard-kpi-value">{{ totalEnrolledPersons }}</p>
@@ -168,7 +203,10 @@
                     <p class="dashboard-kpi-label">
                         <span class="dashboard-label-with-tooltip">
                             Offene Anmeldungen
-                            <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                            <span class="dashboard-tooltip" tabindex="0" aria-label="{{ activeMissionCountTooltip }}">
+                                i
+                                <span class="dashboard-tooltip-text">{{ activeMissionCountTooltip }}</span>
+                            </span>
                         </span>
                     </p>
                     <p class="dashboard-kpi-value">{{ totalOpenEnrollments }}</p>
@@ -238,13 +276,19 @@
                                 <th>
                                     <span class="dashboard-label-with-tooltip">
                                         Total angemeldet
-                                        <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                                        <span class="dashboard-tooltip" tabindex="0" aria-label="{{ activeMissionCountTooltip }}">
+                                            i
+                                            <span class="dashboard-tooltip-text">{{ activeMissionCountTooltip }}</span>
+                                        </span>
                                     </span>
                                 </th>
                                 <th>
                                     <span class="dashboard-label-with-tooltip">
                                         Offene Anmeldungen
-                                        <span class="dashboard-tooltip" title="{{ activeMissionCountTooltip }}" aria-label="{{ activeMissionCountTooltip }}">i</span>
+                                        <span class="dashboard-tooltip" tabindex="0" aria-label="{{ activeMissionCountTooltip }}">
+                                            i
+                                            <span class="dashboard-tooltip-text">{{ activeMissionCountTooltip }}</span>
+                                        </span>
                                     </span>
                                 </th>
                             </tr>
