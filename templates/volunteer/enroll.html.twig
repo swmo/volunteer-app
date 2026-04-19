@@ -355,7 +355,7 @@
                                            {{ form_label(enrollForm.tshirtsize) }}
                                         </label>
                                         <div class="relative md:w-full mb-2">
-                                                {{ form_widget(enrollForm.tshirtsize, {'attr': {'class': 'block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
+                                                {{ form_widget(enrollForm.tshirtsize, {'attr': {'class': 'js-tshirtsize-field block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey'}}) }}
                                                 <small>
                                                     {{ form_help(enrollForm.tshirtsize) }}
                                                 </small>
@@ -467,17 +467,22 @@
             }
 
             var renderTshirtForm = function(){
-              
-              /*
-                var value = (jQuery('.js-hasTshirt').val());
-                console.log(value);
-                if(value === '0'){
+                var hasTshirtField = jQuery('.js-hasTshirt');
+                var tshirtSizeWrapper = jQuery('.js-tshirtsize');
+                var tshirtSizeField = jQuery('.js-tshirtsize-field');
+
+                if(!tshirtSizeWrapper.length){
+                    return;
+                }
+
+                if(!hasTshirtField.length || hasTshirtField.val() === '0'){
                     jQuery('.js-tshirtsize').show();
+                    tshirtSizeField.prop('required', true);
                 }
                 else {
-                    jQuery('.js-tshirtsize').hide();
+                    tshirtSizeWrapper.hide();
+                    tshirtSizeField.prop('required', false).val('');
                 }
-              */
             }
 
             var prevSlideBox = function(){

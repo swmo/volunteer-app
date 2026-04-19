@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use App\Repository\MissionRepository;
 
@@ -156,7 +159,7 @@ class VolunteerFormType extends AbstractType
                     'XL' => 'XL',
                 ],
                 'placeholder' => 'Bitte Grösse wählen',
-                'required' => true,
+                'required' => !$projectManager->getFormSetting('hasTshirt'),
             ]);
         }
         if($projectManager->getFormSetting('comment')){
@@ -165,6 +168,32 @@ class VolunteerFormType extends AbstractType
                 'label' => 'Bemerkungen / Anregungen / Wünsche',
                 'required' => false,
             ]);
+        }
+
+        if ($projectManager->getFormSetting('tshirtsize')) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+                $enrollment = $event->getData();
+                $form = $event->getForm();
+
+                if (!$enrollment instanceof Enrollment) {
+                    return;
+                }
+
+                if ($form->has('hasTshirt') && $enrollment->getHasTshirt() === true) {
+                    $enrollment->setTshirtsize(null);
+                    return;
+                }
+
+                if (
+                    (
+                        !$form->has('hasTshirt') ||
+                        $enrollment->getHasTshirt() === false
+                    ) &&
+                    !$enrollment->getTshirtsize()
+                ) {
+                    $form->get('tshirtsize')->addError(new FormError('Bitte Grösse wählen'));
+                }
+            });
         }
     ;
     }
