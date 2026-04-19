@@ -28,7 +28,7 @@ prod-init:
 	$(APP_EXEC) php bin/console app:bootstrap-production --no-interaction
 
 prod-up:
-	$(COMPOSE) up --build -d
+	$(COMPOSE) up  -d
 
 prod-down:
 	$(COMPOSE) down
