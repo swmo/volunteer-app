@@ -21,18 +21,31 @@ class EnrollmentController extends AbstractController
 {
     #[Route("/enrollment/list/project/{id}", name: "admin_enrollment_list_by_project")]
 
-    public function index(EntityManagerInterface $em, ?Project $project = null) 
+    public function index(EntityManagerInterface $em, Request $request, ?Project $project = null) 
     {
-        
+        $selectedMissionId = $request->query->getInt('mission');
+        $missions = $em->getRepository(Mission::class)->findBy(
+            ['project' => $project],
+            ['name' => 'ASC']
+        );
         $enrollments = $em->getRepository(Enrollment::class)->findBy(array('project' => $project), array('firstname' => 'ASC'));;
         $enrollments = array_values(array_filter(
             $enrollments,
             fn (Enrollment $enrollment): bool => !$this->isSoftDeleted($enrollment)
         ));
 
+        if ($selectedMissionId > 0) {
+            $enrollments = array_values(array_filter(
+                $enrollments,
+                fn (Enrollment $enrollment): bool => $this->hasMission($enrollment, $selectedMissionId)
+            ));
+        }
+
         return $this->render('admin/enrollment/list.html.twig', [
             'enrollments' => $enrollments,
-            'project' => $project
+            'project' => $project,
+            'missions' => $missions,
+            'selectedMissionId' => $selectedMissionId,
         ]);
     }
 
@@ -212,6 +225,12 @@ class EnrollmentController extends AbstractController
     private function isSoftDeleted(Enrollment $enrollment): bool
     {
         return in_array('deleted', $enrollment->getStatus() ?? [], true);
+    }
+
+    private function hasMission(Enrollment $enrollment, int $missionId): bool
+    {
+        return $enrollment->getMissionChoice01()?->getId() === $missionId
+            || $enrollment->getMissionChoice02()?->getId() === $missionId;
     }
 
     
