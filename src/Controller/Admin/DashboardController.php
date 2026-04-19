@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Project;
+use App\Entity\Enrollment;
 use App\Entity\Person;
 use App\Utils\MonologDbHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ class DashboardController extends AbstractController
         $selectedOrganisation = $this->getUser()?->getSelectedOrganisation();
         $projects = [];
         $projectStats = [];
+        $recentEnrollments = [];
         $totalOpenEnrollments = 0;
         $totalEnrolledPersons = 0;
 
@@ -32,6 +34,26 @@ class DashboardController extends AbstractController
                 ],
                 ['name' => 'ASC']
             );
+
+            $recentEnrollmentCandidates = $em->getRepository(Enrollment::class)
+                ->createQueryBuilder('e')
+                ->leftJoin('e.project', 'p')
+                ->addSelect('p')
+                ->leftJoin('e.missionChoice01', 'm1')
+                ->addSelect('m1')
+                ->leftJoin('e.missionChoice02', 'm2')
+                ->addSelect('m2')
+                ->andWhere('p.organisation = :organisation')
+                ->setParameter('organisation', $selectedOrganisation)
+                ->orderBy('e.id', 'DESC')
+                ->setMaxResults(40)
+                ->getQuery()
+                ->getResult();
+
+            $recentEnrollments = array_slice(array_values(array_filter(
+                $recentEnrollmentCandidates,
+                fn (Enrollment $enrollment): bool => !in_array('deleted', $enrollment->getStatus() ?? [], true)
+            )), 0, 8);
         }
 
         foreach ($projects as $project) {
@@ -63,6 +85,7 @@ class DashboardController extends AbstractController
         return $this->render('admin/dashboard/index.html.twig', [
             'controller_name' => 'Test',
             'persons' => $persons,
+            'recentEnrollments' => $recentEnrollments,
             'projectStats' => $projectStats,
             'totalOpenEnrollments' => $totalOpenEnrollments,
             'totalEnrolledPersons' => $totalEnrolledPersons,

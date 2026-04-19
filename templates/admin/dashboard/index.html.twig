@@ -118,25 +118,39 @@
             margin-top: 0.75rem;
         }
 
-        .dashboard-person {
+        .dashboard-enrollment {
             border: 1px solid var(--line);
             border-radius: 0.75rem;
             padding: 0.62rem 0.7rem;
             background: rgba(255, 255, 255, 0.92);
         }
 
-        .dashboard-person-name {
+        .dashboard-enrollment-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.7rem;
+        }
+
+        .dashboard-enrollment-name {
             margin: 0;
             color: var(--ink);
             font-size: 0.9rem;
             font-weight: 700;
         }
 
-        .dashboard-person-email {
+        .dashboard-enrollment-meta {
             margin: 0.12rem 0 0;
             color: var(--ink-soft);
             font-size: 0.82rem;
             word-break: break-word;
+        }
+
+        .dashboard-enrollment-missions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.45rem;
         }
 
         .dashboard-actions {
@@ -223,22 +237,41 @@
             <div class="admin-form-card">
                 <div class="page-header">
                     <div>
-                        <h2>Stammdaten Vorschau</h2>
-                        <p class="page-subtitle">Die ersten Kontakte aus deinem aktuellen Datenbestand.</p>
+                        <h2>Letzte Anmeldungen</h2>
+                        <p class="page-subtitle">Die neuesten Anmeldungen der aktuell gewählten Organisation.</p>
                     </div>
-                    <a class="link-btn" href="{{ path('admin_person_list') }}">
-                        <i class="fas fa-address-book"></i> Alle anzeigen
-                    </a>
                 </div>
 
-                {% if persons is empty %}
-                    <div class="empty-state">Noch keine Personen vorhanden.</div>
+                {% if recentEnrollments is empty %}
+                    <div class="empty-state">Noch keine Anmeldungen für die aktuell gewählte Organisation vorhanden.</div>
                 {% else %}
                     <div class="dashboard-list">
-                        {% for person in persons|slice(0, 8) %}
-                            <article class="dashboard-person">
-                                <p class="dashboard-person-name">{{ person.firstname }} {{ person.lastname }}</p>
-                                <p class="dashboard-person-email">{{ person.email ?: 'Keine E-Mail hinterlegt' }}</p>
+                        {% for enrollment in recentEnrollments %}
+                            <article class="dashboard-enrollment">
+                                <div class="dashboard-enrollment-head">
+                                    <div>
+                                        <p class="dashboard-enrollment-name">{{ enrollment.firstname }} {{ enrollment.lastname }}</p>
+                                        <p class="dashboard-enrollment-meta">
+                                            {{ enrollment.project.name }}
+                                            {% if enrollment.email %}
+                                                · {{ enrollment.email }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <a class="link-btn" href="{{ path('admin_enrollment_edit', {id: enrollment.id}) }}">Edit</a>
+                                </div>
+
+                                <div class="dashboard-enrollment-missions">
+                                    {% if enrollment.missionChoice01 %}
+                                        <span class="badge enabled"><i class="fas fa-check"></i> {{ enrollment.missionChoice01.name }}</span>
+                                    {% endif %}
+                                    {% if enrollment.missionChoice02 %}
+                                        <span class="badge"><i class="fas fa-check"></i> {{ enrollment.missionChoice02.name }}</span>
+                                    {% endif %}
+                                    {% if not enrollment.missionChoice01 and not enrollment.missionChoice02 %}
+                                        <span class="badge">Kein Einsatz gewählt</span>
+                                    {% endif %}
+                                </div>
                             </article>
                         {% endfor %}
                     </div>
