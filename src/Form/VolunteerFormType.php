@@ -4,7 +4,6 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use App\Entity\Enrollment;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,6 +13,8 @@ use App\Manager\ProjectManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use App\Repository\MissionRepository;
 
 class VolunteerFormType extends AbstractType
@@ -99,15 +100,38 @@ class VolunteerFormType extends AbstractType
         
         if($projectManager->getFormSetting('birthday')){
             $builder
-            ->add('birthday', DateType::class, [
-                'widget' => 'single_text',
+            ->add('birthday', TextType::class, [
                 'label' => 'birthday',
-                'format' => 'dd.MM.yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                // adds a class that can be selected in JavaScript
-                'attr' => ['class' => 'js-datepicker'],
+                'invalid_message' => 'Bitte gib einen gültigen Jahrgang ein.',
+                'attr' => [
+                    'inputmode' => 'numeric',
+                    'maxlength' => 4,
+                    'pattern' => '[0-9]{4}',
+                    'placeholder' => 'z.B. 1985',
+                ],
             ]);
+
+            $builder->get('birthday')->addModelTransformer(new CallbackTransformer(
+                fn ($birthday): string => $birthday instanceof \DateTimeInterface ? $birthday->format('Y') : '',
+                function ($birthyear): ?\DateTimeInterface {
+                    if ($birthyear === null || $birthyear === '') {
+                        return null;
+                    }
+
+                    if (!preg_match('/^\d{4}$/', (string) $birthyear)) {
+                        throw new TransformationFailedException('Bitte gib einen vierstelligen Jahrgang ein.');
+                    }
+
+                    $year = (int) $birthyear;
+                    $currentYear = (int) date('Y');
+
+                    if ($year < 1900 || $year > $currentYear) {
+                        throw new TransformationFailedException('Bitte gib einen gültigen Jahrgang ein.');
+                    }
+
+                    return new \DateTimeImmutable(sprintf('%d-01-01', $year));
+                }
+            ));
         }
         if($projectManager->getFormSetting('hasTshirt')){
             $builder

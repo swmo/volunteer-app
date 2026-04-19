@@ -3,12 +3,6 @@
 {% block title %}ANMELDUNG HELFER | {{project.name}} {% endblock %}
 
 
-{% block stylesheets %}
-    {{parent()}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.min.css') }}" >
-{% endblock %}
-
-
 {% block logo %}
     <img class="h-32 m-8 float-right" src="{{ asset('images/logo.jpg')}}">
 {% endblock %}
@@ -229,9 +223,14 @@
                                             {{ form_label(enrollForm.birthday) }}
                                         </label>
                                         {{ form_widget(enrollForm.birthday, {'attr': {'class': '
-                                            js-datepicker appearance-none block w-full bg-grey-lighter text-grey-darker 
+                                            appearance-none block w-full bg-grey-lighter text-grey-darker 
                                             border border-grey-lighter" 
-                                            rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'}}) }}
+                                            rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white',
+                                            'inputmode': 'numeric',
+                                            'maxlength': 4,
+                                            'pattern': '[0-9]{4}',
+                                            'placeholder': 'z.B. 1985'
+                                        }}) }}
                                         <small>
                                             {{ form_help(enrollForm.birthday) }}
                                         </small>
@@ -457,15 +456,8 @@
 {% block javascripts %}
     {{parent()}}
 
-    <script src="{{ asset('js/datepicker.min.js') }}"></script>
     <script>
         jQuery( document ).ready(function() {
-            jQuery('.js-datepicker').datepicker({
-                autoHide: true,
-                zIndex: 2048,
-                format: "dd.mm.yyyy",
-            });
-
             const slideBoxes = jQuery('.js-slide-box');
             var currentSlideBoxIndex = 0;
 
