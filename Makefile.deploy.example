@@ -6,26 +6,7 @@ APP_EXEC := $(COMPOSE) exec -u nobody app
 BACKUP_DIR := backups
 MAINTENANCE_DB := template1
 
-.PHONY: prod-init prod-up prod-down prod-update prod-migrate prod-bootstrap prod-backup prod-restore prod-logs
-
-prod-init:
-	@mkdir -p "$$(grep '^POSTGRES_DATA_DIR=' $(ENV_FILE) | sed 's/^POSTGRES_DATA_DIR=//')"
-	$(COMPOSE) up -d postgres
-	$(COMPOSE) up --build -d
-	@set -e; \
-		TABLE_COUNT=$$($(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -tAc "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '\''public'\''"'); \
-		APPUSER_EXISTS=$$($(COMPOSE) exec -T postgres sh -lc 'PGPASSWORD="$$POSTGRES_PASSWORD" psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -tAc "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '\''public'\'' AND table_name = '\''appuser'\''"'); \
-		if [ "$$APPUSER_EXISTS" = "1" ]; then \
-			echo "Existing application schema detected, skipping doctrine:schema:create."; \
-		elif [ "$$TABLE_COUNT" = "0" ]; then \
-			$(APP_EXEC) php bin/console doctrine:schema:create --no-interaction; \
-			$(APP_EXEC) php bin/console doctrine:migrations:sync-metadata-storage --no-interaction; \
-			$(APP_EXEC) php bin/console doctrine:migrations:version --add --all --no-interaction; \
-		else \
-			echo "Database is partially initialized. Clean POSTGRES_DATA_DIR or restore a known-good backup before rerunning prod-init."; \
-			exit 1; \
-		fi
-	$(APP_EXEC) php bin/console app:bootstrap-production --no-interaction
+.PHONY: prod-up prod-down prod-update prod-migrate prod-bootstrap prod-backup prod-restore prod-logs
 
 prod-up:
 	$(COMPOSE) up  -d

@@ -116,10 +116,12 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    The `Makefile` should live next to `.env.prod`, one directory above the git checkout.
 
-6. Run the initial production setup from the deployment directory:
+6. Start the production stack and initialize the application from the deployment directory:
    ```bash
    cd ~/apps/volunteer-app-prod
-   make prod-init
+   make prod-up
+   make prod-migrate
+   make prod-bootstrap
    ```
 
 7. Update on later deploys:
@@ -162,9 +164,8 @@ Notes:
 
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
 - [Makefile.deploy.example](/Users/moses/projects/volunteer-app/Makefile.deploy.example) is intended to be copied to the parent deployment directory as `Makefile`.
-- `make prod-init` is the first-run setup for a fresh server. It creates the Postgres data directory, starts the stack, runs migrations, and creates the minimum admin data.
-- `make prod-init` is the first-run setup for a fresh server. It creates the Postgres data directory, starts the stack, creates the current Doctrine schema, marks existing migrations as applied, and creates the minimum admin data.
-- `make prod-init` only creates the schema on an empty database. If the database is partially initialized, it stops with an error instead of trying to create duplicate tables or sequences.
+- `make prod-up` starts the production stack.
+- `make prod-migrate` applies database migrations.
 - `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - `make prod-backup` creates a PostgreSQL dump in `backups/` with the weekday in the filename.
 - `make prod-restore DUMP=...` drops and recreates the configured PostgreSQL database, then imports the given SQL dump.
@@ -174,8 +175,6 @@ Notes:
 - `.env.prod` is treated as a Docker Compose env file, so it does not need to be shell-sourceable.
 - After changing values in `.env.prod`, recreate the containers with `make prod-up` or `make prod-update` before running `make prod-bootstrap`, so the new env vars are present inside the `app` container.
 - Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`.
-- Initial setup uses `doctrine:schema:create` because the repository does not yet contain a complete migration history for bootstrapping a fresh production database from scratch.
-- If an initial setup failed halfway through, remove the fresh data directory referenced by `POSTGRES_DATA_DIR` and run `make prod-init` again, or restore a known-good backup before retrying.
 - `--project-directory volunteer-app` makes Compose resolve the project relative to the checked-out app directory even when you run the command from the parent folder.
 - This example assumes your TLS certificates already exist under `/etc/letsencrypt`.
 - `MAILER_DSN` should point to your real SMTP provider in production.
