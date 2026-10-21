@@ -9,31 +9,32 @@ COPY composer.json composer.lock symfony.lock ./
 
 RUN composer install --no-scripts --no-dev --ignore-platform-req=ext-gd
 
-FROM alpine:3.22
+FROM alpine:3.23
 WORKDIR /var/www
 
 RUN apk --update add --no-cache \
-	php84  \
-	php84-fpm  \
-	php84-dom  \
-	php84-tokenizer  \
-	php84-pdo  \
-	php84-pdo_pgsql  \
-	php84-mbstring  \
-	php84-openssl  \
-	php84-xml  \
-	php84-xmlwriter \
-	php84-xmlreader \
-	php84-fileinfo \
-	php84-simplexml  \
-	php84-session  \
-	php84-zip  \
-	php84-gd \
-	php84-phar
-RUN ln -sf /usr/bin/php84 /usr/bin/php
+	php85  \
+	php85-fpm  \
+	php85-iconv  \
+	php85-dom  \
+	php85-tokenizer  \
+	php85-pdo  \
+	php85-pdo_pgsql  \
+	php85-mbstring  \
+	php85-openssl  \
+	php85-xml  \
+	php85-xmlwriter \
+	php85-xmlreader \
+	php85-fileinfo \
+	php85-simplexml  \
+	php85-session  \
+	php85-zip  \
+	php85-gd \
+	php85-phar
+RUN ln -sf /usr/bin/php85 /usr/bin/php
 
-COPY ./resources/php/php.ini /etc/php84/php.ini
-COPY ./resources/php/zz-docker-env.conf /etc/php84/php-fpm.d/zz-docker-env.conf
+COPY ./resources/php/php.ini /etc/php85/php.ini
+COPY ./resources/php/zz-docker-env.conf /etc/php85/php-fpm.d/zz-docker-env.conf
 COPY --from=composer /app /var/www
 COPY . .
 
@@ -44,4 +45,4 @@ RUN chmod -R a+rwX /var/www/var
 
 EXPOSE 9000
 
-CMD ["php-fpm84", "-F"]
+CMD ["php-fpm85", "-F"]

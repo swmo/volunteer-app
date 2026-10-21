@@ -41,7 +41,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - pidof php-fpm84 >/dev/null || exit 1
+        - pidof php-fpm85 >/dev/null || exit 1
       interval: 30s
       timeout: 5s
       retries: 3
