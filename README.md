@@ -177,6 +177,7 @@ Notes:
 - This keeps `.env.prod` and deployment commands outside the git repository itself.
 - [Makefile.deploy.example](/Users/moses/projects/volunteer-app/Makefile.deploy.example) is intended to be copied to the parent deployment directory as `Makefile`.
 - `make prod-up` starts the production stack.
+- Deployment console commands run as `www-data`, matching the PHP-FPM workers.
 - `make prod-migrate` applies database migrations.
 - `make prod-bootstrap` can be used later to re-apply the minimum admin/bootstrap data without rebuilding the stack.
 - `make prod-backup` creates a PostgreSQL dump in `backups/` with the weekday in the filename.

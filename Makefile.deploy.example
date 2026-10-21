@@ -2,7 +2,7 @@ APP_DIR := volunteer-app
 ENV_FILE := .env.prod
 COMPOSE_FILE := $(APP_DIR)/docker-compose.prod.yml
 COMPOSE := docker compose --env-file $(ENV_FILE) --project-directory $(APP_DIR) -f $(COMPOSE_FILE)
-APP_EXEC := $(COMPOSE) exec -u nobody app
+APP_EXEC := $(COMPOSE) exec -u www-data app
 BACKUP_DIR := backups
 MAINTENANCE_DB := template1
 
