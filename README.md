@@ -156,7 +156,17 @@ Example deployment on Ubuntu 24.04 with Docker Engine, Docker Compose, and exist
    ```
    This drops and recreates the configured PostgreSQL database before importing the dump.
 
-10. Stop the production stack:
+10. Configure automatic TLS certificate renewal in root's crontab:
+   ```bash
+   sudo crontab -e
+   ```
+   Add this daily check at 03:30 (server time):
+   ```cron
+   30 3 * * * /usr/bin/certbot renew --cert-name helfer.burgdorfer-stadtlauf.ch --quiet --deploy-hook "/usr/bin/docker restart volunteer-app-prod-web-1" >> /var/log/certbot-renew.log 2>&1
+   ```
+   After a successful renewal, the deploy hook restarts the production web container to load the renewed certificate. Output is appended to `/var/log/certbot-renew.log`.
+
+11. Stop the production stack:
    ```bash
    cd ~/apps/volunteer-app-prod
    make prod-down
