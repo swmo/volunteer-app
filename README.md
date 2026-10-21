@@ -185,6 +185,7 @@ Notes:
 - `make prod-restore` uses `template1` as the PostgreSQL maintenance database and terminates active connections before dropping the target database.
 - `make prod-down` stops the production stack.
 - `make prod-update` also refreshes the parent-directory `Makefile` from `volunteer-app/Makefile.deploy.example` after `git pull`.
+- Migrations then run through a new Make invocation so they use the refreshed deployment user. When upgrading from an older Makefile that uses `nobody`, run `make prod-migrate` again if the first update fails with log permission errors.
 - `.env.prod` is treated as a Docker Compose env file, so it does not need to be shell-sourceable.
 - After changing values in `.env.prod`, recreate the containers with `make prod-up` or `make prod-update` before running `make prod-bootstrap`, so the new env vars are present inside the `app` container.
 - Postgres data is stored in the directory referenced by `POSTGRES_DATA_DIR`, for example `~/apps/volunteer-app-prod/postgres-data`, next to `.env.prod`. With PostgreSQL 18, the database files are created under a versioned subdirectory such as `18/docker`.

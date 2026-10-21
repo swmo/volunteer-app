@@ -18,7 +18,7 @@ prod-update:
 	cd $(APP_DIR) && git pull
 	cp $(APP_DIR)/Makefile.deploy.example Makefile
 	$(COMPOSE) up --build -d
-	$(APP_EXEC) php bin/console doctrine:migrations:migrate --no-interaction
+	$(MAKE) -f Makefile prod-migrate
 
 prod-migrate:
 	$(APP_EXEC) php bin/console doctrine:migrations:migrate --no-interaction
