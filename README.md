@@ -23,7 +23,7 @@ Volunteer management app (Symfony 7.4) for projects, missions, enrollments, and 
 
 ## Docker Setup
 
-The development and production app images run PHP 8.5 on Alpine 3.23.
+The development and production app images run PHP 8.5.12 on Alpine 3.23 using the official PHP-FPM image.
 
 - Start the stack for local development:
   `docker compose up --build`
