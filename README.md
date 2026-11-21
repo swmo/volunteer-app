@@ -27,6 +27,8 @@ The development and production app images run PHP 8.5.12 on Alpine 3.23 using th
 
 - Start the stack for local development:
   `docker compose up --build`
+- After a dependency update, refresh the existing development vendor volume:
+  `docker compose exec app composer install --no-interaction`
 - Start the production-style stack:
   `docker compose -f docker-compose.prod.yml up --build -d`
 - App:

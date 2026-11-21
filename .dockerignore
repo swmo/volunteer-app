@@ -1,0 +1,12 @@
+.git
+vendor
+var
+bin/.phpunit
+.phpunit.cache
+.phpunit.result.cache
+public/bundles
+.env.local
+.env.local.php
+.env.*.local
+*.backup*
+**/.DS_Store

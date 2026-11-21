@@ -62,13 +62,13 @@ class Enrollment
 
     /**
      * @Gedmo\Versioned
-     * @ORM\ManyToOne(targetEntity="App\Entity\Mission")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Mission", inversedBy="enrollment01")
      */
     private $missionChoice01;
 
     /**
      * @Gedmo\Versioned
-     * @ORM\ManyToOne(targetEntity="App\Entity\Mission")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Mission", inversedBy="enrollment02")
      */
     private $missionChoice02;
 
